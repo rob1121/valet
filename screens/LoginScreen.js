@@ -1,123 +1,90 @@
 import React, {Component} from 'react';
 import { StyleSheet, TextInput, View, Alert, Button, Text} from 'react-native';
+import { LOGIN_URL, HTTP_HEADER, MAIN_COLOR } from '../constants';
 import { connect } from 'react-redux';
 import { setUsername, setPassword } from '../actions';
 
 class LoginScreen extends Component 
 {
-    // Setting up Login Activity title.
-    static navigationOptions = {
-       title: 'Login',
-    };
+  _login = () => {
 
-      _login = () =>{
- 
-        const { username, password }  = this.props.user ;
-        
-        
-       fetch('https://reactnativecode.000webhostapp.com/User_Login.php', {
-         method: 'POST',
-         headers: {
-           'Accept': 'application/json',
-           'Content-Type': 'application/json',
-         },
-         body: JSON.stringify({
-           username,
-           password,
-         })
-        
-       }).then((response) => response.json())
-        .then((responseJson) => {
-  
-          // If server response message same as Data Matched
-        if(responseJson === 'Data Matched')
-          {
-  
-              //Then open Profile activity and send user username to profile activity.
-              this.props.navigation.navigate('Home');
-  
-          }
-          else{
-  
-            Alert.alert(responseJson);
-          }
-  
-        }).catch((error) => {
-          console.error(error);
-        });
-        
-         }
+    this.props.navigation.navigate('Home', this.props.user);
+    return;
 
-         render() {
-          return (
-       
-      <View style={styles.MainContainer}>
-        <Text style= {styles.TextComponentStyle}>User Login Form</Text>
-  
+
+    
+    const { username, password }  = this.props.user;
+    
+    fetch(LOGIN_URL, {
+      method: 'POST',
+      headers: HTTP_HEADER,
+      body: JSON.stringify({
+        email: username, //temporary
+        //username: username, //original username
+        password,
+      }),
+    }).then((response) => response.json())
+    .then((responseJson) => {
+      responseJson === 'Data Matched'
+        ? this.props.navigation.navigate('Home', {user: this.props.user})
+        : Alert.alert(responseJson);
+
+    }).catch((error) => {
+      console.error(error);
+    });
+      
+  }
+
+  render() {
+    const { TextStyle, TextInputStyle, MainContainer} = styles;
+    return (
+      <View style={MainContainer}>
+        <Text style= {TextStyle}>User Login Form</Text>
         <TextInput
-          
-          // Adding hint in Text Input using Place holder.
           placeholder="Enter User username"
-  
-          onChangeText={username => this.props.setUsername({username})}
-  
-          // Making the Under line Transparent.
+          onChangeText={username => this.props.setUsername(username)}
           underlineColorAndroid='transparent'
-  
-          style={styles.TextInputStyleClass}
+          style={TextInputStyle}
         />
   
         <TextInput
-          
-          // Adding hint in Text Input using Place holder.
           placeholder="Enter User Password"
-  
-          onChangeText={password => this.props.setPassword({password})}
-  
-          // Making the Under line Transparent.
+          onChangeText={password => this.props.setPassword(password)}
           underlineColorAndroid='transparent'
-  
-          style={styles.TextInputStyleClass}
-  
+          style={TextInputStyle}
           secureTextEntry={true}
         />
-  
-        <Button title="Click Here To Login" onPress={this._login} color="#2196F3" />
-      </View>
-                  
-          );
-        }
+        <Button title="Click Here To Login" 
+          onPress={this._login} 
+          color={MAIN_COLOR} 
+        />
+      </View>           
+    );
+  }
 }
  
 const styles = StyleSheet.create({
- 
-MainContainer :{
- 
-justifyContent: 'center',
-flex:1,
-margin: 10,
-},
- 
-TextInputStyleClass: {
- 
-textAlign: 'center',
-marginBottom: 7,
-height: 40,
-borderWidth: 1,
-// Set border Hex Color Code Here.
- borderColor: '#2196F3',
- 
- // Set border Radius.
- borderRadius: 5 ,
- 
-},
- 
- TextComponentStyle: {
-   fontSize: 20,
-  color: "#000",
-  textAlign: 'center', 
-  marginBottom: 15
- }
+  MainContainer: {
+    justifyContent: 'center',
+    flex:1,
+    margin: 10,
+  },
+  
+  TextInputStyle: {
+    textAlign: 'center',
+    marginBottom: 7,
+    height: 40,
+    borderWidth: 1,
+    borderColor: MAIN_COLOR,
+    borderRadius: 5 , 
+  },
+  
+  TextStyle: {
+    fontSize: 20,
+    color: "#000",
+    textAlign: 'center', 
+    marginBottom: 15
+  },
 });
 
 const mapStateToProps = ({user}) => ({user});

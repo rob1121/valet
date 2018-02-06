@@ -1,21 +1,25 @@
-import React from 'react';
-import { StyleSheet, View, Text, Button } from 'react-native';
+import React, { Component } from 'react';
+import { StyleSheet, View, Text, Button, Alert } from 'react-native';
+import Header from '../components/Header';
 import ScrollView from './ScrollView';
 
-export default class HomeScreen extends React.Component {
-  static navigationOptions = {
-      title: 'Home',
-    }
-
+export default class HomeScreen extends Component 
+{
   render() {
     return (
-      <View style={styles.container}>
-        <Text>Home</Text>
-        <Text>Home Screen</Text>
-        <Button
-          title="Task List"
-          onPress={() => this.props.navigation.navigate('Car')}
+      <View>
+        <Header 
+          title='HOME' 
+          navigation={this.props.navigation}
         />
+
+        <View>
+          <ScrollView />
+          <Button title="Click Here To Login"
+            onPress={() => this.props.navigation.navigate('Car')}
+            color={'#222'}
+          />
+        </View>
       </View>
     );
   }
@@ -25,7 +29,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
     justifyContent: 'center',
   },
 });

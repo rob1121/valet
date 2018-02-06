@@ -1,24 +1,34 @@
 import React, { Component } from 'react';
-import { StackNavigator } from 'react-navigation';
+import { DrawerNavigator } from 'react-navigation';
 import { Provider } from 'react-redux';
 import store from './store';
 import HomeScreen from './screens/HomeScreen';
 import LoginScreen from './screens/LoginScreen';
 import CarScreen from './screens/CarScreen';
 
-const App = () => {
-  const MainNavigation = StackNavigator({
-    Main: { screen: LoginScreen },
-    Home: { screen: HomeScreen },
-    Car: { screen: CarScreen },
-  });
+export default class App extends Component {
+  render() {
+    const navOption = ({ navigation }) => ({
+      drawerLockMode: 'locked-closed',
+      drawerLabel: () => null,
+    });
 
-  return (
-    <Provider store={store} >
-        <MainNavigation />
+    const MainNavigation = DrawerNavigator({
+      LoginScreen: {
+        screen: LoginScreen,
+        navigationOptions: navOption,
+      },
+      Home: { screen: HomeScreen },
+      Car: { 
+        screen: CarScreen,
+        navigationOptions: navOption,
+      },
+    }, {drawerWidth: 300});
+  
+    return (
+      <Provider store={store} >
+          <MainNavigation />
       </Provider>
-  );
-};
-
-
-export default App;
+    );
+  }
+}
