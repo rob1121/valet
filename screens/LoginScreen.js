@@ -2,31 +2,26 @@ import React, {Component} from 'react';
 import { StyleSheet, TextInput, View, Alert, Button, Text} from 'react-native';
 import { LOGIN_URL, HTTP_HEADER, MAIN_COLOR } from '../constants';
 import { connect } from 'react-redux';
-import { setUsername, setPassword } from '../actions';
+import axios from 'axios';
+import { setUsername, setPassword, setUser } from '../actions';
 
 class LoginScreen extends Component 
 {
-  _login = () => {
-    this.props.navigation.navigate('Home', {user: this.props.user});
-    return;
-
-
-    
+  _login() {
     const { username, password }  = this.props.user;
     
-    fetch(LOGIN_URL, {
-      method: 'POST',
-      headers: HTTP_HEADER,
-      body: JSON.stringify({
-        email: username, //temporary
-        //username: username, //original username
+    axios.get(LOGIN_URL,{
+      params: {
+        username, 
         password,
-      }),
-    }).then((response) => response.json())
-    .then((responseJson) => {
-      responseJson === 'Data Matched'
-        ? this.props.navigation.navigate('Home', {user: this.props.user})
-        : Alert.alert(responseJson);
+      }}).then(({data}) => {
+      if(data.error) {
+        Alert.alert(data.msg);
+        return;
+      }
+
+      this.props.setUser(data.data);
+      this.props.navigation.navigate('Home');
 
     }).catch((error) => {
       console.error(error);
@@ -54,7 +49,7 @@ class LoginScreen extends Component
           secureTextEntry={true}
         />
         <Button title="Click Here To Login" 
-          onPress={this._login} 
+          onPress={() => this._login()} 
           color={MAIN_COLOR} 
         />
       </View>           
@@ -88,4 +83,4 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = ({user}) => ({user});
 
-export default connect(mapStateToProps, { setUsername, setPassword })(LoginScreen)
+export default connect(mapStateToProps, { setUser, setUsername, setPassword })(LoginScreen)

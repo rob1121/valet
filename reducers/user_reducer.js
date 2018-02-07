@@ -17,7 +17,10 @@ const INITIAL_STATE = {
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case SET_USER: {
-      return action.payload;
+      return {
+        ...state,
+        ...action.payload,
+      };
     }
     case LOGOUT_USER: {
       return INITIAL_STATE;
@@ -31,7 +34,7 @@ export default (state = INITIAL_STATE, action) => {
     case SET_PASSWORD: {
       return {
         ...state,
-          password: action.payload,
+        password: action.payload,
       };
     }
     default:

@@ -5,6 +5,7 @@ export const SET_USERNAME = 'set_username';
 
 export const ASSIGN_CARS = 'assign_cars';
 export const UPDATE_STATUS = 'update_status';
+export const SET_CAR_SELECTED_INDEX = 'set_car_selected_index';
 
 export const SET_SELECTED_FILTER = 'set_selected_filter';
 export const SET_FILTERS = 'set_filters';

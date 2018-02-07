@@ -4,17 +4,25 @@ import { Text, Divider, Icon, List, ListItem } from 'react-native-elements';
 import axios from 'axios';
 import { map, size, filter, toLower, isEmpty } from 'lodash';
 import { connect } from 'react-redux';
-import { assignCars, setStatus, setSelectedFilter, setFilters } from '../actions';
+import Header from '../components/Header';
+import { 
+  setCarSelectedIndex, 
+  assignCars, 
+  setStatus, 
+  setSelectedFilter, 
+  setFilters 
+} from '../actions';
+
 import { 
   CAR_ASSIGN_URL,
   CAR_ASSIGN_FILTER_URL,
   MAIN_COLOR 
 } from '../constants';
-import Header from '../components/Header';
 
 class HomeScreen extends Component 
 {
   componentDidMount() {
+    this.props.setSelectedFilter('');
     this._fetchFilters();
     this._fetchCarsAssign();
   }
@@ -32,10 +40,8 @@ class HomeScreen extends Component
   }
 
   _gotoSelectedCarAssign(idx) {
-    this.props.navigation.navigate('Car', {
-      user: this.props.navigation.state.params.user,
-      car_assign: this.props.car_assign[idx],
-    });
+    this.props.setCarSelectedIndex(idx);
+    this.props.navigation.navigate('Car');
   }
 
   _listItem(carsAssign) {
@@ -55,8 +61,9 @@ class HomeScreen extends Component
   }
 
   render() {
-    const carsAssign = filter(this.props.car_assign, (assignment) => {
-      return toLower(assignment.status).contains(toLower(this.props.car_assign_filter.selected_filter));
+    const selectedFilter = toLower(this.props.car_assign_filter.selected_filter);
+    const carsAssign = filter(this.props.car_assign.cars, (assignment) => {
+      return toLower(assignment.status).contains(selectedFilter);
     });
 
     return (
@@ -102,6 +109,6 @@ const styles = {
   },
 };
 
-const mapStateToProps = ({ car_assign, car_assign_filter }) => ({ car_assign, car_assign_filter });
+const mapStateToProps = ({ user, car_assign, car_assign_filter }) => ({ user, car_assign, car_assign_filter });
 
-export default connect(mapStateToProps, { assignCars, setStatus, setSelectedFilter, setFilters })(HomeScreen)
+export default connect(mapStateToProps, { setCarSelectedIndex, assignCars, setStatus, setSelectedFilter, setFilters })(HomeScreen)
