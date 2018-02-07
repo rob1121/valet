@@ -6,13 +6,18 @@ $retVal = [
   'data' => [],
 ];
 
-if(!empty($_POST))
+if(!empty($_GET))
 {
-	$sta="ACTIVE";
-	$sql = "select * from ".$addmem." where username='".$_POST["username"]."' and password='".$_POST["password"]."' and activation='".$sta."'";
+  $sql = sprintf(
+    "select * from %s where username='%s' and password='%s' and activation='%s'",
+    $addmem,
+    $_GET["username"],
+    $_GET["password"],
+    "ACTIVE"
+  );
   
   $res = mysqli_query($con, $sql);
-  if(mysql_num_rows($res)>0)
+  if(mysqli_num_rows($res)>0)
   {
     $retVal['data'] = mysqli_fetch_array($res, MYSQLI_ASSOC);
     $retVal['msg'] = 'login success!';

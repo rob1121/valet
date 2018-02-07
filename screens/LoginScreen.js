@@ -7,8 +7,7 @@ import { setUsername, setPassword } from '../actions';
 class LoginScreen extends Component 
 {
   _login = () => {
-
-    this.props.navigation.navigate('Home', this.props.user);
+    this.props.navigation.navigate('Home', {user: this.props.user});
     return;
 
 

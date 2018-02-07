@@ -1,5 +1,8 @@
 <?php
 
+define('REQUEST_COMPLETED', 5);
+define('REQUEST_ERROR', 6);
+
 $hostname="localhost";
 
 // $username="bfpsolutions";
@@ -8,12 +11,12 @@ $username="root";
 $password="";
 $dbname="beach_front_parking";
 
-$addmem  = "inventory_addmember";
-$adminlogin = "inventory_adminlogin";
-$order="inventory_order";
-$compname  ="inventory_compname";
-$data  ="inventory_data";
-$hotel="inventory_hotel";
+$addmem  = "parking_addmember";
+$adminlogin = "parking_adminlogin";
+$order="parking_order";
+$compname  ="parking_compname";
+$data  ="parking_data";
+$hotel="parking_hotel";
 
 
 

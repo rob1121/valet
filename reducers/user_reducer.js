@@ -17,33 +17,21 @@ const INITIAL_STATE = {
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case SET_USER: {
-      return {
-        ...state,
-        user: action.payload,
-      };
+      return action.payload;
     }
     case LOGOUT_USER: {
-      return {
-        ...state,
-        user: INITIAL_STATE,
-      };
+      return INITIAL_STATE;
     }
     case SET_USERNAME: {
       return {
         ...state,
-        user: {
-          ...state.user,
-          username: action.payload,
-        },
+        username: action.payload,
       };
     }
     case SET_PASSWORD: {
       return {
         ...state,
-        user: {
-          ...state.user,
           password: action.payload,
-        },
       };
     }
     default:
