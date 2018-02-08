@@ -17,6 +17,7 @@ import {
   Button, 
 } from 'react-native-elements';
 import axios from 'axios';
+import KeyboardSpacer from 'react-native-keyboard-spacer';
 import { map, toLower } from 'lodash';
 import { connect } from 'react-redux';
 import { setComment, setStatusId } from '../actions';
@@ -46,7 +47,7 @@ class CarScreen extends Component {
     const car = car_assign.cars[car_assign.selected_index];
 
     return (
-      <View>
+      <ScrollView scrollEnabled={false} contentContainerStyle={MainContainer}>
         <Header
           centerComponent={{ text: car.opt, style: { color: '#fff' } }}
           leftComponent={
@@ -57,7 +58,6 @@ class CarScreen extends Component {
           />}
         />
 
-        <ScrollView>
           <List>
           
             <ListItem
@@ -113,11 +113,20 @@ class CarScreen extends Component {
               onPress={() => this._updateDB()}
             />
           </View>
+        <KeyboardSpacer/>
         </ScrollView>
-      </View>
     );
   }
-}
+};
+
+const styles = {
+  MainContainer: {
+    justifyContent: 'center',
+    flex:1,
+    margin: 10,
+  },
+};
+
 
 const mapStateToProps = ({ user, car_assign_filter, car_assign }) => ({ user, car_assign_filter, car_assign });
 

@@ -95,7 +95,7 @@ class HomeScreen extends Component
           </Picker>
 
           <Divider style={{ marginBottom: 20 }} />
-          <Text style={{ marginBottom: 20 }}>Task:</Text>
+          <Text style={{ marginBottom: 20 }}>Task for {this.props.user.name}:</Text>
           <ScrollView>
           {
             !isEmpty(carsAssign) 

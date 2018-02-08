@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
-import { StyleSheet, TextInput, View, Alert, Button, Text} from 'react-native';
+import { ScrollView, TextInput, View, Alert, TouchableOpacity, Text} from 'react-native';
 import { LOGIN_URL, HTTP_HEADER, MAIN_COLOR } from '../constants';
 import { connect } from 'react-redux';
+import KeyboardSpacer from 'react-native-keyboard-spacer';
 import axios from 'axios';
 import { setUsername, setPassword, setUser } from '../actions';
 
@@ -30,9 +31,9 @@ class LoginScreen extends Component
   }
 
   render() {
-    const { TextStyle, TextInputStyle, MainContainer} = styles;
+    const { TextStyle, TextInputStyle, MainContainer, button} = styles;
     return (
-      <View style={MainContainer}>
+      <ScrollView scrollEnabled={false} contentContainerStyle={MainContainer}>
         <Text style= {TextStyle}>User Login Form</Text>
         <TextInput
           placeholder="Enter User username"
@@ -48,20 +49,29 @@ class LoginScreen extends Component
           style={TextInputStyle}
           secureTextEntry={true}
         />
-        <Button title="Click Here To Login" 
+        <TouchableOpacity
           onPress={() => this._login()} 
-          color={MAIN_COLOR} 
-        />
-      </View>           
+          style={button} 
+        >
+        <Text style={{color:'#fff'}}> Click Here To Login </Text>
+      </TouchableOpacity>
+        <KeyboardSpacer/>
+      </ScrollView>           
     );
   }
 }
  
-const styles = StyleSheet.create({
+const styles = {
   MainContainer: {
     justifyContent: 'center',
     flex:1,
     margin: 10,
+  },
+
+  button: {
+    alignItems: 'center',
+    backgroundColor: MAIN_COLOR,
+    padding: 10
   },
   
   TextInputStyle: {
@@ -79,7 +89,7 @@ const styles = StyleSheet.create({
     textAlign: 'center', 
     marginBottom: 15
   },
-});
+};
 
 const mapStateToProps = ({user}) => ({user});
 
