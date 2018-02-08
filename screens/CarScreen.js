@@ -36,6 +36,7 @@ class CarScreen extends Component {
   }
 
   render() {
+    const {MainContainer} = styles;
     const {
       car_assign,
       navigation,
@@ -43,7 +44,7 @@ class CarScreen extends Component {
       car_assign_filter,
       setComment,
     } = this.props;
-
+    
     const car = car_assign.cars[car_assign.selected_index];
 
     return (
