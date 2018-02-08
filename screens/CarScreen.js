@@ -1,65 +1,119 @@
 import React, {Component} from 'react';
-import { View, Picker, Dimensions } from 'react-native';
-import { Icon, Header, Text, Divider, List, ListItem, Button } from 'react-native-elements';
+import { 
+  View,
+  Picker,
+  Dimensions,
+  TextInput,
+  Alert,
+  ScrollView,
+} from 'react-native';
+import { 
+  Icon,
+  Header,
+  Text,
+  Divider,
+  List,
+  ListItem,
+  Button, 
+} from 'react-native-elements';
+import axios from 'axios';
 import { map, toLower } from 'lodash';
 import { connect } from 'react-redux';
-import { setSelectedFilter, setFilters } from '../actions';
-import { MAIN_COLOR } from '../constants/index';
+import { setComment, setStatusId } from '../actions';
+import { MAIN_COLOR, CAR_ASSIGN_UPDATE_URL } from '../constants';
 
 class CarScreen extends Component {
-  componentWillMount() {
-    const idx = this.props.car_assign.selected_index;
-    this.props.setSelectedFilter(toLower(this.props.car_assign.cars[idx].status));
+  _updateDB() {
+    const {cars, selected_index} = this.props.car_assign;
+    const car = cars[selected_index];
+
+    axios.get(CAR_ASSIGN_UPDATE_URL, {params: car})
+      .then(({ data }) => {
+        Alert.alert(data.msg);
+        this.props.navigation.navigate('Home');
+      }).catch((error) => { console.warn(error); });
   }
 
   render() {
-    const car = this.props.car_assign.cars[this.props.car_assign.selected_index];
+    const {
+      car_assign,
+      navigation,
+      setStatusId,
+      car_assign_filter,
+      setComment,
+    } = this.props;
+
+    const car = car_assign.cars[car_assign.selected_index];
 
     return (
       <View>
         <Header
-          centerComponent={{ text: 'TASK', style: { color: '#fff' } }}
+          centerComponent={{ text: car.opt, style: { color: '#fff' } }}
           leftComponent={
           <Icon
             name='arrow-back'
             color='#fff'
-            onPress={() => this.props.navigation.navigate('Home')}
+            onPress={() => navigation.navigate('Home')}
           />}
         />
-        <Text h2 style={{textAlign:'center'}}>{car.opt}</Text>
 
-        <List containerStyle={{marginBottom: 20}}>
-        
-          <ListItem
-            hideChevron
-            title={car.ticketno}
-            subtitle='Ticket no.'
-          />
+        <ScrollView>
+          <List>
           
-          <ListItem
-            hideChevron
-            title={car.driver}
-            subtitle='Driver'
-          />
+            <ListItem
+              hideChevron
+              title={car.ticketno || '-'}
+              subtitle='Ticket no.'
+            />
 
-          <ListItem
-            hideChevron
-            title={(<Picker
-              onValueChange={(val) => this.props.setSelectedFilter(val)}
-              selectedValue={this.props.car_assign_filter.selected_filter}
-            >
-              {map(this.props.car_assign_filter.filters, (filter, idx) => {
-                return <Picker.Item key={idx} label={filter} value={toLower(filter)} />
-              })}
-            </Picker>)}
-            subtitle='Status'
-          />
-          
-        </List>
-        <Button
-          backgroundColor={MAIN_COLOR}
-          icon={{name: 'save'}}
-          title='UPDATE' />
+            <ListItem
+              hideChevron
+              title={car.requestor || '-'}
+              subtitle='Requestor'
+            />
+
+            <ListItem
+              hideChevron
+              title={car.driver || '-'}
+              subtitle='Driver'
+            />
+
+            <ListItem
+              hideChevron
+              title={(<Picker
+                onValueChange={(id) => setStatusId(id)}
+                selectedValue={car.status_id}
+              >
+                {map(car_assign_filter.filters, (filter, idx) => {
+                  return <Picker.Item key={idx} label={filter.label} value={filter.value} />
+                })}
+              </Picker>)}
+              subtitle='Status'
+            />
+            
+          </List>
+
+          <View style={{margin: 20}}>
+            <Text>Comment:</Text>
+            <TextInput
+              returnKeyType='next'
+              style={{padding: 5}}
+              multiline={true}
+              numberOfLines={8}
+              onChangeText={(text) => setComment(text)}
+              value={car.comment}
+            />
+          </View>
+
+          <View style={{ marginBottom: 200, marginTop: 20 }}>
+            <Button
+              backgroundColor={MAIN_COLOR}
+              icon={{name: 'save'}}
+              title='UPDATE'
+              onPress={() => this._updateDB()}
+            />
+          </View>
+        </ScrollView>
       </View>
     );
   }
@@ -67,4 +121,4 @@ class CarScreen extends Component {
 
 const mapStateToProps = ({ user, car_assign_filter, car_assign }) => ({ user, car_assign_filter, car_assign });
 
-export default connect(mapStateToProps, { setSelectedFilter, setFilters })(CarScreen)
+export default connect(mapStateToProps, { setComment, setStatusId })(CarScreen)

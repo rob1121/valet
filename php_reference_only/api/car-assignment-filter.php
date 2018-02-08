@@ -9,7 +9,10 @@ $sql = sprintf('select * from %s where status_id <> %d and status_id <> %d',
 
 $retVal = mysqli_query($con, $sql);
 $retVal = mysqli_fetch_all($retVal, MYSQLI_ASSOC);
-$retVal = array_map(function($status) { return strtoupper($status['status']); }, $retVal);
+$retVal = array_map(function($status) { return [
+  'label' => strtoupper($status['status']),
+  'value' => $status['status_id'],
+]; }, $retVal);
 
 mysqli_close($con);
 

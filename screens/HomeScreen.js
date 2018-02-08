@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { Alert, View, Picker, ScrollView } from 'react-native';
 import { Text, Divider, Icon, List, ListItem } from 'react-native-elements';
+import { findIndex } from 'lodash';
 import axios from 'axios';
 import { map, size, filter, toLower, isEmpty } from 'lodash';
 import { connect } from 'react-redux';
 import Header from '../components/Header';
 import { 
   setCarSelectedIndex, 
-  assignCars, 
-  setStatus, 
+  assignCars,
   setSelectedFilter, 
   setFilters 
 } from '../actions';
@@ -16,19 +16,19 @@ import {
 import { 
   CAR_ASSIGN_URL,
   CAR_ASSIGN_FILTER_URL,
-  MAIN_COLOR 
+  ALL_INDEX,
 } from '../constants';
 
 class HomeScreen extends Component 
 {
   componentDidMount() {
-    this.props.setSelectedFilter('');
+    this.props.setSelectedFilter(ALL_INDEX);
     this._fetchFilters();
     this._fetchCarsAssign();
   }
 
   _fetchCarsAssign() {
-    axios.get(CAR_ASSIGN_URL, { params: { driver: 'Rafael Rodriguez' } })
+    axios.get(CAR_ASSIGN_URL, { params: { driver: this.props.user.name } })
       .then(({ data }) => {this.props.assignCars(data.data);})
       .catch((error) => {console.error(error);});
   }
@@ -45,54 +45,62 @@ class HomeScreen extends Component
   }
 
   _listItem(carsAssign) {
-    return (<List containerStyle={{ marginTop: 0, marginBottom: 20 }}>
-      {
-        map(carsAssign, (task, i) => (
-          <ListItem
-            key={i}
-            title={`#${task.ticketno}: ${task.opt}`}
-            subtitle={task.status}
-            leftIcon={{ name: 'directions-car' }}
-            onPress={() => this._gotoSelectedCarAssign(i)}
-          />
-        ))
-      }
+    const { filters } = this.props.car_assign_filter;
+    const listItems = map(carsAssign, (task, i) => {
+      const index = findIndex(filters, (f) => f.value === task.status_id);
+      const label = index === -1 ? '-' : filters[index].label;
+
+      return (<ListItem
+          key={i}
+          title={`#${task.ticketno}: ${task.opt}`}
+          subtitle={label}
+          leftIcon={{ name: 'directions-car' }}
+          onPress={() => this._gotoSelectedCarAssign(i)}
+        />);
+    });
+
+    return (<List containerStyle={styles.listContainerStyle}>
+      {listItems}
     </List>);
   }
 
   render() {
-    const selectedFilter = toLower(this.props.car_assign_filter.selected_filter);
-    const carsAssign = filter(this.props.car_assign.cars, (assignment) => {
-      return toLower(assignment.status).contains(selectedFilter);
+    const { emptyTaskContainer} = styles;
+    const { car_assign_filter, setSelectedFilter, car_assign, navigation} = this.props;
+    const { selected_filter, filters } = car_assign_filter;
+    const carsAssign = filter(car_assign.cars, (assignment) => {
+      if (selected_filter === ALL_INDEX) return true; //select all
+      return assignment.status_id === selected_filter;
     });
 
     return (
       <View>
         <Header 
           title='HOME' 
-          navigation={this.props.navigation}
+          navigation={navigation}
         />
 
         <View>
           <Text h6>Filter:</Text>
           <Picker 
-            onValueChange={(val) => this.props.setSelectedFilter(val)}
-            selectedValue={this.props.car_assign_filter.selected_filter}
+            onValueChange={(val) => setSelectedFilter(val)}
+            selectedValue={selected_filter}
           >
             {
-              map(this.props.car_assign_filter.filters, (filter, idx) => {
-                return <Picker.Item key={idx} label={filter} value={filter} />
+              map(filters, (filter, idx) => {
+                return <Picker.Item key={idx} label={filter.label} value={filter.value} />
               })
             }
-            <Picker.Item key={size(this.props.car_assign_filter.filters)} label='ALL' value='' />
+            <Picker.Item key={size(filters)} label='ALL' value={ALL_INDEX} />
           </Picker>
 
-          <Divider style={{ backgroundColor: MAIN_COLOR }} />
+          <Divider style={{ marginBottom: 20 }} />
+          <Text style={{ marginBottom: 20 }}>Task:</Text>
           <ScrollView>
           {
-            !isEmpty(carsAssign)
+            !isEmpty(carsAssign) 
               ? this._listItem(carsAssign) 
-              : <Text style={{ marginTop: 20, color: '#000', textAlign: 'center' }}>No record found!.</Text>
+              : <Text style={emptyTaskContainer}>No record found!.</Text>
           }
           </ScrollView>
         </View>
@@ -102,13 +110,18 @@ class HomeScreen extends Component
 }
 
 const styles = {
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    justifyContent: 'center',
+  listContainerStyle: { 
+    marginTop: 0, 
+    marginBottom: 20 
+  },
+
+  emptyTaskContainer: { 
+    marginTop: 20, 
+    color: '#000', 
+    textAlign: 'center' 
   },
 };
 
 const mapStateToProps = ({ user, car_assign, car_assign_filter }) => ({ user, car_assign, car_assign_filter });
 
-export default connect(mapStateToProps, { setCarSelectedIndex, assignCars, setStatus, setSelectedFilter, setFilters })(HomeScreen)
+export default connect(mapStateToProps, { setCarSelectedIndex, assignCars, setSelectedFilter, setFilters })(HomeScreen)
