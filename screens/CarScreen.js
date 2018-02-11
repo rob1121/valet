@@ -46,26 +46,28 @@ class CarScreen extends Component {
     } = this.props;
     
     const car = car_assign.cars[car_assign.selected_index];
+    const  options = car_assign_filter.filters[toLower(car.opt)];
 
     return (
+      <View style={{flex: 1}}>
+      
+      <Header
+            centerComponent={{ text: car.opt, style: { color: '#fff' } }}
+            leftComponent={
+            <Icon
+              name='arrow-back'
+              color='#fff'
+              onPress={() => navigation.navigate('Home')}
+            />}
+          />
       <ScrollView scrollEnabled={false} contentContainerStyle={MainContainer}>
-        <Header
-          centerComponent={{ text: car.opt, style: { color: '#fff' } }}
-          leftComponent={
-          <Icon
-            name='arrow-back'
-            color='#fff'
-            onPress={() => navigation.navigate('Home')}
-          />}
-        />
 
           <List>
-          
-            <ListItem
-              hideChevron
-              title={car.ticketno || '-'}
-              subtitle='Ticket no.'
-            />
+          <ListItem
+            hideChevron
+            title={car.ticketno || '-'}
+            subtitle='Ticket no.'
+          />
 
             <ListItem
               hideChevron
@@ -85,7 +87,7 @@ class CarScreen extends Component {
                 onValueChange={(id) => setStatusId(id)}
                 selectedValue={car.status_id}
               >
-                {map(car_assign_filter.filters, (filter, idx) => {
+                {map(options, (filter, idx) => {
                   return <Picker.Item key={idx} label={filter.label} value={filter.value} />
                 })}
               </Picker>)}
@@ -116,6 +118,7 @@ class CarScreen extends Component {
           </View>
         <KeyboardSpacer/>
         </ScrollView>
+          </View>
     );
   }
 };
@@ -124,7 +127,7 @@ const styles = {
   MainContainer: {
     justifyContent: 'center',
     flex:1,
-    margin: 10,
+    paddingTop: Dimensions.get('window').width / 2,
   },
 };
 

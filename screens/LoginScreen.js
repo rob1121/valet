@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import { Image, ScrollView, TextInput, View, Alert, Text} from 'react-native';
+import { ScrollView, TextInput, View, Alert, Text} from 'react-native';
+import {Avatar} from 'react-native-elements';
 import { Button } from 'react-native-elements';
 import { LOGIN_URL, HTTP_HEADER, MAIN_COLOR } from '../constants';
 import { connect } from 'react-redux';
@@ -11,12 +12,12 @@ class LoginScreen extends Component
 {
   _login() {
     const { username, password }  = this.props.user;
-    
     axios.get(LOGIN_URL,{
       params: {
         username, 
         password,
       }}).then(({data}) => {
+        
       if(data.error) {
         Alert.alert(data.msg);
         return;
@@ -32,17 +33,22 @@ class LoginScreen extends Component
   }
 
   render() {
-    const { LogoStyle, TextStyle, TextInputStyle, MainContainer, SubMainContainer, ButtonStyle} = styles;
+    const { TitleStyle, LogoContainer, LogoStyle, TextStyle, TextInputStyle, MainContainer, SubMainContainer, ButtonStyle} = styles;
     return (
       <ScrollView scrollEnabled={false} contentContainerStyle={MainContainer}>
         <View style={SubMainContainer}>
-          <View style={{
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-            <Image source={require('../assets/icon.png')} style={LogoStyle} />
+          <View style={LogoContainer}>
+            <View 
+              style={LogoStyle}
+              >
+            <Avatar
+              rounded
+              small
+              source={require('../assets/icon.png')}
+            />
+            </View>
+            <Text style={[TextStyle, TitleStyle]}>Beach Front Parking Inc</Text>
           </View>
-          <Text style={TextStyle}>Beach Front Parking</Text>
           <TextInput
             placeholder="Enter User username"
             onChangeText={username => this.props.setUsername(username)}
@@ -107,12 +113,22 @@ const styles = {
     marginBottom: 15
   },
 
-  LogoStyle: { 
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    borderWidth: 3,
-    borderColor: '#fff' ,
+  LogoStyle: {
+    borderWidth: 2,
+    borderRadius: 25, 
+    borderColor: '#fff',
+},
+
+  LogoContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
+    marginBottom: 5,
+  },
+
+  TitleStyle: {
+    marginLeft: 10,
+    marginTop: 10,
   }
 };
 

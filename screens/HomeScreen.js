@@ -47,8 +47,8 @@ class HomeScreen extends Component
   _listItem(carsAssign) {
     const { filters } = this.props.car_assign_filter;
     const listItems = map(carsAssign, (task, i) => {
-      const index = findIndex(filters, (f) => f.value === task.status_id);
-      const label = index === -1 ? '-' : filters[index].label;
+      const index = findIndex(filters.all, (f) => f.value === task.status_id);
+      const label = index === -1 ? '-' : filters.all[index].label;
 
       return (<ListItem
           key={i}
@@ -87,11 +87,11 @@ class HomeScreen extends Component
             selectedValue={selected_filter}
           >
             {
-              map(filters, (filter, idx) => {
+              map(filters.all, (filter, idx) => {
                 return <Picker.Item key={idx} label={filter.label} value={filter.value} />
               })
             }
-            <Picker.Item key={size(filters)} label='ALL' value={ALL_INDEX} />
+            <Picker.Item key={size(filters.all)} label='ALL' value={ALL_INDEX} />
           </Picker>
 
           <Divider style={{ marginBottom: 20 }} />

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { DrawerNavigator } from 'react-navigation';
 import { Provider } from 'react-redux';
-import store from './store';
+import store from './store/index';
 import HomeScreen from './screens/HomeScreen';
 import LoginScreen from './screens/LoginScreen';
 import CarScreen from './screens/CarScreen';

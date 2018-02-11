@@ -6,7 +6,11 @@ import {
 
 const INITIAL_STATE = {
   selected_filter: '',
-  filters: [],
+  filters: {
+    all: [],
+    pickup: [],
+    delivery: [],
+  },
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -21,7 +25,7 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         filters: action.payload,
-      }
+      };
     }
     default:
       return state;

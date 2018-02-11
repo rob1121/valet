@@ -11,11 +11,13 @@ if(!empty($_GET))
   $sql = sprintf(
     "select * from %s where username='%s' and password='%s' and activation='%s'",
     $addmem,
-    $_GET["username"],
-    $_GET["password"],
+    // $_GET["username"],
+    // $_GET["password"],
+    'alex1',
+    '1234.',
     "ACTIVE"
   );
-  
+   
   $res = mysqli_query($con, $sql);
   if(mysqli_num_rows($res)>0)
   {

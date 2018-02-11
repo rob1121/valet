@@ -7,12 +7,29 @@ $sql = sprintf('select * from %s where status_id <> %d and status_id <> %d',
   REQUEST_ERROR
 );
 
-$retVal = mysqli_query($con, $sql);
-$retVal = mysqli_fetch_all($retVal, MYSQLI_ASSOC);
-$retVal = array_map(function($status) { return [
-  'label' => strtoupper($status['status']),
-  'value' => $status['status_id'],
-]; }, $retVal);
+$result = mysqli_query($con, $sql);
+$result = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
+$retVal = [
+  'all' => [],
+  'pickup' => [],
+  'delivery' => [],
+];
+
+array_map(function($status) use(&$retVal) { 
+  $retVal['all'][] = [
+    'label' => strtoupper($status['status']),
+    'value' => $status['status_id'],
+  ]; 
+  
+  if(empty($status['type'])) return;
+  
+  $retVal[strtolower($status['type'])][] = [
+    'label' => strtoupper($status['status']),
+    'value' => $status['status_id'],
+  ];
+
+}, $result);
 
 mysqli_close($con);
 
