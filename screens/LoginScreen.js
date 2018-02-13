@@ -1,23 +1,42 @@
-import React, {Component} from 'react';
-import { ScrollView, TextInput, View, Alert, Text} from 'react-native';
-import {Avatar} from 'react-native-elements';
-import { Button } from 'react-native-elements';
-import { LOGIN_URL, HTTP_HEADER, MAIN_COLOR } from '../constants';
+import React, { Component } from 'react';
+import {
+  Notifications,
+} from 'expo';
+import { 
+  ScrollView,
+  TextInput,
+  View,
+  Alert,
+  Text
+} from 'react-native';
+import {
+  Avatar, 
+  Button 
+} from 'react-native-elements';
+import { 
+  LOGIN_URL, 
+  HTTP_HEADER, 
+  MAIN_COLOR 
+} from '../constants';
 import { connect } from 'react-redux';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
 import axios from 'axios';
-import { setUsername, setPassword, setUser } from '../actions';
+import { 
+  setUsername, 
+  setPassword, 
+  setUser 
+} from '../actions';
 
 class LoginScreen extends Component 
 {
   _login() {
     const { username, password }  = this.props.user;
+
     axios.get(LOGIN_URL,{
       params: {
         username, 
-        password,
+        password
       }}).then(({data}) => {
-        
       if(data.error) {
         Alert.alert(data.msg);
         return;
@@ -26,10 +45,7 @@ class LoginScreen extends Component
       this.props.setUser(data.data);
       this.props.navigation.navigate('Home');
 
-    }).catch((error) => {
-      console.error(error);
-    });
-      
+      }).catch((error) => console.log(error));   
   }
 
   render() {
