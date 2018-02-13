@@ -1,17 +1,21 @@
 import React, { Component } from 'react';
 import { Header, Icon } from 'react-native-elements';
 import { Alert } from 'react-native';
-
+import {connect} from 'react-redux';
+import {logoutUser} from '../actions';
 const color = '#fff';
 
-export default class HeaderComponent extends Component {
+class HeaderComponent extends Component {
   _logout() {
     Alert.alert(
       'Logout Confirmation',
       'Are you sure you want to logout?',
       [
         { text: 'Cancel', style: 'cancel' },
-        { text: 'OK', onPress: () => this.props.navigation.navigate('LoginScreen') },
+        { text: 'OK', onPress: () => {
+          this.props.logoutUser();
+          this.props.navigation.navigate('LoginScreen');
+        }},
       ],
       { cancelable: false }
     );
@@ -40,3 +44,5 @@ export default class HeaderComponent extends Component {
     );
   }
 }
+
+export default connect(null, {logoutUser})(HeaderComponent);

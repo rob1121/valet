@@ -1,7 +1,7 @@
 import { Permissions, Notifications } from 'expo';
 import { REGISTER_TOKEN_URL } from '../constants';
 
-export const expoToken = async (username, password) => {
+export const expoToken = async () => {
   const { status: existingStatus } = await Permissions.getAsync(
     Permissions.NOTIFICATIONS
   );
@@ -21,26 +21,5 @@ export const expoToken = async (username, password) => {
     return;
   }
 
-  let token = await Notifications.getExpoPushTokenAsync();
-  // POST the token to your backend server from where you can retrieve it to send push notifications.
-  return fetch(REGISTER_TOKEN_URL, {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      token,
-      username,
-      password,
-    }),
-  }).then((response) => response.json())
-    .then((responseJson) => {
-      console.log(responseJson);
-    })
-    .catch((error) => {
-      console.error(error);
-    });
-
-  // return token;
+  return await Notifications.getExpoPushTokenAsync();
 }

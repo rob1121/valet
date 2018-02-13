@@ -16,12 +16,22 @@ import {
   ListItem,
   Button, 
 } from 'react-native-elements';
+import { 
+  setComment, 
+  setStatusId 
+} from '../actions';
+import { 
+  MAIN_COLOR, 
+  CAR_ASSIGN_UPDATE_URL 
+} from '../constants';
+import { 
+  map, 
+  toLower 
+} from 'lodash';
 import axios from 'axios';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
-import { map, toLower } from 'lodash';
 import { connect } from 'react-redux';
-import { setComment, setStatusId } from '../actions';
-import { MAIN_COLOR, CAR_ASSIGN_UPDATE_URL } from '../constants';
+import Footer from '../components/Footer';
 
 class CarScreen extends Component {
   _updateDB() {
@@ -51,23 +61,22 @@ class CarScreen extends Component {
     return (
       <View style={{flex: 1}}>
       
-      <Header
-            centerComponent={{ text: car.opt, style: { color: '#fff' } }}
-            leftComponent={
-            <Icon
-              name='arrow-back'
-              color='#fff'
-              onPress={() => navigation.navigate('Home')}
-            />}
-          />
-      <ScrollView scrollEnabled={false} contentContainerStyle={MainContainer}>
-
+        <Header
+          centerComponent={{ text: car.opt, style: { color: '#fff' } }}
+          leftComponent={
+          <Icon
+            name='arrow-back'
+            color='#fff'
+            onPress={() => navigation.navigate('Home')}
+          />}
+        />
+        <ScrollView scrollEnabled={false} contentContainerStyle={MainContainer}>
           <List>
-          <ListItem
-            hideChevron
-            title={car.ticketno || '-'}
-            subtitle='Ticket no.'
-          />
+            <ListItem
+              hideChevron
+              title={car.ticketno || '-'}
+              subtitle='Ticket no.'
+            />
 
             <ListItem
               hideChevron
@@ -116,9 +125,10 @@ class CarScreen extends Component {
               onPress={() => this._updateDB()}
             />
           </View>
-        <KeyboardSpacer/>
-        </ScrollView>
-          </View>
+          <KeyboardSpacer/>
+        </ScrollView>  
+        <Footer />
+      </View>
     );
   }
 };

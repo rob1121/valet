@@ -26,17 +26,19 @@ import {
   setPassword, 
   setUser 
 } from '../actions';
+import {expoToken} from '../services';
 
 class LoginScreen extends Component 
 {
-  _login() {
+  async _login() {
     const { username, password }  = this.props.user;
+    const token = await expoToken();
 
-    axios.get(LOGIN_URL,{
-      params: {
+    axios.post(LOGIN_URL,{
+        token,
         username, 
-        password
-      }}).then(({data}) => {
+        password,
+      }).then(({data}) => {
       if(data.error) {
         Alert.alert(data.msg);
         return;
@@ -44,9 +46,15 @@ class LoginScreen extends Component
 
       this.props.setUser(data.data);
       this.props.navigation.navigate('Home');
-
-      }).catch((error) => console.log(error));   
+    });
   }
+
+  componentWillMount() {
+    if(this.props.user.name) {
+      this.props.navigation.navigate('Home');
+    }
+  }
+
 
   render() {
     const { TitleStyle, LogoContainer, LogoStyle, TextStyle, TextInputStyle, MainContainer, SubMainContainer, ButtonStyle} = styles;
