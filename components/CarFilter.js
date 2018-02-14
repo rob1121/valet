@@ -49,6 +49,6 @@ class CarFilter extends Component
   }
 }
 
-const mapStateToProps = ({ car_assign, car_assign_filter }) => ({ car_assign, car_assign_filter });
+const mapStateToProps = ({ car_assign_filter }) => ({ car_assign_filter });
 
 export default connect(mapStateToProps, { setSelectedFilter, setFilters })(CarFilter);

@@ -6,9 +6,12 @@ import store from './store/index';
 import HomeScreen from './screens/HomeScreen';
 import LoginScreen from './screens/LoginScreen';
 import CarScreen from './screens/CarScreen';
+import BarCode from './screens/BarCode';
 
 export default class App extends Component {
   render() {
+
+    return <BarCode />
     const navOption = ({ navigation }) => ({
       drawerLockMode: 'locked-closed',
       drawerLabel: () => null,

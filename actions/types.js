@@ -10,3 +10,6 @@ export const SET_COMMENT = 'set_comment';
 
 export const SET_SELECTED_FILTER = 'set_selected_filter';
 export const SET_FILTERS = 'set_filters';
+
+export const SET_SELECTED_LOCATION = 'set_selected_location';
+export const SET_LOCATIONS = 'set_locations';

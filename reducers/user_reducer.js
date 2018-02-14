@@ -10,7 +10,6 @@ const INITIAL_STATE = {
   username: '',
   password: '',
   name: '',
-  user_type: '',
   id: -1,
   category: '',
 };

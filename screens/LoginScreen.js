@@ -46,6 +46,8 @@ class LoginScreen extends Component
 
       this.props.setUser(data.data);
       this.props.navigation.navigate('Home');
+    }).catch((error) => {
+      console.log(error);
     });
   }
 

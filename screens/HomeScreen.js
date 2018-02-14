@@ -6,6 +6,7 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import CarFilter from '../components/CarFilter';
 import CarAvailable from '../components/CarAvailable';
+import RampLocation from '../components/RampLocation';
 
 class HomeScreen extends Component 
 {
@@ -15,10 +16,10 @@ class HomeScreen extends Component
     return (
       <View style={{flex: 1}}>
         <Header 
-          title='HOME' 
+          title='HOME'
           navigation={this.props.navigation}
         />
-        {user.category === 'ramp' && <Text>This is for ramp</Text>}
+        {user.type === 'ramp' && <RampLocation />}
         <CarFilter />
         <Divider style={{marginBottom: 20}}/>
         <CarAvailable />

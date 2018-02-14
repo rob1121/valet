@@ -26,7 +26,7 @@ class CarAvailable extends Component
 
   _fetchCarsAssign() {
     axios.get(CAR_ASSIGN_URL, { params: { driver: this.props.user.name } })
-      .then(({ data }) => {this.props.assignCars(data.data);})
+      .then(({ data }) => { this.props.assignCars(data.data); })
       .catch((error) => {console.error(error);});
   }
 

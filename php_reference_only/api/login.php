@@ -5,6 +5,7 @@ $retVal = [
   'error' => true,
   'data' => [],
 ];
+
 $json = file_get_contents('php://input');
 $post = json_decode($json, TRUE);
 
