@@ -1,7 +1,7 @@
 <?php
 include('connect.php');
 
-$sql = 'select distinct name from parking_order';
+$sql = 'select distinct location from parking_location';
 
 $result = mysqli_query($con, $sql);
 $result = mysqli_fetch_all($result, MYSQLI_ASSOC);
@@ -10,8 +10,8 @@ $retVal = [];
 
 array_map(function($status) use(&$retVal) { 
   $retVal[] = [
-    'label' => strtoupper($status['name']),
-    'value' => strtolower($status['name']),
+    'label' => strtoupper($status['location']),
+    'value' => strtolower($status['location']),
   ]; 
 }, $result);
 

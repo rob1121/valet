@@ -6,12 +6,10 @@ import store from './store/index';
 import HomeScreen from './screens/HomeScreen';
 import LoginScreen from './screens/LoginScreen';
 import CarScreen from './screens/CarScreen';
-import BarCode from './screens/BarCode';
+import RampScreen from './screens/RampScreen';
 
 export default class App extends Component {
   render() {
-
-    return <BarCode />
     const navOption = ({ navigation }) => ({
       drawerLockMode: 'locked-closed',
       drawerLabel: () => null,
@@ -23,6 +21,7 @@ export default class App extends Component {
         navigationOptions: navOption,
       },
       Home: { screen: HomeScreen },
+      Ramp: { screen: RampScreen },
       Car: { 
         screen: CarScreen,
         navigationOptions: navOption,

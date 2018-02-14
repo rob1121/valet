@@ -12,6 +12,7 @@ const INITIAL_STATE = {
   name: '',
   id: -1,
   category: '',
+  type: '',
 };
 
 export default (state = INITIAL_STATE, action) => {
