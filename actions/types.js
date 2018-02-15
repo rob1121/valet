@@ -13,3 +13,7 @@ export const SET_FILTERS = 'set_filters';
 
 export const SET_SELECTED_LOCATION = 'set_selected_location';
 export const SET_LOCATIONS = 'set_locations';
+
+
+export const SET_ACTIVE_SCREEN = 'set_active_screen';
+export const SET_NAVIGATION = 'set_navigation';

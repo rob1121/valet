@@ -2,6 +2,9 @@ import React, {Component} from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { BarCodeScanner, Permissions } from 'expo';
 import { connect } from 'react-redux';
+import {setActiveScreen} from '../actions';
+import {RAMP_NAV} from '../constants';
+import Footer from '../components/Footer';
 
 class RampScreen extends Component {
   state = {
@@ -11,6 +14,7 @@ class RampScreen extends Component {
   }
   
   async componentWillMount() {
+    this.props.setActiveScreen(RAMP_NAV);
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
     this.setState({hasCameraPermission: status === 'granted'});
   }
@@ -33,10 +37,11 @@ class RampScreen extends Component {
             />
           </View>
           
-          <View style={{ flex: 1 }}>
+          <View style={{ flex: 1, padding: 5 }}>
             <Text>Data: {this.state.data}</Text>
             <Text>Type: {this.state.type}</Text>
           </View>
+          <Footer />
         </View>
       );
     }
@@ -48,6 +53,6 @@ class RampScreen extends Component {
   }
 }
 
-const mapStateToProps = ({ user }) => ({ user });
+const mapStateToProps = ({ nav }) => ({ nav });
 
-export default connect(mapStateToProps)(RampScreen)
+export default connect(mapStateToProps, {setActiveScreen})(RampScreen)

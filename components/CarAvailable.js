@@ -9,8 +9,6 @@ import {
   setCarSelectedIndex, 
   assignCars,
 } from '../actions';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
 
 import { 
   CAR_ASSIGN_URL,
@@ -32,7 +30,7 @@ class CarAvailable extends Component
 
   _gotoSelectedCarAssign(idx) {
     this.props.setCarSelectedIndex(idx);
-    this.props.navigation.navigate('Car');
+    this.props.nav.navigate('Car');
   }
 
   _listItem(carsAssign) {
@@ -57,7 +55,7 @@ class CarAvailable extends Component
 
   render() {
     const { emptyTaskContainer} = styles;
-    const { car_assign_filter, car_assign, navigation, user} = this.props;
+    const { car_assign_filter, car_assign, nav, user} = this.props;
     const { selected_filter, filters } = car_assign_filter;
     const carsAssign = filter(car_assign.cars, (assignment) => {
       if (selected_filter === ALL_INDEX) return true; //select all
@@ -65,7 +63,7 @@ class CarAvailable extends Component
     });
 
     return (
-      <View>
+      <View style={{padding: 5}}>
           <Text style={{ marginBottom: 20 }} h6>Task for {this.props.user.name}:</Text>
           <ScrollView>
           {
@@ -92,6 +90,6 @@ const styles = {
   },
 };
 
-const mapStateToProps = ({ user, car_assign, car_assign_filter }) => ({ user, car_assign, car_assign_filter });
+const mapStateToProps = ({ user, nav, car_assign, car_assign_filter }) => ({ user, nav, car_assign, car_assign_filter });
 
 export default connect(mapStateToProps, { setCarSelectedIndex, assignCars })(CarAvailable)

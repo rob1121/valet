@@ -15,8 +15,9 @@ import {
 } from 'react-native-elements';
 import { 
   LOGIN_URL, 
-  HTTP_HEADER, 
-  MAIN_COLOR 
+  MAIN_COLOR,
+  LOGIN_NAV,
+  HOME_NAV,
 } from '../constants';
 import { connect } from 'react-redux';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
@@ -24,7 +25,9 @@ import axios from 'axios';
 import { 
   setUsername, 
   setPassword, 
-  setUser 
+  setUser,
+  setNavigation,
+  setActiveScreen,
 } from '../actions';
 import {expoToken} from '../services';
 
@@ -45,15 +48,18 @@ class LoginScreen extends Component
       }
 
       this.props.setUser(data.data);
-      this.props.navigation.navigate('Home');
+      this.props.navigation.navigate(HOME_NAV);
     }).catch((error) => {
       console.log(error);
     });
   }
 
   componentWillMount() {
+    this.props.setNavigation(this.props.navigation);
+    this.props.setActiveScreen(LOGIN_NAV);
+
     if(this.props.user.name) {
-      this.props.navigation.navigate('Home');
+      this.props.nav.navigate(HOME_NAV);
     }
   }
 
@@ -158,6 +164,6 @@ const styles = {
   }
 };
 
-const mapStateToProps = ({user}) => ({user});
+const mapStateToProps = ({user, nav}) => ({user, nav});
 
-export default connect(mapStateToProps, { setUser, setUsername, setPassword })(LoginScreen)
+export default connect(mapStateToProps, { setUser, setUsername, setPassword, setNavigation, setActiveScreen })(LoginScreen)

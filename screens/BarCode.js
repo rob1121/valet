@@ -24,7 +24,6 @@ export default class BarcodeScannerExample extends React.Component {
     } else {
       return (
         <View style={{ flex: 1 }}>
-        
           <View style={{ flex: 1 }}>
             <BarCodeScanner
               onBarCodeRead={this._handleBarCodeRead}

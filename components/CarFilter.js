@@ -31,7 +31,7 @@ class CarFilter extends Component
     const { selected_filter, filters } = car_assign_filter;
 
     return (
-      <View>
+      <View style={{padding: 5}}>
           <Text h6>Filter:</Text>
           <Picker 
             onValueChange={(val) => setSelectedFilter(val)}

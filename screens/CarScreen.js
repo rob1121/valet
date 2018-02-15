@@ -8,10 +8,7 @@ import {
   ScrollView,
 } from 'react-native';
 import { 
-  Icon,
-  Header,
   Text,
-  Divider,
   List,
   ListItem,
   Button, 
@@ -24,6 +21,7 @@ import {
   MAIN_COLOR, 
   CAR_ASSIGN_UPDATE_URL 
 } from '../constants';
+
 import { 
   map, 
   toLower 
@@ -41,7 +39,7 @@ class CarScreen extends Component {
     axios.get(CAR_ASSIGN_UPDATE_URL, {params: car})
       .then(({ data }) => {
         Alert.alert(data.msg);
-        this.props.navigation.navigate('Home');
+        this.props.nav.goBack();
       }).catch((error) => { console.warn(error); });
   }
 
@@ -49,7 +47,6 @@ class CarScreen extends Component {
     const {MainContainer} = styles;
     const {
       car_assign,
-      navigation,
       setStatusId,
       car_assign_filter,
       setComment,
@@ -60,16 +57,6 @@ class CarScreen extends Component {
 
     return (
       <View style={{flex: 1}}>
-      
-        <Header
-          centerComponent={{ text: car.opt, style: { color: '#fff' } }}
-          leftComponent={
-          <Icon
-            name='arrow-back'
-            color='#fff'
-            onPress={() => navigation.navigate('Home')}
-          />}
-        />
         <ScrollView scrollEnabled={false} contentContainerStyle={MainContainer}>
           <List>
             <ListItem
@@ -126,8 +113,7 @@ class CarScreen extends Component {
             />
           </View>
           <KeyboardSpacer/>
-        </ScrollView>  
-        <Footer />
+        </ScrollView>
       </View>
     );
   }
@@ -142,6 +128,6 @@ const styles = {
 };
 
 
-const mapStateToProps = ({ user, car_assign_filter, car_assign }) => ({ user, car_assign_filter, car_assign });
+const mapStateToProps = ({ car_assign_filter, nav, car_assign }) => ({ car_assign_filter, nav, car_assign });
 
 export default connect(mapStateToProps, { setComment, setStatusId })(CarScreen)
