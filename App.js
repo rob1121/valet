@@ -1,16 +1,14 @@
 import React, { Component } from 'react';
-import {
-  View, 
-  Text
-} from 'react-native';
+import { Icon } from 'react-native-elements';
 import { StackNavigator } from 'react-navigation';
 import { Provider } from 'react-redux';
 import store from './store/index';
-import {MAIN_COLOR} from './constants';
+import {MAIN_COLOR, RAMP_ADD_CAR_NAV} from './constants';
 import HomeScreen from './screens/HomeScreen';
 import LoginScreen from './screens/LoginScreen';
 import CarScreen from './screens/CarScreen';
 import RampScreen from './screens/RampScreen';
+import RampAddCarScreen from './screens/RampAddCarScreen';
 
 export default class App extends Component {
   render() {
@@ -22,8 +20,7 @@ export default class App extends Component {
     const navOptionWithHeader = (title) => ({
       title: title,
       headerTintColor: 'white',
-      headerStyle: {backgroundColor: MAIN_COLOR},
-      headerTitleStyle: {textAlign: 'center', alignSelf:'center'}
+      headerStyle: {backgroundColor: MAIN_COLOR}
     });
     
     const MainNavigation = StackNavigator({
@@ -33,16 +30,25 @@ export default class App extends Component {
       },
       Home: {
         screen: HomeScreen,
-        navigationOptions: {...navOptionWithHeader('HOME'), headerLeft: null},
+        navigationOptions: {...navOptionWithHeader('HOME'), headerLeft: null}
       },
       Ramp: { 
         screen: RampScreen,
-        navigationOptions: {...navOptionWithHeader('RAMP'), headerLeft: null},
+        navigationOptions: ({navigation}) => ({
+          ...navOptionWithHeader('RAMP'), 
+          headerLeft: null,
+          headerRight: <Icon name='add' color='#fff' iconStyle={{marginRight: 15}} onPress={() => navigation.navigate(RAMP_ADD_CAR_NAV)}/>
+        }),
       },
       Car: { 
         screen: CarScreen,
         navigationOptions: navOptionWithHeader('CAR'),
       },
+      RampAddCar: {
+        screen: RampAddCarScreen,
+        navigationOptions: navOptionWithHeader('VALET INSERT'),
+
+      }
     });
   
     return (

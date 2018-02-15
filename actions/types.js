@@ -17,3 +17,5 @@ export const SET_LOCATIONS = 'set_locations';
 
 export const SET_ACTIVE_SCREEN = 'set_active_screen';
 export const SET_NAVIGATION = 'set_navigation';
+
+export const SET_CAR_INFO = 'set_car_info';

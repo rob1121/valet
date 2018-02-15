@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import { 
   View,
   Picker,
-  Dimensions,
   TextInput,
   Alert,
   ScrollView,
@@ -19,7 +18,8 @@ import {
 } from '../actions';
 import { 
   MAIN_COLOR, 
-  CAR_ASSIGN_UPDATE_URL 
+  WIN_WIDTH,
+  CAR_ASSIGN_UPDATE_URL,
 } from '../constants';
 
 import { 
@@ -123,7 +123,7 @@ const styles = {
   MainContainer: {
     justifyContent: 'center',
     flex:1,
-    paddingTop: Dimensions.get('window').width / 2,
+    paddingTop: WIN_WIDTH / 2,
   },
 };
 
