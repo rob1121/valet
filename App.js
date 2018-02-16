@@ -9,6 +9,7 @@ import LoginScreen from './screens/LoginScreen';
 import CarScreen from './screens/CarScreen';
 import RampScreen from './screens/RampScreen';
 import RampAddCarScreen from './screens/RampAddCarScreen';
+import BarCodeScreen from './screens/BarCodeScreen';
 
 export default class App extends Component {
   render() {
@@ -46,8 +47,10 @@ export default class App extends Component {
       },
       RampAddCar: {
         screen: RampAddCarScreen,
-        navigationOptions: navOptionWithHeader('VALET INSERT'),
-
+      },
+      BarCode: {
+        screen: BarCodeScreen,
+        navigationOptions: navOptionWithHeader('BAR CODE SCANNER'),
       }
     });
   

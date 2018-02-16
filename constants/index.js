@@ -24,4 +24,4 @@ export const HOME_NAV = 'Home';
 export const LOGIN_NAV = 'Login';
 export const CAR_NAV = 'Car';
 export const RAMP_ADD_CAR_NAV = 'RampAddCar';
-
+export const BAR_CODE_NAV = 'BarCode';
