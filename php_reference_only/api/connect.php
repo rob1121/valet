@@ -5,11 +5,9 @@ define('REQUEST_ERROR', 6);
 
 $hostname="localhost";
 
-// $username="bfpsolutions";
-// $password="bfp_solutions1234.";
-$username="root";
-$password="";
-$dbname="beach_front_parking";
+$username="bfpsolutions";
+$password="bfp_solutions1234.";
+$dbname="bfp_dev";
 
 $addmem  = "parking_addmember";
 $adminlogin = "parking_adminlogin";

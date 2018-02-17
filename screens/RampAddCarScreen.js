@@ -15,7 +15,6 @@ class RampAddCar extends Component {
     };
 
     if(navigation.state.params != undefined) {
-      console.log(navigation.state.params.isKeyboardActive);
       if(navigation.state.params.isKeyboardActive) {
         retVal = {
           title: 'VALET INSERT',

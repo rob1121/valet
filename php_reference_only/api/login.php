@@ -14,10 +14,8 @@ if(!empty($post))
   $sql = sprintf(
     "select * from %s where username='%s' and password='%s' and activation='%s'",
     $addmem,
-    // $post["username"],
-    'alex1',
-    // $post["password"],
-    '1234.',
+    $post["username"],
+    $post["password"],
     "ACTIVE"
   );
    
@@ -28,10 +26,8 @@ if(!empty($post))
       "UPDATE %s SET token='%s' WHERE username='%s' AND password='%s' AND activation='%s'",
       $addmem,
       $post["token"],
-      // $post["username"],
-      'alex1',
-      // $post["password"],
-      '1234.',
+      $post["username"],
+      $post["password"],
       "ACTIVE"
     );
      
