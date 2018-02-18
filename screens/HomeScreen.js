@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 import { Divider } from 'react-native-elements';
 import {connect} from 'react-redux';
+import onBack from 'react-native-onback';
 import {setActiveScreen} from '../actions';
 import {HOME_NAV} from '../constants';
 import Footer from '../components/Footer';
@@ -15,6 +16,15 @@ class HomeScreen extends Component
     this.props.setActiveScreen(HOME_NAV);
   }
 
+  componentDidMount() {
+    onBack(() => {
+      this.props.setActiveScreen(HOME_NAV);
+    }, this);
+  }
+
+  componentWillUnmount() {
+    onBack.unmount(this);
+  }
   render() {
     return (
       <View style={{flex: 1}}>

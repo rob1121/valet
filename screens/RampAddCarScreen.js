@@ -3,6 +3,7 @@ import {Picker, View, ScrollView, TextInput, Keyboard} from 'react-native';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
 import {Button, FormLabel, FormInput, Icon, Divider}  from 'react-native-elements';
 import {connect} from 'react-redux';
+import axios from 'axios';
 import {MAIN_COLOR, RAMP_ADD_CAR_NAV, BAR_CODE_NAV, WIN_WIDTH} from '../constants';
 import {setCarInfo} from '../actions';
 
@@ -85,6 +86,28 @@ class RampAddCar extends Component {
 
     return fInputField;
   }
+
+  // _save() {
+  //   this.setState(() => ({loading: true}));
+  //   axios.post(ADD_CAR_ORDER, {
+  //     token,
+  //     username, 
+  //     password,
+  //   }).then(({data}) => {
+
+  //     this.setState(() => ({ loading: false }));
+  //     if(data.error) {
+  //       Alert.alert(data.msg);
+  //       return;
+  //     }
+
+  //     this.props.setUser(data.data);
+  //     this.props.navigation.navigate(HOME_NAV);
+  //   }).catch((error) => {
+  //     this.setState(() => ({ loading: false }));
+  //     console.log(error);
+  //   });
+  // }
 
   render() {
     const {setCarInfo, user, car, nav} = this.props;
