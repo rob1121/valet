@@ -12,6 +12,9 @@ const INITIAL_STATE = {
   delidate: '',
   opt: '',
   ticketno: '',
+  platno: '',
+  make: '',
+  model: '',
 };
 
 export default (state = INITIAL_STATE, action) => {

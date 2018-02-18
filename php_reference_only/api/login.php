@@ -19,8 +19,8 @@ if(!empty($post))
     "ACTIVE"
   );
    
-  $res = mysqli_query($con, $sql);
-  if(mysqli_num_rows($res)>0)
+  $res = mysql_query($sql);
+  if(mysql_num_rows($res)>0)
   {
     $sql = sprintf(
       "UPDATE %s SET token='%s' WHERE username='%s' AND password='%s' AND activation='%s'",
@@ -31,9 +31,9 @@ if(!empty($post))
       "ACTIVE"
     );
      
-    mysqli_query($con, $sql);
+    mysql_query($con, $sql);
 
-    $retVal['data'] = mysqli_fetch_array($res, MYSQLI_ASSOC);
+    $retVal['data'] = mysql_fetch_array($res);
     $retVal['msg'] = 'login success!';
     $retVal['error'] = false;
   }

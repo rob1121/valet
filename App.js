@@ -47,6 +47,7 @@ export default class App extends Component {
       },
       RampAddCar: {
         screen: RampAddCarScreen,
+        navigationOptions: navOptionWithHeader('VALET INSERT'),
       },
       BarCode: {
         screen: BarCodeScreen,

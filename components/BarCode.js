@@ -3,6 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { BarCodeScanner, Permissions } from 'expo';
 import {connect} from 'react-redux';
 import {setCarInfo} from '../actions';
+import {RAMP_ADD_CAR_NAV} from '../constants';
 
 class BarcodeScanner extends React.Component {
   state = {
@@ -35,7 +36,7 @@ class BarcodeScanner extends React.Component {
 
   _handleBarCodeRead = ({ type, data }) => {
     this.props.setCarInfo({ticketno: data});
-    this.nav.goBack();
+    this.props.nav.navigate(RAMP_ADD_CAR_NAV);
   }
 }
 

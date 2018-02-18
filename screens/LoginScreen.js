@@ -33,15 +33,21 @@ import {expoToken} from '../services';
 
 class LoginScreen extends Component 
 {
+  state = {
+    loading: false,
+  }
+
   async _login() {
     const { username, password }  = this.props.user;
     const token = await expoToken();
-
+    this.setState(() => ({loading: true}));
     axios.post(LOGIN_URL,{
-        token,
-        username, 
-        password,
-      }).then(({data}) => {
+      token,
+      username, 
+      password,
+    }).then(({data}) => {
+
+      this.setState(() => ({ loading: false }));
       if(data.error) {
         Alert.alert(data.msg);
         return;
@@ -50,6 +56,7 @@ class LoginScreen extends Component
       this.props.setUser(data.data);
       this.props.navigation.navigate(HOME_NAV);
     }).catch((error) => {
+      this.setState(() => ({ loading: false }));
       console.log(error);
     });
   }
@@ -66,6 +73,7 @@ class LoginScreen extends Component
 
   render() {
     const { TitleStyle, LogoContainer, LogoStyle, TextStyle, TextInputStyle, MainContainer, SubMainContainer, ButtonStyle} = styles;
+    const { loading } = this.state;
     return (
       <ScrollView scrollEnabled={false} contentContainerStyle={MainContainer}>
         <View style={SubMainContainer}>
@@ -96,8 +104,9 @@ class LoginScreen extends Component
             secureTextEntry={true}
           />
           <Button
+            loading={loading}
             onPress={() => this._login()}
-            title='LOG IN'
+            title={!loading ? 'LOG IN' : null}
             buttonStyle={ButtonStyle}
             containerStyle={{ backgroundColor: 'green' }}
             textStyle={{ color: '#fff' }}
