@@ -5,7 +5,6 @@ import axios from 'axios';
 import { map, size } from 'lodash';
 import { connect } from 'react-redux';
 import { 
-  setSelectedLocation, 
   setLocations 
 } from '../actions';
 import { 
@@ -26,14 +25,14 @@ class LocationFilter extends Component
   }
 
   render() {
-    const { location_filter, setSelectedLocation} = this.props;
+    const { location_filter} = this.props;
     const { selected_location, locations } = location_filter;
 
     return (
       <View>
           <Text h6>Location:</Text>
           <Picker 
-            onValueChange={(val) => setSelectedLocation(val)}
+            onValueChange={(val) => this.props.onChange(val)}
             selectedValue={selected_location}
           >
             {
@@ -50,4 +49,4 @@ class LocationFilter extends Component
 
 const mapStateToProps = ({ location_filter }) => ({ location_filter });
 
-export default connect(mapStateToProps, { setSelectedLocation, setLocations })(LocationFilter);
+export default connect(mapStateToProps, { setLocations })(LocationFilter);

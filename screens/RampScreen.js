@@ -1,31 +1,37 @@
 import React, {Component} from 'react';
 import { View, BackHandler } from 'react-native';
 import { connect } from 'react-redux';
-import {setActiveScreen} from '../actions';
+import {setActiveScreen, setSelectedLocation} from '../actions';
 import {RAMP_NAV, HOME_NAV} from '../constants';
 import Footer from '../components/Footer';
 import RampLocation from '../components/RampLocation';
 
 class RampScreen extends Component {
-  _setActiveScreen() {
-    this.props.setActiveScreen(RAMP_NAV);
-
-    return false;
-  }
-
   componentWillMount() {
-    this.backHandlerListener = BackHandler.addEventListener('hardwareBackPress', () => this._setActiveScreen());
+    this.backHandlerListener = BackHandler.addEventListener(
+      'hardwareBackPress', 
+      () => {
+        if(this.props.nav.active_screen !== HOME_NAV) {
+          this.props.setActiveScreen(HOME_NAV);
+          this.props.nav.navigate(HOME_NAV);
+
+          return true;
+        }
+        return false;
+      }
+    );
 
     this.props.setActiveScreen(RAMP_NAV);
   }
 
   componentWillUnmount() {
-    this.backHandlerListener.removeEventListener('hardwareBackPress');
+    this.backHandlerListener.remove();
   }
+  
   render() {
     return (
       <View style={{ flex: 1, padding: 5 }}>
-        <RampLocation />
+        <RampLocation onChange={(val) => this.props.setSelectedLocation(val)}/>
         <Footer />
       </View>
     );
@@ -34,4 +40,4 @@ class RampScreen extends Component {
 
 const mapStateToProps = ({ nav }) => ({ nav });
 
-export default connect(mapStateToProps, {setActiveScreen})(RampScreen)
+export default connect(mapStateToProps, {setActiveScreen, setSelectedLocation})(RampScreen)

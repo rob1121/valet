@@ -1,13 +1,18 @@
 import React, {Component} from 'react';
-import {Picker, View, ScrollView, TextInput, Keyboard} from 'react-native';
+import {Picker, View, ScrollView, TextInput, Keyboard, BackHandler} from 'react-native';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
 import {Button, FormLabel, FormInput, Icon, Divider}  from 'react-native-elements';
 import {connect} from 'react-redux';
 import axios from 'axios';
-import {MAIN_COLOR, RAMP_ADD_CAR_NAV, BAR_CODE_NAV, WIN_WIDTH} from '../constants';
-import {setCarInfo} from '../actions';
+import {MAIN_COLOR, CAMERA_NAV, RAMP_ADD_CAR_NAV, BAR_CODE_NAV, WIN_WIDTH, RAMP_NAV, ADD_CAR_URL} from '../constants';
+import {setActiveScreen, setCarInfo} from '../actions';
+import RampLocation from '../components/RampLocation';
 
 class RampAddCar extends Component {
+  state = {
+    loading: false
+  }
+
   static navigationOptions = ({ navigation }) => {
     let retVal = {
       title: 'VALET INSERT',
@@ -39,75 +44,26 @@ class RampAddCar extends Component {
     });
   }
 
-  _onCarCatgoryChange(category) {
-    this.props.setCarInfo({car_category: category});
-
-    if(category === 'transient')
-      this.props.setCarInfo({name: this.props.user.name});
-  }
-
   componentWillMount () {
     this.props.navigation.setParams({isKeyboardActive: false});
     this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => this._keyboardDidShow());
     this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => this._keyboardDidHide());
+    this.backHandlerListener = BackHandler.addEventListener(
+      'hardwareBackPress', 
+      () => {
+        this.props.setActiveScreen(RAMP_NAV);
+        this.props.nav.navigate(RAMP_NAV);
+
+        return true;
+      }
+    );
   }
 
   componentWillUnmount () {
     this.keyboardDidShowListener.remove();
     this.keyboardDidHideListener.remove();
+    this.backHandlerListener.remove();
   }
-
-  _keyboardDidShow () {
-    this.props.navigation.setParams({isKeyboardActive: true});
-  }
-
-  _keyboardDidHide () {
-    this.props.navigation.setParams({isKeyboardActive: false});
-  }
-
-  _inputTypeBaseOnCagetory(category) {
-    const { car, setCarInfo } = this.props;
-    let fInputField = '';
-
-    if (car.car_category === 'monthly') {
-      fInputField = (<FormInput onChangeText={(val) => setCarInfo({ name: val })} value={car.name} />);
-    } else if (car.car_category === 'transient') {
-      fInputField = (<FormInput onChangeText={(val) => setCarInfo({ name: user.name })} value={car.name} />);
-    } else if (car.car_category === 'hotel') {
-      fInputField = (<Picker
-        style={{ marginLeft: 10 }}
-        selectedValue={car.name}
-        onValueChange={(val) => setCarInfo({ name: val })}>
-        <Picker.Item label="hotel1" value="hotel1" />
-        <Picker.Item label="hotel2" value="hotel2" />
-        <Picker.Item label="hotel3" value="hotel3" />
-      </Picker>);
-    }
-
-    return fInputField;
-  }
-
-  // _save() {
-  //   this.setState(() => ({loading: true}));
-  //   axios.post(ADD_CAR_ORDER, {
-  //     token,
-  //     username, 
-  //     password,
-  //   }).then(({data}) => {
-
-  //     this.setState(() => ({ loading: false }));
-  //     if(data.error) {
-  //       Alert.alert(data.msg);
-  //       return;
-  //     }
-
-  //     this.props.setUser(data.data);
-  //     this.props.navigation.navigate(HOME_NAV);
-  //   }).catch((error) => {
-  //     this.setState(() => ({ loading: false }));
-  //     console.log(error);
-  //   });
-  // }
 
   render() {
     const {setCarInfo, user, car, nav} = this.props;
@@ -115,27 +71,9 @@ class RampAddCar extends Component {
 
     return (
       <View style={{flex: 1}}>
-        <ScrollView contentContainerStyle={MainContainer}>
-
-          <FormLabel>
-            TICKET NO.
-          </FormLabel>
-
-        <View style={{ flexDirection: 'row', width: WIN_WIDTH }}>
-
-            <View style={{ width: WIN_WIDTH*0.8 }}>
-          <FormInput onChangeText={(val) => setCarInfo({ticketno: val})} value={car.ticketno}/>
-
-            </View>
-
-            <View style={{ width: WIN_WIDTH * 0.2 }}>
-            <Icon
-              iconStyle={{marginTop: 10 }}
-              name='barcode-scan'
-              type='material-community'
-              onPress={() => nav.navigate(BAR_CODE_NAV)}
-              />
-            </View>
+        <ScrollView>
+          <View style={{margin: 15}}>
+            <RampLocation onChange={(val) => this.props.setCarInfo({name: val})}/>
           </View>
 
           <FormLabel>CAR CATEGORY</FormLabel>
@@ -147,6 +85,9 @@ class RampAddCar extends Component {
             <Picker.Item label="HOTEL" value="hotel" />
             <Picker.Item label="MONTHLY" value="monthly" />
           </Picker>
+
+          {car.car_category === 'transient' && this._inputContactNumber()}
+          {car.car_category !== 'monthly' && this._ticketScanner()}
 
           <FormLabel>NAME</FormLabel>
           {this._inputTypeBaseOnCagetory(car.car_category)}
@@ -182,13 +123,109 @@ class RampAddCar extends Component {
 
           <View style={{ marginBottom: 200, marginTop: 20 }}>
             <Button
+              loading={this.state.loading}
+              backgroundColor={MAIN_COLOR}
+              icon={{name: 'save'}}
+              title='CAMERA'
+              onPress={() => this.props.nav.navigate(CAMERA_NAV)}
+            />
+            <Button
+              loading={this.state.loading}
               backgroundColor={MAIN_COLOR}
               icon={{name: 'save'}}
               title='CREATE TICKET'
+              onPress={() => this._save()}
+            />
+            
+          </View>
+        </ScrollView>
+      </View>
+    );
+  }
+
+  _onCarCatgoryChange(category) {
+    this.props.setCarInfo({car_category: category});
+
+    if(category === 'transient')
+      this.props.setCarInfo({name: this.props.user.name});
+  }
+  
+  _keyboardDidShow () {
+    this.props.navigation.setParams({isKeyboardActive: true});
+  }
+
+  _keyboardDidHide () {
+    this.props.navigation.setParams({isKeyboardActive: false});
+  }
+
+  _inputTypeBaseOnCagetory(category) {
+    const { car, setCarInfo } = this.props;
+    let fInputField = '';
+
+    if (car.car_category === 'monthly') {
+      fInputField = (<FormInput onChangeText={(val) => setCarInfo({ name: val })} value={car.name} />);
+    } else if (car.car_category === 'transient') {
+      fInputField = (<FormInput onChangeText={(val) => setCarInfo({ name: user.name })} value={car.name} />);
+    } else if (car.car_category === 'hotel') {
+      fInputField = (<Picker
+        style={{ marginLeft: 10 }}
+        selectedValue={car.name}
+        onValueChange={(val) => setCarInfo({ name: val })}>
+        <Picker.Item label="hotel1" value="hotel1" />
+        <Picker.Item label="hotel2" value="hotel2" />
+        <Picker.Item label="hotel3" value="hotel3" />
+      </Picker>);
+    }
+
+    return fInputField;
+  }
+
+  _save() {
+    this.setState(() => ({loading: true}));
+    axios.post(ADD_CAR_URL, this.props.car).then(({data}) => {
+      this.setState(() => ({ loading: false }));
+      if(data.error) {
+        Alert.alert(data.msg);
+        return;
+      }
+
+      this.props.navigation.navigate(RAMP_NAV);
+    }).catch((error) => {
+      this.setState(() => ({ loading: false }));
+      console.log(error);
+    });
+  }
+
+  _ticketScanner() {
+    return (
+      <View>
+        <FormLabel>
+          TICKET NO.
+        </FormLabel>
+
+        <View style={{ flexDirection: 'row', width: WIN_WIDTH }}>
+          <View style={{ width: WIN_WIDTH*0.8 }}>
+            <FormInput onChangeText={(val) => this.props.setCarInfo({ticketno: val})} value={this.props.car.ticketno}/>
+          </View>
+
+          <View style={{ width: WIN_WIDTH * 0.2 }}>
+          <Icon
+            iconStyle={{marginTop: 10 }}
+            name='barcode-scan'
+            type='material-community'
+            onPress={() => this.props.nav.navigate(BAR_CODE_NAV)}
             />
           </View>
-          <KeyboardSpacer/>
-        </ScrollView>
+        </View>
+      </View>
+    )
+  }
+
+  _inputContactNumber() {
+    return (
+      <View>
+        <FormLabel>CONTACT NUMBER</FormLabel>
+        <FormInput onChangeText={(val) => this.props.setCarInfo({ customercontactno: val })} value={this.props.car.customercontactno} />
       </View>
     );
   }
@@ -204,4 +241,4 @@ const styles = {
 
 const mapStateToProps = ({ car, user, nav }) => ({ car, user, nav });
 
-export default connect(mapStateToProps, { setCarInfo })(RampAddCar);
+export default connect(mapStateToProps, { setCarInfo, setActiveScreen })(RampAddCar);

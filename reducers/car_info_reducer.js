@@ -15,6 +15,7 @@ const INITIAL_STATE = {
   platno: '',
   make: '',
   model: '',
+  customercontactno: '',
 };
 
 export default (state = INITIAL_STATE, action) => {

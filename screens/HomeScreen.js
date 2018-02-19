@@ -11,20 +11,20 @@ import RampLocation from '../components/RampLocation';
 
 class HomeScreen extends Component 
 {
-  _setActiveScreen() {
-    this.props.setActiveScreen(HOME_NAV);
-
-    return false;
-  }
-
   componentWillMount() {
-    this.backHandlerListener = BackHandler.addEventListener('hardwareBackPress', () => this._setActiveScreen());
+    this.backHandlerListener = BackHandler.addEventListener(
+      'hardwareBackPress', 
+      () => {
+        this.props.setActiveScreen(HOME_NAV);
+        return true;
+      }
+    );
 
     this.props.setActiveScreen(HOME_NAV);
   }
 
   componentWillUnmount() {
-    this.backHandlerListener.removeEventListener('hardwareBackPress');
+    this.backHandlerListener.remove();
   }
 
   render() {
@@ -39,7 +39,7 @@ class HomeScreen extends Component
   }
 
   _setActiveScreen() {
-    return true;
+    return false;
   }
 }
 const mapStateToProps = ({ nav }) => ({ nav });
