@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { BackHandler} from 'react-native';
 import { Icon } from 'react-native-elements';
 import { StackNavigator } from 'react-navigation';
 import { Provider } from 'react-redux';
@@ -12,6 +13,7 @@ import RampAddCarScreen from './screens/RampAddCarScreen';
 import BarCodeScreen from './screens/BarCodeScreen';
 
 export default class App extends Component {
+
   render() {
     
     const navOption = {

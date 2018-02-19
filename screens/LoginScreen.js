@@ -7,7 +7,7 @@ import {
   TextInput,
   View,
   Alert,
-  Text
+  Text,
 } from 'react-native';
 import {
   Avatar, 
