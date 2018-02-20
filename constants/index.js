@@ -30,3 +30,8 @@ export const CAMERA_NAV = 'Camera';
 export const VIEW_PHOTO_NAV = 'ViewPhoto';
 
 export const DEFAULT_IMG = 'http://10.197.80.12/php_reference_only/upload/default.png';
+
+export const VALET_ON_THE_WAY = 2;
+export const ARRIVED_AT_THE_GARAGE = 3;
+export const VEHICLE_ON_THE_WAY = 4;
+export const REQUEST_COMPLETED = 5;

@@ -6,45 +6,45 @@ import axios from 'axios';
 import { isEmpty, map, filter } from 'lodash';
 import { connect } from 'react-redux';
 import { 
-  setCarSelectedIndex, 
+  setFilters, 
   assignCars,
 } from '../actions';
 
 import { 
   CAR_ASSIGN_URL,
-  CAR_ASSIGN_FILTER_URL,
   ALL_INDEX,
+  CAR_ASSIGN_FILTER_URL,
 } from '../constants';
 
 class CarAvailable extends Component 
 {
-  componentDidMount() {
+  componentWillMount() {
+    this._fetchCarFilter()
     this._fetchCarsAssign();
   }
 
+  _fetchCarFilter() {
+  axios.get(CAR_ASSIGN_FILTER_URL)
+    .then(({ data }) => { this.props.setFilters(data); })
+    .catch((error) => {console.error(error);});
+  }
+
   _fetchCarsAssign() {
-    axios.get(CAR_ASSIGN_URL, { params: { driver: this.props.user.name } })
+    axios.post(CAR_ASSIGN_URL, { driver: this.props.user.name })
       .then(({ data }) => { this.props.assignCars(data); })
       .catch((error) => {console.error(error);});
   }
 
-  _gotoSelectedCarAssign(idx) {
-    this.props.setCarSelectedIndex(idx);
-    this.props.nav.navigate('Car');
-  }
-
   _listItem(carsAssign) {
-    const { filters } = this.props.car_assign_filter;
     const listItems = map(carsAssign, (task, i) => {
-      const index = findIndex(filters.all, (f) => f.value === task.status_id);
-      const label = index === -1 ? '-' : filters.all[index].label;
-
+      const label = this.props.car_assign_filter[task.status_id];
+      
       return (<ListItem
           key={i}
           title={`#${task.ticketno}: ${task.opt}`}
           subtitle={label}
           leftIcon={{ name: 'directions-car' }}
-          onPress={() => this._gotoSelectedCarAssign(i)}
+          onPress={() => this.props.nav.navigate('Car')}
         />);
     });
 
@@ -55,20 +55,15 @@ class CarAvailable extends Component
 
   render() {
     const { emptyTaskContainer} = styles;
-    const { car_assign_filter, car_assign, nav, user} = this.props;
-    const { selected_filter, filters } = car_assign_filter;
-    const carsAssign = filter(car_assign.cars, (assignment) => {
-      if (selected_filter === ALL_INDEX) return true; //select all
-      return assignment.status_id === selected_filter;
-    });
+    const { car_assign, nav, user} = this.props;
 
     return (
       <View style={{padding: 5}}>
           <Text style={{ marginBottom: 20 }} h6>Task for {this.props.user.name}:</Text>
           <ScrollView>
           {
-            !isEmpty(carsAssign) 
-              ? this._listItem(carsAssign) 
+            !isEmpty(car_assign.cars) 
+              ? this._listItem(car_assign.cars) 
               : <Text style={emptyTaskContainer}>No record found!.</Text>
           }
           </ScrollView>
@@ -92,4 +87,4 @@ const styles = {
 
 const mapStateToProps = ({ user, nav, car_assign, car_assign_filter }) => ({ user, nav, car_assign, car_assign_filter });
 
-export default connect(mapStateToProps, { setCarSelectedIndex, assignCars })(CarAvailable)
+export default connect(mapStateToProps, { setFilters, assignCars })(CarAvailable)

@@ -1,31 +1,13 @@
 <?php
 include('connect.php');
 
-$retVal = [
-  'all' => [],
-  'pickup' => [],
-  'delivery' => [],
-];
+$retVal = [];
 
-$sql = sprintf('select * from %s where status_id <> %d and status_id <> %d',
-  'parking_status',
-  REQUEST_COMPLETED,
-  REQUEST_ERROR
-);
+$sql = 'select * from parking_status';
 
 $result = mysql_query($sql);
 while($row = mysql_fetch_array($result)) {
-  $retVal['all'][] = [
-    'label' => strtoupper($row['status']),
-    'value' => $row['status_id'],
-  ]; 
-  
-  if(empty($row['type'])) next;
-  
-  $retVal[strtolower($row['type'])][] = [
-    'label' => strtoupper($row['status']),
-    'value' => $row['status_id'],
-  ];
+  $retVal[$row['status_id']] = strtoupper($row['status']); 
 }
 
 mysql_close($con);

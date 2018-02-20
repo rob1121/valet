@@ -127,7 +127,7 @@ class RampAddCar extends Component {
               loading={this.state.loading}
               backgroundColor={MAIN_COLOR}
               icon={{name: 'save'}}
-              title='CREATE TICKET'
+              title='CREATE TICKET' 
               onPress={() => this._save()}
             />
             
@@ -233,35 +233,16 @@ class RampAddCar extends Component {
     }
     
     return (
-      <View
-        style={{
-          marginTop: 30,
-          width: 250,
-          borderRadius: 3,
-          elevation: 2,
-          shadowColor: 'rgba(0,0,0,1)',
-          shadowOpacity: 0.2,
-          shadowOffset: { width: 4, height: 4 },
-          shadowRadius: 5,
-        }}>
-        <View
-          style={{
-            borderTopRightRadius: 3,
-            borderTopLeftRadius: 3,
-            overflow: 'hidden',
-          }}>
-          <TouchableOpacity onPress={() => this._imgPickerOption()} style={{ margin: 15, width: 250, height: 250 }} >
-            <Image source={{ uri: `${image}?epoch=${epoch}` }} style={{ width: 250, height: 250 }}  />
-          </TouchableOpacity>
-        </View>
-      </View>
+      <TouchableOpacity onPress={() => this._imgPickerOption()} style={{ margin: 15, width: 250, height: 250, borderWidth: 1, borderColor: 'rgba(0,0,0,0.2)', borderRadius: 5 }} >
+        <Image source={{ uri: `${image}?epoch=${epoch}` }} style={{ width: 250, height: 250 }}  />
+      </TouchableOpacity>
     );
   };
 
   _imgPickerOption() {
     Alert.alert(
-      'Alert Title',
-      'My Alert Msg',
+      'Upload Image',
+      'Pick action',
       [
         { text: 'Zoom', onPress: () => this.props.nav.navigate(VIEW_PHOTO_NAV) },
         { text: 'Capture', onPress: () => this.props.nav.navigate(CAMERA_NAV) },

@@ -5,6 +5,7 @@ import {
   TextInput,
   Alert,
   ScrollView,
+  BackHandler
 } from 'react-native';
 import { 
   Text,
@@ -13,13 +14,15 @@ import {
   Button, 
 } from 'react-native-elements';
 import { 
-  setComment, 
-  setStatusId 
+  setStatusId ,
+  setActiveScreen
 } from '../actions';
 import { 
   MAIN_COLOR, 
   WIN_WIDTH,
   CAR_ASSIGN_UPDATE_URL,
+  VALET_ON_THE_WAY,
+  HOME_NAV,
 } from '../constants';
 
 import { 
@@ -30,16 +33,33 @@ import axios from 'axios';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
 import { connect } from 'react-redux';
 import Footer from '../components/Footer';
+import Barcode from 'react-native-barcode-builder';
 
 class CarScreen extends Component {
+
+  componentWillMount() {
+    this.backHandlerListener = BackHandler.addEventListener(
+      'hardwareBackPress',
+      () => {
+        this.props.setActiveScreen(HOME_NAV);
+        this.props.nav.navigate(HOME_NAV);
+
+        return true;
+      }
+    );
+  }
+
+  componentWillUnmount() {
+    this.backHandlerListener.remove();
+  }
+
   _updateDB() {
     const {cars, selected_index} = this.props.car_assign;
     const car = cars[selected_index];
-
-    axios.get(CAR_ASSIGN_UPDATE_URL, {params: car})
+    this.props.setStatusId({status_id: VALET_ON_THE_WAY});
+    axios.post(CAR_ASSIGN_UPDATE_URL, car)
       .then(({ data }) => {
-        Alert.alert(data.msg);
-        this.props.nav.goBack();
+        this.props.nav.navigate(HOME_NAV);
       }).catch((error) => { console.warn(error); });
   }
 
@@ -48,16 +68,15 @@ class CarScreen extends Component {
     const {
       car_assign,
       setStatusId,
-      car_assign_filter,
-      setComment,
     } = this.props;
     
     const car = car_assign.cars[car_assign.selected_index];
-    const  options = car_assign_filter.filters[toLower(car.opt)];
 
     return (
       <View style={{flex: 1}}>
-        <ScrollView scrollEnabled={false} contentContainerStyle={MainContainer}>
+        <ScrollView>
+          <Text>BARCODE: </Text>
+          {car.ticketno && <Barcode value={car.ticketno} format="CODE128" />}
           <List>
             <ListItem
               hideChevron
@@ -76,43 +95,16 @@ class CarScreen extends Component {
               title={car.driver || '-'}
               subtitle='Driver'
             />
-
-            <ListItem
-              hideChevron
-              title={(<Picker
-                onValueChange={(id) => setStatusId(id)}
-                selectedValue={car.status_id}
-              >
-                {map(options, (filter, idx) => {
-                  return <Picker.Item key={idx} label={filter.label} value={filter.value} />
-                })}
-              </Picker>)}
-              subtitle='Status'
-            />
-            
           </List>
-
-          <View style={{margin: 20}}>
-            <Text>Comment:</Text>
-            <TextInput
-              returnKeyType='next'
-              style={{padding: 5}}
-              multiline={true}
-              numberOfLines={8}
-              onChangeText={(text) => setComment(text)}
-              value={car.comment}
-            />
-          </View>
 
           <View style={{ marginBottom: 200, marginTop: 20 }}>
             <Button
               backgroundColor={MAIN_COLOR}
-              icon={{name: 'save'}}
-              title='UPDATE'
+              icon={{name: 'car', type: 'material-community'}}
+              title='SELECT THIS TASK'
               onPress={() => this._updateDB()}
             />
           </View>
-          <KeyboardSpacer/>
         </ScrollView>
       </View>
     );
@@ -128,6 +120,6 @@ const styles = {
 };
 
 
-const mapStateToProps = ({ car_assign_filter, nav, car_assign }) => ({ car_assign_filter, nav, car_assign });
+const mapStateToProps = ({ nav, car_assign }) => ({ nav, car_assign });
 
-export default connect(mapStateToProps, { setComment, setStatusId })(CarScreen)
+export default connect(mapStateToProps, { setStatusId, setActiveScreen })(CarScreen)

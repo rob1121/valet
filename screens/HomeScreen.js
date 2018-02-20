@@ -5,7 +5,6 @@ import {connect} from 'react-redux';
 import { setActiveScreen, logoutUser} from '../actions';
 import {HOME_NAV, LOGIN_NAV} from '../constants';
 import Footer from '../components/Footer';
-import CarFilter from '../components/CarFilter';
 import CarAvailable from '../components/CarAvailable';
 import RampLocation from '../components/RampLocation';
 
@@ -30,8 +29,6 @@ class HomeScreen extends Component
   render() {
     return (
       <View style={{flex: 1}}>
-        <CarFilter />
-        <Divider style={{marginBottom: 20}}/>
         <CarAvailable />
         <Footer />
       </View>

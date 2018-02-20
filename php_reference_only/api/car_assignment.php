@@ -1,6 +1,9 @@
 <?php
 include("connect.php");
 
+$json = file_get_contents('php://input');
+$post = json_decode($json, TRUE);
+
 $table1 = "parking_tracking1";
 $table2 = "parking_order";
 $sqlLeftJoin = "{$table1} LEFT JOIN {$table2} ON {$table1}.orderid = {$table2}.orderid";
@@ -8,7 +11,7 @@ $sqlLeftJoin = "{$table1} LEFT JOIN {$table2} ON {$table1}.orderid = {$table2}.o
 $sql = sprintf(
   "select * from %s where {$table1}.driver='%s' and {$table1}.status_id <> %d and {$table1}.status_id <> %d",
   $sqlLeftJoin,
-  $_GET["driver"],
+  $post["driver"],
   REQUEST_COMPLETED,
   REQUEST_ERROR
 );
