@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
-import {Picker, View, ScrollView, TextInput, Keyboard, BackHandler} from 'react-native';
+import { Alert, Picker, View, ScrollView, TextInput, Keyboard, BackHandler, Image, TouchableOpacity} from 'react-native';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
 import {Button, FormLabel, FormInput, Icon, Divider}  from 'react-native-elements';
 import {connect} from 'react-redux';
 import axios from 'axios';
-import {MAIN_COLOR, CAMERA_NAV, RAMP_ADD_CAR_NAV, BAR_CODE_NAV, WIN_WIDTH, RAMP_NAV, ADD_CAR_URL} from '../constants';
+import { MAIN_COLOR, CAMERA_NAV, VIEW_PHOTO_NAV, DEFAULT_IMG, RAMP_ADD_CAR_NAV, BAR_CODE_NAV, WIN_WIDTH, RAMP_NAV, ADD_CAR_URL} from '../constants';
 import {setActiveScreen, setCarInfo} from '../actions';
 import RampLocation from '../components/RampLocation';
 
@@ -121,14 +121,8 @@ class RampAddCar extends Component {
           <FormLabel>CAR MODEL</FormLabel>
           <FormInput onChangeText={(val) => setCarInfo({ model: val })} value={car.model} />
 
+          {this._maybeRenderImage()}
           <View style={{ marginBottom: 200, marginTop: 20 }}>
-            <Button
-              loading={this.state.loading}
-              backgroundColor={MAIN_COLOR}
-              icon={{name: 'save'}}
-              title='CAMERA'
-              onPress={() => this.props.nav.navigate(CAMERA_NAV)}
-            />
             <Button
               loading={this.state.loading}
               backgroundColor={MAIN_COLOR}
@@ -229,6 +223,53 @@ class RampAddCar extends Component {
       </View>
     );
   }
+
+  _maybeRenderImage = () => {
+    let { image } = this.props.car;
+    const epoch = Math.round((new Date()).getTime() / 1000);
+    
+    if (!image) {
+      return;
+    }
+    
+    return (
+      <View
+        style={{
+          marginTop: 30,
+          width: 250,
+          borderRadius: 3,
+          elevation: 2,
+          shadowColor: 'rgba(0,0,0,1)',
+          shadowOpacity: 0.2,
+          shadowOffset: { width: 4, height: 4 },
+          shadowRadius: 5,
+        }}>
+        <View
+          style={{
+            borderTopRightRadius: 3,
+            borderTopLeftRadius: 3,
+            overflow: 'hidden',
+          }}>
+          <TouchableOpacity onPress={() => this._imgPickerOption()} style={{ margin: 15, width: 250, height: 250 }} >
+            <Image source={{ uri: `${image}?epoch=${epoch}` }} style={{ width: 250, height: 250 }}  />
+          </TouchableOpacity>
+        </View>
+      </View>
+    );
+  };
+
+  _imgPickerOption() {
+    Alert.alert(
+      'Alert Title',
+      'My Alert Msg',
+      [
+        { text: 'Zoom', onPress: () => this.props.nav.navigate(VIEW_PHOTO_NAV) },
+        { text: 'Capture', onPress: () => this.props.nav.navigate(CAMERA_NAV) },
+        { text: 'Remove', onPress: () => console.log('Ask me later pressed') },
+      ],
+      { cancelable: false }
+    )
+  };
 }
 
 const styles = {

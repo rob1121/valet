@@ -27,3 +27,6 @@ export const CAR_NAV = 'Car';
 export const RAMP_ADD_CAR_NAV = 'RampAddCar';
 export const BAR_CODE_NAV = 'BarCode';
 export const CAMERA_NAV = 'Camera';
+export const VIEW_PHOTO_NAV = 'ViewPhoto';
+
+export const DEFAULT_IMG = 'http://10.197.80.12/php_reference_only/upload/default.png';

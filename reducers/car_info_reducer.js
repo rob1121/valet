@@ -4,6 +4,10 @@ import {
 } from '../actions/types';
 
 
+import {
+  DEFAULT_IMG
+} from '../constants';
+
 const INITIAL_STATE = {
   //order
   uid: '',
@@ -16,6 +20,7 @@ const INITIAL_STATE = {
   make: '',
   model: '',
   customercontactno: '',
+  image: DEFAULT_IMG,
 };
 
 export default (state = INITIAL_STATE, action) => {
