@@ -7,7 +7,6 @@ import store from './store/index';
 import {MAIN_COLOR, RAMP_ADD_CAR_NAV} from './constants';
 import HomeScreen from './screens/HomeScreen';
 import LoginScreen from './screens/LoginScreen';
-import CarScreen from './screens/CarScreen';
 import RampScreen from './screens/RampScreen';
 import RampAddCarScreen from './screens/RampAddCarScreen';
 import BarCodeScreen from './screens/BarCodeScreen';
@@ -44,10 +43,6 @@ export default class App extends Component {
           headerLeft: null,
           headerRight: <Icon name='add' color='#fff' iconStyle={{marginRight: 15}} onPress={() => navigation.navigate(RAMP_ADD_CAR_NAV)}/>
         }),
-      },
-      Car: { 
-        screen: CarScreen,
-        navigationOptions: navOptionWithHeader('CAR'),
       },
       RampAddCar: {
         screen: RampAddCarScreen,

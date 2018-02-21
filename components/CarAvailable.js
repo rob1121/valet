@@ -3,38 +3,20 @@ import { View, ScrollView } from 'react-native';
 import { Text, List, ListItem } from 'react-native-elements';
 import { findIndex } from 'lodash';
 import axios from 'axios';
-import { isEmpty, map, filter } from 'lodash';
+import { isEmpty, map } from 'lodash';
 import { connect } from 'react-redux';
-import { 
-  setFilters,
-} from '../actions';
 
 import { 
-  CAR_ASSIGN_URL,
-  ALL_INDEX,
-  CAR_ASSIGN_FILTER_URL,
 } from '../constants';
 
 class CarAvailable extends Component 
 {
-  componentWillMount() {
-    this._fetchCarFilter();
-  }
-
-  _fetchCarFilter() {
-  axios.get(CAR_ASSIGN_FILTER_URL)
-    .then(({ data }) => { this.props.setFilters(data); })
-    .catch((error) => {console.error(error);});
-  }
-
   _listItem(carsAssign) {
     const listItems = map(carsAssign, (task, i) => {
-      const label = this.props.car_assign_filter[task.status_id];
-      
       return (<ListItem
           key={i}
           title={`#${task.ticketno}: ${task.opt}`}
-          subtitle={label}
+          subtitle={task.status_title}
           leftIcon={{ name: 'directions-car' }}
           onPress={() => this.props.nav.navigate('Car')}
         />);
@@ -54,8 +36,8 @@ class CarAvailable extends Component
           <Text style={{ marginBottom: 20 }} h6>Task for {this.props.user.name}:</Text>
           <ScrollView>
           {
-            !isEmpty(car_assign.cars) 
-              ? this._listItem(car_assign.cars) 
+            !isEmpty(car_assign.task_list) 
+              ? this._listItem(car_assign.task_list) 
               : <Text style={emptyTaskContainer}>No record found!.</Text>
           }
           </ScrollView>
@@ -77,6 +59,6 @@ const styles = {
   },
 };
 
-const mapStateToProps = ({ user, nav, car_assign, car_assign_filter }) => ({ user, nav, car_assign, car_assign_filter });
+const mapStateToProps = ({ user, nav, car_assign }) => ({ user, nav, car_assign });
 
-export default connect(mapStateToProps, { setFilters })(CarAvailable)
+export default connect(mapStateToProps)(CarAvailable)

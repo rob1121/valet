@@ -1,15 +1,13 @@
 import React, { Component } from 'react';
-import { View, BackHandler, Text } from 'react-native';
-import { Divider } from 'react-native-elements';
+import { View, BackHandler } from 'react-native';
 import {connect} from 'react-redux';
-import { findIndex, isEmpty, filter} from 'lodash';
 import axios from 'axios';
-import { setCarSelectedIndex, setActiveScreen, logoutUser, assignCars} from '../actions';
-import {HOME_NAV, LOGIN_NAV, CAR_ASSIGN_URL} from '../constants';
+import { setActiveScreen, logoutUser, assignCars} from '../actions';
+import {HOME_NAV, CAR_ASSIGN_URL} from '../constants';
 import Footer from '../components/Footer';
 import CarAvailable from '../components/CarAvailable';
-import RampLocation from '../components/RampLocation';
-import CarScreen from './CarScreen';
+import Steps from '../components/Steps';
+
 class HomeScreen extends Component 
 {
   componentWillMount() {
@@ -30,35 +28,21 @@ class HomeScreen extends Component
   }
 
   _fetchCarsAssign() {
-    axios.post(CAR_ASSIGN_URL, { driver: this.props.user.name }).then(({data}) => {
-      const index = findIndex(data, (c) => (c.active == 1));
-      if(index > -1) {
-        this.props.setCarSelectedIndex(index);
-      } else {
+    const params = { driver: this.props.user.name };
+    axios.post(CAR_ASSIGN_URL, params).then(({data}) => {
         this.props.assignCars(data);
-        console.log(data);
-      } 
     }).catch((error) => { console.error(error); });
   }
 
   render() {
-    let Body = (<Text>No Record  Found...</Text>);
-           
-    // if (this.props.car_assign.selected_index > -1) {
-      // Body = this.props.car_assign.selected_index > -1 ? <CarScreen /> : <CarAvailable />;
-    // }
     return (
       <View style={{ flex: 1 }}>
-        {Body}
+        {this.props.car_assign.has_active_task ? <Steps /> : <CarAvailable />}
         <Footer />
       </View>
     );
   }
-
-  _setActiveScreen() {
-    return false;
-  }
 }
 const mapStateToProps = ({ nav, car_assign, user }) => ({ nav, car_assign, user });
 
-export default connect(mapStateToProps, { setCarSelectedIndex, setActiveScreen, logoutUser, assignCars})(HomeScreen);
+export default connect(mapStateToProps, { setActiveScreen, logoutUser, assignCars})(HomeScreen);

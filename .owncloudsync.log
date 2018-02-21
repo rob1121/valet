@@ -3618,3 +3618,43 @@
 ||node_modules|INST_IGNORE|Up|1519136853||327680||6|Ignored because of the "choose what to sync" blacklist|0|0|0||||
 16:00:14||screens/CarScreen.js|INST_SYNC|Up|1519142390|e345516e3c55c09adf0986157bc00c9f|2955|00721393ocg0oijmmfm5|4||204|2953|1519142343||||
 #=#=#=# Syncrun finished 2018-02-20T16:00:12Z (last step: 1078 msec, total: 11390 msec)
+#=#=#=# Syncrun started 2018-02-20T16:01:00Z
+#=#=#=#=# Propagation starts 2018-02-20T16:01:10Z (last step: 10157 msec, total: 10157 msec)
+||node_modules|INST_IGNORE|Up|1519136853||327680||6|Ignored because of the "choose what to sync" blacklist|0|0|0||||
+#=#=#=# Syncrun finished 2018-02-20T16:01:11Z (last step: 185 msec, total: 10343 msec)
+#=#=#=# Syncrun started 2018-02-21T06:14:54Z
+#=#=#=#=# Propagation starts 2018-02-21T06:16:37Z (last step: 103588 msec, total: 103588 msec)
+||node_modules|INST_IGNORE|Up|1519136853||0||6|Ignored because of the "choose what to sync" blacklist|0|0|0||||
+#=#=#=# Syncrun finished 2018-02-21T06:16:38Z (last step: 436 msec, total: 104025 msec)
+#=#=#=# Syncrun started 2018-02-21T08:17:10Z
+#=#=#=#=# Propagation starts 2018-02-21T08:17:16Z (last step: 6193 msec, total: 6193 msec)
+||node_modules|INST_IGNORE|Up|1519136853||327680||6|Ignored because of the "choose what to sync" blacklist|0|0|0||||
+#=#=#=# Syncrun finished 2018-02-21T08:17:16Z (last step: 189 msec, total: 6383 msec)
+#=#=#=# Syncrun started 2018-02-21T08:17:20Z
+#=#=#=#=# Propagation starts 2018-02-21T08:17:27Z (last step: 6696 msec, total: 6696 msec)
+||node_modules|INST_IGNORE|Up|1519136853||327680||6|Ignored because of the "choose what to sync" blacklist|0|0|0||||
+#=#=#=# Syncrun finished 2018-02-21T08:17:27Z (last step: 169 msec, total: 6866 msec)
+#=#=#=# Syncrun started 2018-02-21T09:33:46Z
+#=#=#=#=# Propagation starts 2018-02-21T09:33:53Z (last step: 6357 msec, total: 6357 msec)
+||node_modules|INST_IGNORE|Up|1519136853||327680||6|Ignored because of the "choose what to sync" blacklist|0|0|0||||
+#=#=#=# Syncrun finished 2018-02-21T09:33:53Z (last step: 176 msec, total: 6534 msec)
+#=#=#=# Syncrun started 2018-02-21T11:32:18Z
+#=#=#=# Syncrun finished 2018-02-21T11:33:38Z (last step: 79835 msec, total: 79835 msec)
+#=#=#=# Syncrun started 2018-02-21T11:34:10Z
+#=#=#=#=# Propagation starts 2018-02-21T11:36:23Z (last step: 132753 msec, total: 132753 msec)
+||node_modules|INST_IGNORE|Up|1519136853||327680||6|Ignored because of the "choose what to sync" blacklist|0|0|0||||
+#=#=#=# Syncrun finished 2018-02-21T11:36:24Z (last step: 451 msec, total: 133204 msec)
+#=#=#=# Syncrun started 2018-02-21T13:06:16Z
+#=#=#=#=# Propagation starts 2018-02-21T13:06:54Z (last step: 38494 msec, total: 38494 msec)
+||node_modules|INST_IGNORE|Up|1519136853||327680||6|Ignored because of the "choose what to sync" blacklist|0|0|0||||
+||php_reference_only/api/car_assignment.php|INST_SYNC|Up|1519218374|1c5046f387bdc19a84a4b9bd5a2696ed|1245|00721460ocg0oijmmfm5|2|Server replied "500 Internal Server Error" to "PUT https://cloud.pctouch.net/remote.php/dav/files/robinson/ReactNative/php_reference_only/api/car_assignment.php" (An exception occurred while executing 'INSERT INTO `oc_file_locks` (`key`,`lock`,`ttl`) SELECT ?,?,? FROM `oc_file_locks` WHERE `key` = ? HAVING COUNT(*) = 0' with params ["files\/ddf1be26c2a32b1e10700012d69c01a0", 1, 1519222022, "files\/ddf1be26c2a32b1e10700012d69c01a0"]:
+
+SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry 'files/ddf1be26c2a32b1e10700012d69c01a0' for key 'lock_key_index')|500|930|1519140666||||
+13:07:02||components/CarAvailable.js|INST_SYNC|Up|1519218374|2c9ef3fb507c3079abef65561fa2b5fd|2164|00715197ocg0oijmmfm5|4||204|2430|1519141749||||
+13:07:02||php_reference_only/api/car_assignment_update.php|INST_SYNC|Up|1519218374|bb1b751ffb0b5da1fc31f8e2d2f1fbce|998|00721462ocg0oijmmfm5|4||204|1000|1519141747||||
+13:07:02||reducers/car_assign_reducer.js|INST_SYNC|Up|1519218374|b043ab56e97c4c3b643d0f4882f0fab6|946|00721379ocg0oijmmfm5|4||204|945|1518705812||||
+13:07:02||screens/CarScreen.js|INST_SYNC|Up|1519218374|66863249779bf622a483c22afce75008|2976|00721393ocg0oijmmfm5|4||204|2955|1519142390||||
+13:07:02||screens/HomeScreen.js|INST_SYNC|Up|1519218374|f7feae5cc3bfed382fd4009d9636c625|2043|00721394ocg0oijmmfm5|4||204|1158|1519139730||||
+13:07:04||yarn.lock|INST_SYNC|Up|1519218374|70e9b4edc815a8f85b182f0201b102a2|238063|00710404ocg0oijmmfm5|4||204|237653|1518965016||||
+#=#=#=# Syncrun finished 2018-02-21T13:07:01Z (last step: 6673 msec, total: 45168 msec)
+#=#=#=# Syncrun started 2018-02-21T13:07:13Z

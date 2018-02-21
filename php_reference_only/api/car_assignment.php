@@ -1,5 +1,15 @@
 <?php
 include("connect.php");
+function status() {
+  $sql = 'SELECT * FROM parking_status';
+  $res = mysql_query($sql);
+  $retVal = [];
+  while($status = mysql_fetch_array($res)) {
+    $retVal[$status['status_id']] = $status['status'];
+  }
+
+  return $retVal;
+}
 
 $json = file_get_contents('php://input');
 $post = json_decode($json, TRUE);
@@ -20,17 +30,19 @@ $retVal = [];
 $has_active_task = false;
 $index = -1;
 $res = mysql_query($sql);
+$statuses = status();
 while($row = mysql_fetch_array($res)) {
   $retVal[] = [
       'driver' => $row['driver'],
-      'status_id' => $row['status_id'],
+      'status_id' => (int)$row['status_id'],
+      'status_title' => $statuses[$row['status_id']],
       'opt' => $row['opt'],
       'ticketno' => $row['ticketno'],
       'requestor' => $row['name'],
       'comment' => $row['com'],
       'orderid' => $row['orderid'],
       'trackingid' => $row['trackingid'],
-      'active' => $row['active'],
+      'active' => (boolean)$row['active'],
     ];
 
     if($has_active_task == false) {
