@@ -17,6 +17,8 @@ $sql = sprintf(
 );
 
 $retVal = [];
+$has_active_task = false;
+$index = -1;
 $res = mysql_query($sql);
 while($row = mysql_fetch_array($res)) {
   $retVal[] = [
@@ -30,8 +32,16 @@ while($row = mysql_fetch_array($res)) {
       'trackingid' => $row['trackingid'],
       'active' => $row['active'],
     ];
-}
 
+    if($has_active_task == false) {
+      $has_active_task = ($row['active'] === '1');
+      $index++;
+    }
+}
 mysql_close($con);
 
-echo json_encode($retVal);
+echo json_encode([
+  'has_active_task' => $has_active_task,
+  'active_task' => $has_active_task ? $retVal[$index] : [],
+  'task_list' => $retVal
+]);
