@@ -28,6 +28,7 @@ while($row = mysql_fetch_array($res)) {
       'comment' => $row['com'],
       'orderid' => $row['orderid'],
       'trackingid' => $row['trackingid'],
+      'active' => $row['active'],
     ];
 }
 

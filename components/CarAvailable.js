@@ -6,8 +6,7 @@ import axios from 'axios';
 import { isEmpty, map, filter } from 'lodash';
 import { connect } from 'react-redux';
 import { 
-  setFilters, 
-  assignCars,
+  setFilters,
 } from '../actions';
 
 import { 
@@ -19,20 +18,13 @@ import {
 class CarAvailable extends Component 
 {
   componentWillMount() {
-    this._fetchCarFilter()
-    this._fetchCarsAssign();
+    this._fetchCarFilter();
   }
 
   _fetchCarFilter() {
   axios.get(CAR_ASSIGN_FILTER_URL)
     .then(({ data }) => { this.props.setFilters(data); })
     .catch((error) => {console.error(error);});
-  }
-
-  _fetchCarsAssign() {
-    axios.post(CAR_ASSIGN_URL, { driver: this.props.user.name })
-      .then(({ data }) => { this.props.assignCars(data); })
-      .catch((error) => {console.error(error);});
   }
 
   _listItem(carsAssign) {
@@ -87,4 +79,4 @@ const styles = {
 
 const mapStateToProps = ({ user, nav, car_assign, car_assign_filter }) => ({ user, nav, car_assign, car_assign_filter });
 
-export default connect(mapStateToProps, { setFilters, assignCars })(CarAvailable)
+export default connect(mapStateToProps, { setFilters })(CarAvailable)

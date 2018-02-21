@@ -7,7 +7,7 @@ import {
 
 
 const INITIAL_STATE = {
-  selected_index: 0,
+  selected_index: -1,
   cars: {},
 };
 

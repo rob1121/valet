@@ -56,9 +56,11 @@ class CarScreen extends Component {
   _updateDB() {
     const {cars, selected_index} = this.props.car_assign;
     const car = cars[selected_index];
-    this.props.setStatusId({status_id: VALET_ON_THE_WAY});
+    
+    this.props.setStatusId(VALET_ON_THE_WAY);
     axios.post(CAR_ASSIGN_UPDATE_URL, car)
       .then(({ data }) => {
+        console.log(data);
         this.props.nav.navigate(HOME_NAV);
       }).catch((error) => { console.warn(error); });
   }
