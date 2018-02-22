@@ -8,7 +8,7 @@ define('VEHICLE_ON_THE_WAY', 4);
 define('REQUEST_COMPLETED', 5);
 define('REQUEST_ERROR', 6);
 define('TASK_COMPLETED', 8);
-
+define('ASSIGN_DRIVER', 7);
 
 function status() {
   $sql = 'SELECT * FROM parking_status';

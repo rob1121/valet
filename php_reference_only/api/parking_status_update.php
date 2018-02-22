@@ -16,6 +16,7 @@ $post = json_decode($json, TRUE);
 $active = $post['active'];
 $status_id = $post['status_id'];
 $order_id = $post['orderid'];
+$opt = $post['opt'];
 $tracking_id = $post['trackingid'];
 $date = date("m\d\Y");
 $time = date("h:i:s A");
@@ -24,7 +25,10 @@ $is_update_parking_order_no_err=true;
 
 
 if($active == ACTIVE) {
-  if($status_id == VALET_ON_THE_WAY) {
+  if($status_id == ASSIGN_DRIVER) {
+    $update_parking_tracking1 = "UPDATE parking_tracking1 SET status_id = ".VALET_ON_THE_WAY.", vow_date='{$date}', vow_time='{$time}' where trackingid={$tracking_id}";
+    $update_parking_order = "UPDATE parking_order SET active=1 where orderid={opt}";  
+  } elseif($status_id == VALET_ON_THE_WAY) {
     $update_parking_tracking1 = "UPDATE parking_tracking1 SET status_id = ".ARRIVED_AT_THE_GARAGE.", vow_date='{$date}', vow_time='{$time}' where trackingid={$tracking_id}";
     $update_parking_order = "UPDATE parking_order SET active=1 where orderid={$order_id}";  
   } elseif($status_id == ARRIVED_AT_THE_GARAGE) {
@@ -41,6 +45,16 @@ if($active == ACTIVE) {
 	$is_update_parking_tracking1_no_err = mysql_query($update_parking_tracking1);
 	$is_update_parking_order_no_err = mysql_query($update_parking_order);
 } else {
+  If($status_id == ASSIGN_DRIVER) {
+    if($opt == 'Pickup') {
+      $update_parking_tracking1 = "UPDATE parking_tracking1 SET status_id = ".VALET_ON_THE_WAY.", vow_date='{$date}', vow_time='{$time}' where trackingid={$tracking_id}"; 
+    }
+    if($opt == 'Delivery') {
+      $update_parking_tracking1 = "UPDATE parking_tracking1 SET status_id = ".VALET_ON_THE_WAY.", vow_date='{$date}', vow_time='{$time}' where trackingid={$tracking_id}";
+    }
+    $is_update_parking_tracking1_no_err = mysql_query($update_parking_tracking1);
+  }
+
   $update_parking_order = "UPDATE parking_order SET active=1 where orderid={$order_id}";
 
 	$is_update_parking_order_no_err = mysql_query($update_parking_order);

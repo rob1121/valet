@@ -22,18 +22,17 @@ if(!empty($post))
   $res = mysql_query($sql);
   if(mysql_num_rows($res)>0)
   {
+    $user = mysql_fetch_array($res);
     $sql = sprintf(
-      "UPDATE %s SET token='%s' WHERE username='%s' AND password='%s' AND activation='%s'",
+      "UPDATE %s SET token='%s' WHERE id='%d'",
       $addmem,
       $post["token"],
-      $post["username"],
-      $post["password"],
-      "ACTIVE"
+      $user['id']
     );
      
-    mysql_query($con, $sql);
+    mysql_query($sql);
 
-    $retVal['data'] = mysql_fetch_array($res);
+    $retVal['data'] = $user;
     $retVal['msg'] = 'login success!';
     $retVal['error'] = false;
   }

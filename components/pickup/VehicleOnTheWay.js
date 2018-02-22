@@ -42,7 +42,7 @@ class VehicleOnTheWay extends Component {
           loading={this.state.loading}
           containerStyle={{ marginTop: 20 }}
           buttonStyle={{backgroundColor: MAIN_COLOR}}
-          title='DONE'
+          title='UPDATE STATUS'
           onPress={() => this._updateStatus()}
         />
       </View>

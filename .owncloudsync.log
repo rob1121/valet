@@ -3785,3 +3785,168 @@ SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry 'files/ddf
 #=#=#=#=# Propagation starts 2018-02-22T14:25:07Z (last step: 11108 msec, total: 11108 msec)
 ||node_modules|INST_IGNORE|Up|1519136853||327680||6|Ignored because of the "choose what to sync" blacklist|0|0|0||||
 #=#=#=# Syncrun finished 2018-02-22T14:25:08Z (last step: 181 msec, total: 11290 msec)
+#=#=#=# Syncrun started 2018-02-22T15:46:04Z
+#=#=#=#=# Propagation starts 2018-02-22T15:46:22Z (last step: 18760 msec, total: 18760 msec)
+||node_modules|INST_IGNORE|Up|1519136853||327680||6|Ignored because of the "choose what to sync" blacklist|0|0|0||||
+15:46:30||screens/HomeScreen.js|INST_SYNC|Up|1519314361|8227fb6ac7602893c9e1a0b2c8d4224c|1484|00721394ocg0oijmmfm5|4||204|1458|1519228475||||
+#=#=#=# Syncrun finished 2018-02-22T15:46:24Z (last step: 1992 msec, total: 20753 msec)
+#=#=#=# Syncrun started 2018-02-22T15:46:44Z
+#=#=#=#=# Propagation starts 2018-02-22T15:46:58Z (last step: 14014 msec, total: 14014 msec)
+||node_modules|INST_IGNORE|Up|1519136853||327680||6|Ignored because of the "choose what to sync" blacklist|0|0|0||||
+15:47:06||screens/HomeScreen.js|INST_SYNC|Up|1519314400|ceffd54d10abc35c28c1da3de8b64748|1458|00721394ocg0oijmmfm5|4||204|1484|1519314361||||
+#=#=#=# Syncrun finished 2018-02-22T15:46:59Z (last step: 1652 msec, total: 15667 msec)
+#=#=#=# Syncrun started 2018-02-22T15:47:06Z
+#=#=#=#=# Propagation starts 2018-02-22T15:47:19Z (last step: 13659 msec, total: 13659 msec)
+||node_modules|INST_IGNORE|Up|1519136853||327680||6|Ignored because of the "choose what to sync" blacklist|0|0|0||||
+15:47:27||components/Steps.js|INST_SYNC|Up|1519314431|d25d641879ad23c54387adc5e4dec3cf|1219|00724062ocg0oijmmfm5|4||204|1229|1519230289||||
+#=#=#=# Syncrun finished 2018-02-22T15:47:21Z (last step: 1670 msec, total: 15330 msec)
+#=#=#=# Syncrun started 2018-02-22T15:47:27Z
+#=#=#=#=# Propagation starts 2018-02-22T15:47:43Z (last step: 16196 msec, total: 16196 msec)
+||node_modules|INST_IGNORE|Up|1519136853||327680||6|Ignored because of the "choose what to sync" blacklist|0|0|0||||
+15:47:51||components/Steps.js|INST_SYNC|Up|1519314461|6b01d50155494b593e38e61619847acb|1276|00724062ocg0oijmmfm5|4||204|1219|1519314431||||
+#=#=#=# Syncrun finished 2018-02-22T15:47:45Z (last step: 1266 msec, total: 17463 msec)
+#=#=#=# Syncrun started 2018-02-22T15:47:51Z
+#=#=#=#=# Propagation starts 2018-02-22T15:48:09Z (last step: 17752 msec, total: 17752 msec)
+||node_modules|INST_IGNORE|Up|1519136853||327680||6|Ignored because of the "choose what to sync" blacklist|0|0|0||||
+#=#=#=# Syncrun finished 2018-02-22T15:48:09Z (last step: 448 msec, total: 18200 msec)
+#=#=#=# Syncrun started 2018-02-22T15:49:14Z
+#=#=#=#=# Propagation starts 2018-02-22T15:49:27Z (last step: 12619 msec, total: 12619 msec)
+||node_modules|INST_IGNORE|Up|1519136853||327680||6|Ignored because of the "choose what to sync" blacklist|0|0|0||||
+#=#=#=# Syncrun finished 2018-02-22T15:49:27Z (last step: 304 msec, total: 12923 msec)
+#=#=#=# Syncrun started 2018-02-22T15:53:24Z
+#=#=#=#=# Propagation starts 2018-02-22T15:53:35Z (last step: 11824 msec, total: 11824 msec)
+||node_modules|INST_IGNORE|Up|1519136853||327680||6|Ignored because of the "choose what to sync" blacklist|0|0|0||||
+15:53:44||components/Steps.js|INST_SYNC|Up|1519314802|e6512882807cb0fbafcf92a73417c810|1264|00724062ocg0oijmmfm5|4||204|1276|1519314461||||
+#=#=#=# Syncrun finished 2018-02-22T15:53:37Z (last step: 1416 msec, total: 13241 msec)
+#=#=#=# Syncrun started 2018-02-22T15:54:03Z
+#=#=#=#=# Propagation starts 2018-02-22T15:54:19Z (last step: 16347 msec, total: 16347 msec)
+||node_modules|INST_IGNORE|Up|1519136853||327680||6|Ignored because of the "choose what to sync" blacklist|0|0|0||||
+15:54:27||components/Steps.js|INST_SYNC|Up|1519314841|d18d9114476b8c7c63232a646101bb0f|1233|00724062ocg0oijmmfm5|4||204|1264|1519314802||||
+#=#=#=# Syncrun finished 2018-02-22T15:54:21Z (last step: 1711 msec, total: 18058 msec)
+#=#=#=# Syncrun started 2018-02-22T15:55:10Z
+#=#=#=#=# Propagation starts 2018-02-22T15:55:21Z (last step: 11078 msec, total: 11078 msec)
+||node_modules|INST_IGNORE|Up|1519136853||327680||6|Ignored because of the "choose what to sync" blacklist|0|0|0||||
+#=#=#=# Syncrun finished 2018-02-22T15:55:21Z (last step: 532 msec, total: 11611 msec)
+#=#=#=# Syncrun started 2018-02-22T15:58:18Z
+#=#=#=#=# Propagation starts 2018-02-22T15:58:33Z (last step: 15012 msec, total: 15012 msec)
+||node_modules|INST_IGNORE|Up|1519136853||327680||6|Ignored because of the "choose what to sync" blacklist|0|0|0||||
+15:58:41||components/Steps.js|INST_SYNC|Up|1519315096|640eb4d6e89ab45ead3dfd0cca1f997f|1229|00724062ocg0oijmmfm5|4||204|1233|1519314841||||
+#=#=#=# Syncrun finished 2018-02-22T15:58:35Z (last step: 1366 msec, total: 16378 msec)
+#=#=#=# Syncrun started 2018-02-22T15:59:14Z
+#=#=#=#=# Propagation starts 2018-02-22T15:59:26Z (last step: 12422 msec, total: 12422 msec)
+||node_modules|INST_IGNORE|Up|1519136853||327680||6|Ignored because of the "choose what to sync" blacklist|0|0|0||||
+#=#=#=# Syncrun finished 2018-02-22T15:59:27Z (last step: 652 msec, total: 13075 msec)
+#=#=#=# Syncrun started 2018-02-22T15:59:33Z
+#=#=#=#=# Propagation starts 2018-02-22T15:59:47Z (last step: 14344 msec, total: 14344 msec)
+||node_modules|INST_IGNORE|Up|1519136853||327680||6|Ignored because of the "choose what to sync" blacklist|0|0|0||||
+15:59:55||php_reference_only/api/utilities.php|INST_SYNC|Up|1519315168|170f79d178dd099f6d336857fe975324|1796|00724079ocg0oijmmfm5|4||204|1769|1519304472||||
+#=#=#=# Syncrun finished 2018-02-22T15:59:48Z (last step: 1222 msec, total: 15567 msec)
+#=#=#=# Syncrun started 2018-02-22T16:00:40Z
+#=#=#=#=# Propagation starts 2018-02-22T16:01:14Z (last step: 34244 msec, total: 34244 msec)
+||node_modules|INST_IGNORE|Up|1519136853||327680||6|Ignored because of the "choose what to sync" blacklist|0|0|0||||
+#=#=#=# Syncrun finished 2018-02-22T16:01:15Z (last step: 647 msec, total: 34891 msec)
+#=#=#=# Syncrun started 2018-02-22T16:10:00Z
+#=#=#=#=# Propagation starts 2018-02-22T16:10:12Z (last step: 12239 msec, total: 12239 msec)
+||node_modules|INST_IGNORE|Up|1519136853||327680||6|Ignored because of the "choose what to sync" blacklist|0|0|0||||
+16:10:20||php_reference_only/api/parking_status_update.php|INST_SYNC|Up|1519315798|f3a25c2a569bd80d83d9c2eabe3ab874|2843|00724067ocg0oijmmfm5|4||204|2288|1519304472||||
+#=#=#=# Syncrun finished 2018-02-22T16:10:15Z (last step: 2671 msec, total: 14911 msec)
+#=#=#=# Syncrun started 2018-02-22T16:11:10Z
+#=#=#=#=# Propagation starts 2018-02-22T16:11:24Z (last step: 13213 msec, total: 13213 msec)
+||node_modules|INST_IGNORE|Up|1519136853||327680||6|Ignored because of the "choose what to sync" blacklist|0|0|0||||
+#=#=#=# Syncrun finished 2018-02-22T16:11:24Z (last step: 617 msec, total: 13831 msec)
+#=#=#=# Syncrun started 2018-02-22T16:12:58Z
+#=#=#=#=# Propagation starts 2018-02-22T16:13:09Z (last step: 11224 msec, total: 11224 msec)
+||node_modules|INST_IGNORE|Up|1519136853||327680||6|Ignored because of the "choose what to sync" blacklist|0|0|0||||
+16:13:17||php_reference_only/api/parking_status_update.php|INST_SYNC|Up|1519315976|d2eac4ea22bf62807baa5d15b2da5e37|3155|00724067ocg0oijmmfm5|4||204|2843|1519315798||||
+#=#=#=# Syncrun finished 2018-02-22T16:13:11Z (last step: 1823 msec, total: 13048 msec)
+#=#=#=# Syncrun started 2018-02-22T16:14:11Z
+#=#=#=#=# Propagation starts 2018-02-22T16:14:23Z (last step: 12357 msec, total: 12357 msec)
+||node_modules|INST_IGNORE|Up|1519136853||327680||6|Ignored because of the "choose what to sync" blacklist|0|0|0||||
+#=#=#=# Syncrun finished 2018-02-22T16:14:24Z (last step: 725 msec, total: 13082 msec)
+#=#=#=# Syncrun started 2018-02-22T16:18:34Z
+#=#=#=#=# Propagation starts 2018-02-22T16:18:47Z (last step: 12723 msec, total: 12723 msec)
+||node_modules|INST_IGNORE|Up|1519136853||327680||6|Ignored because of the "choose what to sync" blacklist|0|0|0||||
+16:18:55||components/delivery/ArrivedAtGarage.js|INST_SYNC|Up|1519316313|b37289f9bc44be7972ccf02c89f95714|2248|00724058ocg0oijmmfm5|4||204|2239|1519307048||||
+#=#=#=# Syncrun finished 2018-02-22T16:18:49Z (last step: 1896 msec, total: 14619 msec)
+#=#=#=# Syncrun started 2018-02-22T16:18:55Z
+#=#=#=#=# Propagation starts 2018-02-22T16:19:15Z (last step: 20525 msec, total: 20525 msec)
+||node_modules|INST_IGNORE|Up|1519136853||327680||6|Ignored because of the "choose what to sync" blacklist|0|0|0||||
+16:19:23||components/delivery/ValetOnTheWay.js|INST_SYNC|Up|1519316315|d4b6bdb629a0fea2f15655054d37b230|2288|00724059ocg0oijmmfm5|4||204|2279|1519306973||||
+16:19:24||components/pickup/VehicleOnTheWay.js|INST_SYNC|Up|1519316322|ce75756620e94cb94e99135147e4455a|2297|00724065ocg0oijmmfm5|4||204|2288|1519307009||||
+16:19:24||components/pickup/RequestCompleted.js|INST_SYNC|Up|1519316318|46791ee4ee8e296272223723c1a07fa3|2299|00724063ocg0oijmmfm5|4||204|2290|1519307026||||
+#=#=#=# Syncrun finished 2018-02-22T16:19:18Z (last step: 2714 msec, total: 23240 msec)
+#=#=#=# Syncrun started 2018-02-22T16:20:26Z
+#=#=#=#=# Propagation starts 2018-02-22T16:20:44Z (last step: 18410 msec, total: 18410 msec)
+||node_modules|INST_IGNORE|Up|1519136853||327680||6|Ignored because of the "choose what to sync" blacklist|0|0|0||||
+#=#=#=# Syncrun finished 2018-02-22T16:20:45Z (last step: 694 msec, total: 19105 msec)
+#=#=#=# Syncrun started 2018-02-22T16:25:00Z
+#=#=#=#=# Propagation starts 2018-02-22T16:25:14Z (last step: 13924 msec, total: 13924 msec)
+||node_modules|INST_IGNORE|Up|1519136853||327680||6|Ignored because of the "choose what to sync" blacklist|0|0|0||||
+#=#=#=# Syncrun finished 2018-02-22T16:25:15Z (last step: 734 msec, total: 14659 msec)
+#=#=#=# Syncrun started 2018-02-22T16:35:58Z
+#=#=#=#=# Propagation starts 2018-02-22T16:36:10Z (last step: 12164 msec, total: 12164 msec)
+||node_modules|INST_IGNORE|Up|1519136853||327680||6|Ignored because of the "choose what to sync" blacklist|0|0|0||||
+16:36:18||screens/LoginScreen.js|INST_SYNC|Up|1519317356|2c62d4486cc51869cc81bdf2b59911e4|4266|00721395ocg0oijmmfm5|4||204|4240|1519304472||||
+#=#=#=# Syncrun finished 2018-02-22T16:36:11Z (last step: 1509 msec, total: 13674 msec)
+#=#=#=# Syncrun started 2018-02-22T16:37:12Z
+#=#=#=#=# Propagation starts 2018-02-22T16:37:45Z (last step: 32756 msec, total: 32756 msec)
+||node_modules|INST_IGNORE|Up|1519136853||327680||6|Ignored because of the "choose what to sync" blacklist|0|0|0||||
+#=#=#=# Syncrun finished 2018-02-22T16:37:45Z (last step: 474 msec, total: 33230 msec)
+#=#=#=# Syncrun started 2018-02-22T16:37:55Z
+#=#=#=#=# Propagation starts 2018-02-22T16:38:05Z (last step: 10719 msec, total: 10719 msec)
+||node_modules|INST_IGNORE|Up|1519136853||327680||6|Ignored because of the "choose what to sync" blacklist|0|0|0||||
+16:38:13||php_reference_only/api/login.php|INST_SYNC|Up|1519317468|f7eae3ca27838fbca8d16557763fe72c|999|00721387ocg0oijmmfm5|4||204|1017|1519304472||||
+#=#=#=# Syncrun finished 2018-02-22T16:38:07Z (last step: 1441 msec, total: 12160 msec)
+#=#=#=# Syncrun started 2018-02-22T16:38:42Z
+#=#=#=#=# Propagation starts 2018-02-22T16:39:15Z (last step: 33040 msec, total: 33040 msec)
+||node_modules|INST_IGNORE|Up|1519136853||327680||6|Ignored because of the "choose what to sync" blacklist|0|0|0||||
+#=#=#=# Syncrun finished 2018-02-22T16:39:15Z (last step: 593 msec, total: 33633 msec)
+#=#=#=# Syncrun started 2018-02-22T16:42:06Z
+#=#=#=#=# Propagation starts 2018-02-22T16:42:17Z (last step: 10777 msec, total: 10777 msec)
+||node_modules|INST_IGNORE|Up|1519136853||327680||6|Ignored because of the "choose what to sync" blacklist|0|0|0||||
+16:42:25||php_reference_only/api/login.php|INST_SYNC|Up|1519317724|9f7d237b3746e1744e25159924a8ee03|944|00721387ocg0oijmmfm5|4||204|999|1519317468||||
+#=#=#=# Syncrun finished 2018-02-22T16:42:18Z (last step: 1267 msec, total: 12044 msec)
+#=#=#=# Syncrun started 2018-02-22T16:43:11Z
+#=#=#=#=# Propagation starts 2018-02-22T16:43:30Z (last step: 19208 msec, total: 19208 msec)
+||node_modules|INST_IGNORE|Up|1519136853||327680||6|Ignored because of the "choose what to sync" blacklist|0|0|0||||
+#=#=#=# Syncrun finished 2018-02-22T16:43:31Z (last step: 289 msec, total: 19498 msec)
+#=#=#=# Syncrun started 2018-02-22T16:46:13Z
+#=#=#=#=# Propagation starts 2018-02-22T16:46:24Z (last step: 11559 msec, total: 11559 msec)
+||node_modules|INST_IGNORE|Up|1519136853||327680||6|Ignored because of the "choose what to sync" blacklist|0|0|0||||
+16:46:32||php_reference_only/api/login.php|INST_SYNC|Up|1519317971|9f1e565eb26c7a93d388176026ddb4b8|950|00721387ocg0oijmmfm5|4||204|944|1519317724||||
+#=#=#=# Syncrun finished 2018-02-22T16:46:26Z (last step: 1901 msec, total: 13460 msec)
+#=#=#=# Syncrun started 2018-02-22T16:47:11Z
+#=#=#=#=# Propagation starts 2018-02-22T16:47:24Z (last step: 12760 msec, total: 12760 msec)
+||node_modules|INST_IGNORE|Up|1519136853||327680||6|Ignored because of the "choose what to sync" blacklist|0|0|0||||
+16:47:32||php_reference_only/api/login.php|INST_SYNC|Up|1519318034|33666514069c833cf22facb1788d2773|966|00721387ocg0oijmmfm5|4||204|950|1519317971||||
+#=#=#=# Syncrun finished 2018-02-22T16:47:26Z (last step: 1892 msec, total: 14652 msec)
+#=#=#=# Syncrun started 2018-02-22T16:47:32Z
+#=#=#=#=# Propagation starts 2018-02-22T16:47:45Z (last step: 12730 msec, total: 12730 msec)
+||node_modules|INST_IGNORE|Up|1519136853||327680||6|Ignored because of the "choose what to sync" blacklist|0|0|0||||
+#=#=#=# Syncrun finished 2018-02-22T16:47:45Z (last step: 537 msec, total: 13267 msec)
+#=#=#=# Syncrun started 2018-02-22T16:48:43Z
+#=#=#=#=# Propagation starts 2018-02-22T16:48:54Z (last step: 11203 msec, total: 11203 msec)
+||node_modules|INST_IGNORE|Up|1519136853||327680||6|Ignored because of the "choose what to sync" blacklist|0|0|0||||
+#=#=#=# Syncrun finished 2018-02-22T16:48:55Z (last step: 853 msec, total: 12057 msec)
+#=#=#=# Syncrun started 2018-02-22T16:49:00Z
+#=#=#=#=# Propagation starts 2018-02-22T16:49:11Z (last step: 11093 msec, total: 11093 msec)
+||node_modules|INST_IGNORE|Up|1519136853||327680||6|Ignored because of the "choose what to sync" blacklist|0|0|0||||
+16:49:20||php_reference_only/api/login.php|INST_SYNC|Up|1519318147|8f2cb6f84d1a054950ca20034866c8dd|954|00721387ocg0oijmmfm5|4||204|966|1519318034||||
+#=#=#=# Syncrun finished 2018-02-22T16:49:13Z (last step: 2208 msec, total: 13302 msec)
+#=#=#=# Syncrun started 2018-02-22T16:49:19Z
+#=#=#=#=# Propagation starts 2018-02-22T16:49:31Z (last step: 12024 msec, total: 12024 msec)
+||node_modules|INST_IGNORE|Up|1519136853||327680||6|Ignored because of the "choose what to sync" blacklist|0|0|0||||
+#=#=#=# Syncrun finished 2018-02-22T16:49:32Z (last step: 373 msec, total: 12397 msec)
+#=#=#=# Syncrun started 2018-02-22T16:50:11Z
+#=#=#=#=# Propagation starts 2018-02-22T16:50:23Z (last step: 11197 msec, total: 11197 msec)
+||node_modules|INST_IGNORE|Up|1519136853||327680||6|Ignored because of the "choose what to sync" blacklist|0|0|0||||
+#=#=#=# Syncrun finished 2018-02-22T16:50:23Z (last step: 631 msec, total: 11829 msec)
+#=#=#=# Syncrun started 2018-02-22T16:55:22Z
+#=#=#=#=# Propagation starts 2018-02-22T16:55:43Z (last step: 20633 msec, total: 20633 msec)
+||node_modules|INST_IGNORE|Up|1519136853||327680||6|Ignored because of the "choose what to sync" blacklist|0|0|0||||
+16:55:52||php_reference_only/api/login.php|INST_SYNC|Up|1519318520|74f3ea30a445acbc896bb4cc594997d2|938|00721387ocg0oijmmfm5|4||204|954|1519318147||||
+#=#=#=# Syncrun finished 2018-02-22T16:55:45Z (last step: 2038 msec, total: 22672 msec)
+#=#=#=# Syncrun started 2018-02-22T16:56:42Z
+#=#=#=#=# Propagation starts 2018-02-22T16:56:57Z (last step: 15458 msec, total: 15458 msec)
+||node_modules|INST_IGNORE|Up|1519136853||327680||6|Ignored because of the "choose what to sync" blacklist|0|0|0||||
+#=#=#=# Syncrun finished 2018-02-22T16:56:57Z (last step: 355 msec, total: 15814 msec)
