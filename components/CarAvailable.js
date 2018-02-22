@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { View, ScrollView } from 'react-native';
-import { Text, List, ListItem } from 'react-native-elements';
-import { findIndex } from 'lodash';
+import { View, ScrollView, Alert } from 'react-native';
+import { Text, List, ListItem, Header } from 'react-native-elements';
 import axios from 'axios';
-import { isEmpty, map } from 'lodash';
+import { toUpper, isEmpty, map } from 'lodash';
+import {PARKING_STATUS_UPDATE_URL} from '../constants';
+import {assignCars} from '../actions';
 import { connect } from 'react-redux';
 
 import { 
@@ -11,6 +12,26 @@ import {
 
 class CarAvailable extends Component 
 {
+
+  _selectTask(task) {
+    Alert.alert(
+      'Task Confirmation',
+      'Are you sure you want to proceed to this task?',
+      [
+        {text: 'Cancel', style: 'cancel'},
+        {text: 'OK', onPress: () => this._updateStatus(task)},
+      ]
+    );
+  }
+
+  _updateStatus(task) {
+    axios.post(PARKING_STATUS_UPDATE_URL, task).then(({data}) => {
+      this.props.assignCars(data);
+    }).catch((error) => {
+      console.log(error);
+    });
+  }
+
   _listItem(carsAssign) {
     const listItems = map(carsAssign, (task, i) => {
       return (<ListItem
@@ -18,7 +39,7 @@ class CarAvailable extends Component
           title={`#${task.ticketno}: ${task.opt}`}
           subtitle={task.status_title}
           leftIcon={{ name: 'directions-car' }}
-          onPress={() => this.props.nav.navigate('Car')}
+          onPress={() => this._selectTask(task)}
         />);
     });
 
@@ -32,9 +53,11 @@ class CarAvailable extends Component
     const { car_assign, nav, user} = this.props;
 
     return (
-      <View style={{padding: 5}}>
-          <Text style={{ marginBottom: 20 }} h6>Task for {this.props.user.name}:</Text>
-          <ScrollView>
+      <View>
+        <Header
+          centerComponent={{ text: toUpper(`Task for ${this.props.user.name}`), style: { color: '#fff' } }}
+        />
+          <ScrollView style={{marginTop: 20}}>
           {
             !isEmpty(car_assign.task_list) 
               ? this._listItem(car_assign.task_list) 
@@ -61,4 +84,4 @@ const styles = {
 
 const mapStateToProps = ({ user, nav, car_assign }) => ({ user, nav, car_assign });
 
-export default connect(mapStateToProps)(CarAvailable)
+export default connect(mapStateToProps, {assignCars})(CarAvailable)

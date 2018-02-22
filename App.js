@@ -34,7 +34,7 @@ export default class App extends Component {
       },
       Home: {
         screen: HomeScreen,
-        navigationOptions: {...navOptionWithHeader('HOME'), headerLeft: null}
+        navigationOptions: { ...navOption, headerLeft: null}
       },
       Ramp: { 
         screen: RampScreen,
@@ -55,8 +55,7 @@ export default class App extends Component {
       Camera: {
         screen: CameraScreen,
         navigationOptions: navOptionWithHeader('CAMERA'),
-      }
-      ,
+      },
       ViewPhoto: {
         screen: ViewPhotoScreen,
         navigationOptions: navOptionWithHeader('VIEW'),
