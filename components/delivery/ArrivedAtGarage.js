@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {View} from 'react-native';
+import {View, Alert} from 'react-native';
 import axios from 'axios';
 import {toUpper} from 'lodash';
 import {Header, Button, Icon, List, ListItem} from 'react-native-elements';
@@ -47,6 +47,17 @@ class ArrivedAtGarage extends Component {
         />
       </View>
     )
+  }
+
+  _confirm() {
+    Alert.alert(
+      'Task Confirmation',
+      'Are you sure you want to proceed to the next task?',
+      [
+        {text: 'Cancel', style: 'cancel'},
+        {text: 'OK', onPress: () => this._updateStatus()},
+      ]
+    );
   }
 
   _updateStatus() {
