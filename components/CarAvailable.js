@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, ScrollView, Alert, RefreshControl } from 'react-native';
 import { Text, List, ListItem, Header } from 'react-native-elements';
 import axios from 'axios';
+import {Notifications} from 'expo';
 import { toUpper, isEmpty, map } from 'lodash';
 import {PARKING_STATUS_UPDATE_URL, CAR_ASSIGN_URL} from '../constants';
 import {assignCars} from '../actions';
@@ -14,6 +15,10 @@ class CarAvailable extends Component
 {
   state = {
     refreshing: false,
+  }
+
+  componentWillMount() {
+    this._notificationSubscription = Notifications.addListener(() => this._fetchCarsAssign());
   }
 
   _selectTask(task) {
