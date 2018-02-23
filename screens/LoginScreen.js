@@ -46,7 +46,6 @@ class LoginScreen extends Component
       username, 
       password,
     }).then(({data}) => {
-      console.log(data);
       this.setState(() => ({ loading: false }));
       if(data.error) {
         Alert.alert(data.msg);

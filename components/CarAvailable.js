@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { View, ScrollView, Alert } from 'react-native';
+import { View, ScrollView, Alert, RefreshControl } from 'react-native';
 import { Text, List, ListItem, Header } from 'react-native-elements';
 import axios from 'axios';
 import { toUpper, isEmpty, map } from 'lodash';
-import {PARKING_STATUS_UPDATE_URL} from '../constants';
+import {PARKING_STATUS_UPDATE_URL, CAR_ASSIGN_URL} from '../constants';
 import {assignCars} from '../actions';
 import { connect } from 'react-redux';
 
@@ -12,6 +12,9 @@ import {
 
 class CarAvailable extends Component 
 {
+  state = {
+    refreshing: false,
+  }
 
   _selectTask(task) {
     Alert.alert(
@@ -22,6 +25,15 @@ class CarAvailable extends Component
         {text: 'OK', onPress: () => this._updateStatus(task)},
       ]
     );
+  }
+
+  _fetchCarsAssign() {
+    const params = { driver: this.props.user.name };
+    this.setState({ refreshing: true});
+    axios.post(CAR_ASSIGN_URL, params).then(({ data }) => {
+      this.props.assignCars(data);
+      this.setState({ refreshing: false });
+    }).catch((error) => { console.error(error); });
   }
 
   _updateStatus(task) {
@@ -57,7 +69,15 @@ class CarAvailable extends Component
         <Header
           centerComponent={{ text: toUpper(`Task for ${this.props.user.name}`), style: { color: '#fff' } }}
         />
-          <ScrollView style={{marginTop: 20}}>
+          <ScrollView 
+            style={{marginTop: 20, paddingBottom: 50}}
+            refreshControl={
+              <RefreshControl
+                refreshing={this.state.refreshing}
+                onRefresh={() => this._fetchCarsAssign()}
+              />
+            }
+          >
           {
             !isEmpty(car_assign.task_list) 
               ? this._listItem(car_assign.task_list) 
