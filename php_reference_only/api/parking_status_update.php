@@ -25,8 +25,11 @@ $is_update_parking_order_no_err=true;
 
 
 if($active == ACTIVE) {
-  if($status_id == ASSIGN_DRIVER) {
+  if($status_id == ASSIGN_DRIVER && $opt == 'Delivery') {
     $update_parking_tracking1 = "UPDATE parking_tracking1 SET status_id = ".VALET_ON_THE_WAY.", vow_date='{$date}', vow_time='{$time}' where trackingid={$tracking_id}";
+    $update_parking_order = "UPDATE parking_order SET active=1 where orderid={opt}";  
+  } elseif($status_id == ASSIGN_DRIVER && $opt == 'Delivery') {
+    $update_parking_tracking1 = "UPDATE parking_tracking1 SET status_id = ".VEHICLE_ON_THE_WAY.", left_garage_date='{$date}', left_garage_time='{$time}' where trackingid={$tracking_id}";
     $update_parking_order = "UPDATE parking_order SET active=1 where orderid={opt}";  
   } elseif($status_id == VALET_ON_THE_WAY) {
     $update_parking_tracking1 = "UPDATE parking_tracking1 SET status_id = ".ARRIVED_AT_THE_GARAGE.", vow_date='{$date}', vow_time='{$time}' where trackingid={$tracking_id}";
@@ -38,7 +41,10 @@ if($active == ACTIVE) {
     $update_parking_tracking1 = "UPDATE parking_tracking1 SET status_id = ".REQUEST_COMPLETED.", left_garage_date='{$date}', left_garage_time='{$time}' where trackingid={$tracking_id}";
     $update_parking_order = "UPDATE parking_order SET active=1 where orderid={$order_id}";  
   } elseif($status_id == REQUEST_COMPLETED) {
-    $update_parking_tracking1 = "UPDATE parking_tracking1 SET status_id = ".TASK_COMPLETED." where trackingid={$tracking_id}";
+    $update_parking_tracking1 = "UPDATE parking_tracking1 SET status_id = ".WAITING_DISPATCHER." where trackingid={$tracking_id}";
+    $update_parking_order = "UPDATE parking_order SET active=1 where orderid={$order_id}";  
+  } elseif($status_id == WAITING_DISPATCHER) {
+    $update_parking_tracking1 = "UPDATE parking_tracking1 SET status_id = ".TASK_COMPLETED.", garage_arrival_date='{$date}', garage_arrival_time='{$time}' where trackingid={$tracking_id}";
     $update_parking_order = "UPDATE parking_order SET active=0 where orderid={$order_id}";  
   }
 

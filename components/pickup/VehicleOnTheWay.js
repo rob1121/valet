@@ -7,6 +7,7 @@ import {Header, Button, Icon, List, ListItem} from 'react-native-elements';
 import Barcode from 'react-native-barcode-builder';
 import {assignCars} from '../../actions';
 import { MAIN_COLOR, PARKING_STATUS_UPDATE_URL } from '../../constants';
+import Confirm from '../Confirm';
 
 class VehicleOnTheWay extends Component {
   state = {
@@ -43,21 +44,13 @@ class VehicleOnTheWay extends Component {
           containerStyle={{ marginTop: 20 }}
           buttonStyle={{backgroundColor: MAIN_COLOR}}
           title='UPDATE STATUS'
-          onPress={() => this._updateStatus()}
+          onPress={() => <Confirm 
+            title='Task Confirmation'
+            subtitle='Are you sure you have completed this task?' 
+            onPress={() => this._updateStatus()} />}
         />
       </View>
     )
-  }
-
-  _confirm() {
-    Alert.alert(
-      'Task Confirmation',
-      'Are you sure you want to proceed to the next task?',
-      [
-        {text: 'Cancel', style: 'cancel'},
-        {text: 'OK', onPress: () => this._updateStatus()},
-      ]
-    );
   }
 
   _updateStatus() {
