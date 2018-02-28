@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import { View, Alert, TextInput, ScrollView} from 'react-native';
+import { Image, View, Alert, TextInput, ScrollView} from 'react-native';
 import axios from 'axios';
 import {toUpper} from 'lodash';
 import { Header, Button, Icon, List, ListItem, Text} from 'react-native-elements';
 import Barcode from 'react-native-barcode-builder';
 import { assignCars, updateActiveCar} from '../actions';
-import { MAIN_COLOR, PARKING_STATUS_UPDATE_URL, WAITING_DISPATCHER } from '../constants';
+import { DEFAULT_IMG, MAIN_COLOR, PARKING_STATUS_UPDATE_URL, WAITING_DISPATCHER, CAMERA_NAV } from '../constants';
 import CarPicker from './CarPicker';
 
 class Steps extends Component 
@@ -17,6 +17,8 @@ class Steps extends Component
 
   render() {
     const {active_task} = this.props.car_assign;
+    const epoch = Math.round((new Date()).getTime() / 1000);
+
     if(active_task.status_id === WAITING_DISPATCHER) {
       return (
         <View style={{ flex: 1 }}>
@@ -46,16 +48,19 @@ class Steps extends Component
         <Barcode value={active_task.ticketno} format="CODE128" />
         <List containerStyle={{marginBottom: 20}}>
           <ListItem
+            hideChevron
             title={active_task.ticketno || '-'}
             subtitle='Ticket No.'
           />
           
           <ListItem
+            hideChevron
             title={active_task.requestor || '-'}
             subtitle='Requestor'
           />
           
           <ListItem
+            hideChevron
             title={active_task.driver}
             subtitle='Driver'
           />
@@ -70,21 +75,41 @@ class Steps extends Component
           
           <Text>Car Plate No. </Text>
           <TextInput
-            multiline={true}
-            numberOfLines={4}
-            onChangeText={(text) => this.props.updateActiveCar({ car_plate_no: text })}
+            enablesReturnKeyAutomatically={true}
+            returnKeyType='next'
+            underlineColorAndroid='#000'
+            style={{padding: 5}}
+            onChangeText={(text) => this.props.updateActiveCar({ car_plate_no: toUpper(text) })}
             value={active_task.car_plate_no} />
 
           <Text>Comment </Text>
           <TextInput
+            enablesReturnKeyAutomatically={true}
+            returnKeyType='next'
             multiline={true}
             numberOfLines={4}
             underlineColorAndroid='transparent'
-            style={{ height: 100, borderColor: 'gray', borderWidth: 1 }}
+            style={{ padding: 5, height: 100, borderColor: 'gray', borderWidth: 1 }}
             onChangeText={(text) => this.props.updateActiveCar({ comment: text })}
             value={active_task.comment} />
 
         </View>
+      <View style={{ flex: 1, margin: 15,
+            justifyContent: 'center',
+            alignItems: 'center'}}>
+        <View
+          style={{
+            overflow: 'hidden',
+          }}>
+          <Image source={{uri: `${active_task.img_path || DEFAULT_IMG}?epoch=epoch`}} style={{width: 150, height: 150}} />
+        </View>
+        <Text>{JSON.stringify(active_task)} </Text>
+        <Button
+          title='CAPTURE'
+          buttonStyle={{width: 150}}
+          onPress={() => this.props.nav.navigate(CAMERA_NAV)}
+        />
+      </View>
         <Button
           loading={this.state.loading}
           containerStyle={{ marginTop: 20 }}
@@ -121,6 +146,6 @@ class Steps extends Component
     });
   }
 }
-const mapStateToProps = ({ car_assign }) => ({ car_assign });
+const mapStateToProps = ({ car_assign, nav }) => ({ car_assign, nav });
 
 export default connect(mapStateToProps, { assignCars, updateActiveCar})(Steps);

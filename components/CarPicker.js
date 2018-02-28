@@ -19,15 +19,15 @@ export default class CarPicker extends Component {
   render() {
     return (
       <Picker
-          selectedValue={this.props.value}
-          onValueChange={(itemValue) => this.props.onValueChange(itemValue)}>
-          <Picker.Item label={'N/A'} value='' />
-          {
-            this.state.cars &&
-            map(this.state.cars, (item, index) => {
-              return <Picker.Item key={index} label={toUpper(`${item.make}|${item.model}`)} value={item.model} />
-            })
-          }
+        selectedValue={this.props.value}
+        onValueChange={(itemValue) => this.props.onValueChange(itemValue)}>
+        <Picker.Item label={'N/A'} value=''/>
+        {
+          this.state.cars &&
+          map(this.state.cars, (item, index) => {
+            return <Picker.Item key={index} label={toUpper(`${item.make}|${item.model}`)} value={item.model} />
+          })
+        }
       </Picker>
     );
   }

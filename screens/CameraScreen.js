@@ -15,13 +15,12 @@ import {
 } from 'react-native';
 import Exponent, { Permissions, Constants, ImagePicker, registerRootComponent } from 'expo';
 import { connect } from 'react-redux';
-import { setActiveScreen, setCarInfo } from '../actions';
-import { RAMP_ADD_CAR_NAV } from '../constants';
+import { setActiveScreen, updateActiveCar } from '../actions';
+import { IMG_API_URL, RAMP_ADD_CAR_NAV, HOME_NAV } from '../constants';
 
 
 class CameraScreen extends React.Component {
   state = {
-    image: null,
     uploading: false,
   };
 
@@ -49,98 +48,17 @@ class CameraScreen extends React.Component {
 
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text
-          style={{
-            fontSize: 20,
-            marginBottom: 20,
-            textAlign: 'center',
-            marginHorizontal: 15,
-          }}>
-          Example: Upload ImagePicker result
-        </Text>
 
         <Button
           onPress={this._pickImage}
           title="Pick an image from camera roll"
         />
 
-        <Button onPress={this._takePhoto} title="Take a photo" />
-
-        {this._maybeRenderImage()}
-        {this._maybeRenderUploadingOverlay()}
-
+        <Button onPress={() => this._takePhoto()} title="Take a photo" />
         <StatusBar barStyle="default" />
       </View>
     );
   }
-
-  _maybeRenderUploadingOverlay = () => {
-    if (this.state.uploading) {
-      return (
-        <View
-          style={[
-            StyleSheet.absoluteFill,
-            {
-              backgroundColor: 'rgba(0,0,0,0.4)',
-              alignItems: 'center',
-              justifyContent: 'center',
-            },
-          ]}>
-          <ActivityIndicator color="#fff" animating size="large" />
-        </View>
-      );
-    }
-  };
-
-  _maybeRenderImage = () => {
-    let { image } = this.state;
-    if (!image) {
-      return;
-    }
-
-    return (
-      <View
-        style={{
-          marginTop: 30,
-          width: 250,
-          borderRadius: 3,
-          elevation: 2,
-          shadowColor: 'rgba(0,0,0,1)',
-          shadowOpacity: 0.2,
-          shadowOffset: { width: 4, height: 4 },
-          shadowRadius: 5,
-        }}>
-        <View
-          style={{
-            borderTopRightRadius: 3,
-            borderTopLeftRadius: 3,
-            overflow: 'hidden',
-          }}>
-          <Image source={{ uri: image }} style={{ width: 250, height: 250 }} />
-        </View>
-
-        <Text
-          onPress={this._copyToClipboard}
-          onLongPress={this._share}
-          style={{ paddingVertical: 10, paddingHorizontal: 10 }}>
-          {image}
-        </Text>
-      </View>
-    );
-  };
-
-  _share = () => {
-    Share.share({
-      message: this.state.image,
-      title: 'Check out this photo',
-      url: this.state.image,
-    });
-  };
-
-  _copyToClipboard = () => {
-    Clipboard.setString(this.state.image);
-    alert('Copied image URL to clipboard');
-  };
 
   _takePhoto = async () => {
     let pickerResult = await ImagePicker.launchCameraAsync({
@@ -170,9 +88,9 @@ class CameraScreen extends React.Component {
         uploadResponse = await uploadImageAsync(pickerResult.uri);
         uploadResult = await uploadResponse.json();
         if (!uploadResult.error) {
-          this.setState({ image: uploadResult.location });
-          this.props.setCarInfo({ image: uploadResult.data.location });
-          this.props.nav.navigate(RAMP_ADD_CAR_NAV);
+          console.log(this.props.user);
+          this.props.updateActiveCar({ car_plate_no: 'qaqo', img_path: uploadResult.data.location });
+          this.props.nav.navigate(HOME_NAV);
         } else {
           alert(uploadResult.msg);
         }
@@ -189,16 +107,13 @@ class CameraScreen extends React.Component {
 }
 
 async function uploadImageAsync(uri) {
-  apiUrl = `http://10.197.80.12/php_reference_only/api/upload.php`
-
-
+  const epoch = Math.round((new Date()).getTime() / 1000);
   let uriParts = uri.split('.');
   let fileType = uriParts[uriParts.length - 1];
-
   let formData = new FormData();
   formData.append('photo', {
     uri,
-    name: `photo.${fileType}`,
+    name: `photo_${epoch}.${fileType}`,
     type: `image/${fileType}`,
   });
 
@@ -211,9 +126,9 @@ async function uploadImageAsync(uri) {
     },
   };
 
-  return fetch(apiUrl, options);
+  return fetch(IMG_API_URL, options);
 }
 
-const mapStateToProps = ({ nav }) => ({ nav });
+const mapStateToProps = ({ nav, user }) => ({ nav, user });
 
-export default connect(mapStateToProps, { setCarInfo, setActiveScreen })(CameraScreen);
+export default connect(mapStateToProps, { updateActiveCar, setActiveScreen })(CameraScreen);
