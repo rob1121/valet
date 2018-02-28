@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, BackHandler } from 'react-native';
 import {connect} from 'react-redux';
 import axios from 'axios';
+import {Notifications} from 'expo';
 import { setActiveScreen, logoutUser, assignCars} from '../actions';
 import {HOME_NAV, CAR_ASSIGN_URL} from '../constants';
 import Footer from '../components/Footer';
@@ -11,6 +12,7 @@ import Steps from '../components/Steps';
 class HomeScreen extends Component 
 {
   componentWillMount() {
+    this._notificationSubscription = Notifications.addListener(() => this._notifListener());
     this.backHandlerListener = BackHandler.addEventListener(
       'hardwareBackPress', 
       () => {
@@ -21,6 +23,13 @@ class HomeScreen extends Component
 
     this._fetchCarsAssign();
     this.props.setActiveScreen(HOME_NAV);
+  }
+
+  _notifListener() {
+    const params = { driver: this.props.user.name };
+    axios.post(CAR_ASSIGN_URL, params).then(({ data }) => {
+      this.props.assignCars(data);
+    }).catch((error) => { console.error(error); });
   }
 
   componentWillUnmount() {

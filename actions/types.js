@@ -4,7 +4,7 @@ export const SET_PASSWORD = 'set_password';
 export const SET_USERNAME = 'set_username';
 
 export const ASSIGN_CARS = 'assign_cars';
-export const SET_FILTERS = 'set_filters';
+export const UPDATE_ACTIVE_CAR = 'update_active_car';
 
 export const SET_SELECTED_LOCATION = 'set_selected_location';
 export const SET_LOCATIONS = 'set_locations';

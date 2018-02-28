@@ -1,12 +1,13 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {View, Alert} from 'react-native';
+import { View, Alert, TextInput, ScrollView} from 'react-native';
 import axios from 'axios';
 import {toUpper} from 'lodash';
-import {Header, Button, Icon, List, ListItem, Text} from 'react-native-elements';
+import { Header, Button, Icon, List, ListItem, Text} from 'react-native-elements';
 import Barcode from 'react-native-barcode-builder';
-import {assignCars} from '../actions';
+import { assignCars, updateActiveCar} from '../actions';
 import { MAIN_COLOR, PARKING_STATUS_UPDATE_URL, WAITING_DISPATCHER } from '../constants';
+import CarPicker from './CarPicker';
 
 class Steps extends Component 
 {
@@ -22,7 +23,6 @@ class Steps extends Component
           <Header
             centerComponent={{ text: toUpper(active_task.status_title), style: { color: '#fff' } }}
           />
-          
           <Barcode value={active_task.ticketno} format="CODE128" />
 
           <Text style={{ textAlign: 'center' }} h5>{active_task.ticketno}</Text>
@@ -36,6 +36,10 @@ class Steps extends Component
 
     return (
       <View style={{ flex: 1 }}>
+
+        <ScrollView
+          style={{ marginTop: 20}}
+        >
         <Header
           centerComponent={{ text: toUpper(active_task.status_title), style: { color: '#fff' } }}
         />
@@ -56,13 +60,40 @@ class Steps extends Component
             subtitle='Driver'
           />
         </List>
+
+        <View style={{ margin: 15 }}>
+          <Text>Car Make/Model. </Text>
+          <CarPicker 
+            value={active_task.car_model} 
+            onValueChange={(val) => this.props.updateActiveCar({car_model: val})} 
+          />
+          
+          <Text>Car Plate No. </Text>
+          <TextInput
+            multiline={true}
+            numberOfLines={4}
+            onChangeText={(text) => this.props.updateActiveCar({ car_plate_no: text })}
+            value={active_task.car_plate_no} />
+
+          <Text>Comment </Text>
+          <TextInput
+            multiline={true}
+            numberOfLines={4}
+            underlineColorAndroid='transparent'
+            style={{ height: 100, borderColor: 'gray', borderWidth: 1 }}
+            onChangeText={(text) => this.props.updateActiveCar({ comment: text })}
+            value={active_task.comment} />
+
+        </View>
         <Button
           loading={this.state.loading}
           containerStyle={{ marginTop: 20 }}
           buttonStyle={{backgroundColor: MAIN_COLOR}}
           title='UPDATE STATUS'
           onPress={() => this._confirm()}
-        />
+          />
+        <View style={{ height: 200}}  />
+        </ScrollView>
       </View>
     );
   }
@@ -92,4 +123,4 @@ class Steps extends Component
 }
 const mapStateToProps = ({ car_assign }) => ({ car_assign });
 
-export default connect(mapStateToProps, {assignCars})(Steps);
+export default connect(mapStateToProps, { assignCars, updateActiveCar})(Steps);

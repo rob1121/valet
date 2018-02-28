@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { View, ScrollView, Alert, RefreshControl } from 'react-native';
 import { Text, List, ListItem, Header } from 'react-native-elements';
 import axios from 'axios';
-import {Notifications} from 'expo';
 import { toUpper, isEmpty, map } from 'lodash';
 import {PARKING_STATUS_UPDATE_URL, CAR_ASSIGN_URL} from '../constants';
 import {assignCars} from '../actions';
@@ -15,10 +14,6 @@ class CarAvailable extends Component
 {
   state = {
     refreshing: false,
-  }
-
-  componentWillMount() {
-    this._notificationSubscription = Notifications.addListener(() => this._fetchCarsAssign());
   }
 
   _selectTask(task) {
@@ -70,12 +65,12 @@ class CarAvailable extends Component
     const { car_assign, nav, user} = this.props;
 
     return (
-      <View>
+      <View style={{flex: 1}}>
         <Header
           centerComponent={{ text: toUpper(`Task for ${this.props.user.name}`), style: { color: '#fff' } }}
         />
           <ScrollView 
-            style={{marginTop: 20, paddingBottom: 50}}
+            style={{marginTop: 20, marginBottom: 50}}
             refreshControl={
               <RefreshControl
                 refreshing={this.state.refreshing}

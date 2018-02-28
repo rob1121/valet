@@ -15,6 +15,7 @@ export const CAR_ASSIGN_FILTER_URL = `${ROOT_URL}/api/car_assignment_filter.php`
 export const PARKING_STATUS_UPDATE_URL = `${ROOT_URL}/api/parking_status_update.php`;
 export const LOCATION_FILTER_URL = `${ROOT_URL}/api/location_filter.php`;
 export const ADD_CAR_URL = `${ROOT_URL}/api/ramp_add_car.php`;
+export const CAR_LIST_URL = `${ROOT_URL}/api/car_list.php`;
 
 export const ACTIVE_SCREEN_COLOR = '#222';
 export const NOT_ACTIVE_SCREEN_COLOR = '#757575';
