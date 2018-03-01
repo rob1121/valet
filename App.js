@@ -10,7 +10,6 @@ import LoginScreen from './screens/LoginScreen';
 import RampScreen from './screens/RampScreen';
 import RampAddCarScreen from './screens/RampAddCarScreen';
 import BarCodeScreen from './screens/BarCodeScreen';
-import CameraScreen from './screens/CameraScreen';
 import ViewPhotoScreen from './screens/ViewPhotoScreen';
 
 export default class App extends Component {
@@ -51,10 +50,6 @@ export default class App extends Component {
       BarCode: {
         screen: BarCodeScreen,
         navigationOptions: navOptionWithHeader('BAR CODE SCANNER'),
-      },
-      Camera: {
-        screen: CameraScreen,
-        navigationOptions: navOptionWithHeader('CAMERA'),
       },
       ViewPhoto: {
         screen: ViewPhotoScreen,

@@ -8,16 +8,16 @@ import Barcode from 'react-native-barcode-builder';
 import { assignCars, updateActiveCar} from '../actions';
 import { DEFAULT_IMG, MAIN_COLOR, PARKING_STATUS_UPDATE_URL, WAITING_DISPATCHER, CAMERA_NAV } from '../constants';
 import CarPicker from './CarPicker';
+import CameraAction from '../components/Camera';
 
 class Steps extends Component 
 {
   state = {
-    loading: false
+    loading: false,
   }
 
   render() {
     const {active_task} = this.props.car_assign;
-    const epoch = Math.round((new Date()).getTime() / 1000);
 
     if(active_task.status_id === WAITING_DISPATCHER) {
       return (
@@ -94,25 +94,9 @@ class Steps extends Component
             value={active_task.comment} />
 
         </View>
-      <View style={{ flex: 1, margin: 15,
-            justifyContent: 'center',
-            alignItems: 'center'}}>
-        <View
-          style={{
-            overflow: 'hidden',
-          }}>
-          <Image source={{uri: `${active_task.img_path || DEFAULT_IMG}?epoch=epoch`}} style={{width: 150, height: 150}} />
-        </View>
-        <Text>{JSON.stringify(active_task)} </Text>
-        <Button
-          title='CAPTURE'
-          buttonStyle={{width: 150}}
-          onPress={() => this.props.nav.navigate(CAMERA_NAV)}
-        />
-      </View>
+        <CameraAction />
         <Button
           loading={this.state.loading}
-          containerStyle={{ marginTop: 20 }}
           buttonStyle={{backgroundColor: MAIN_COLOR}}
           title='UPDATE STATUS'
           onPress={() => this._confirm()}
@@ -138,8 +122,10 @@ class Steps extends Component
     this.setState(() => ({loading: true}));
     axios.post(PARKING_STATUS_UPDATE_URL, this.props.car_assign.active_task)
     .then(({data}) => {
+      
+          console.log(data);
       this.setState(() => ({loading: false}));
-      this.props.assignCars(data);
+      //this.props.assignCars(data);
     }).catch((error) => {
       console.log(error);
       this.setState(() => ({loading: false}));

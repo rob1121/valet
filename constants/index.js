@@ -16,8 +16,9 @@ export const PARKING_STATUS_UPDATE_URL = `${ROOT_URL}/api/parking_status_update.
 export const LOCATION_FILTER_URL = `${ROOT_URL}/api/location_filter.php`;
 export const ADD_CAR_URL = `${ROOT_URL}/api/ramp_add_car.php`;
 export const CAR_LIST_URL = `${ROOT_URL}/api/car_list.php`;
-export const DEFAULT_IMG = `${ROOT_URL}/upload/default.png`;
+export const DEFAULT_IMG = `upload/default.png`;
 export const IMG_API_URL = `${ROOT_URL}/api/upload.php`;
+export const REMOVE_IMG_URL = `${ROOT_URL}/api/remove_image.php`;
 
 export const ACTIVE_SCREEN_COLOR = '#222';
 export const NOT_ACTIVE_SCREEN_COLOR = '#757575';
