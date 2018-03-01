@@ -120,18 +120,19 @@ class Steps extends Component
 
   _updateStatus() {
     this.setState(() => ({loading: true}));
-    axios.post(PARKING_STATUS_UPDATE_URL, this.props.car_assign.active_task)
+    axios.post(PARKING_STATUS_UPDATE_URL, {
+     task: this.props.car_assign.active_task,
+     user: this.props.user,
+    })
     .then(({data}) => {
-      
-          console.log(data);
       this.setState(() => ({loading: false}));
-      //this.props.assignCars(data);
+      this.props.assignCars(data);
     }).catch((error) => {
       console.log(error);
       this.setState(() => ({loading: false}));
     });
   }
 }
-const mapStateToProps = ({ car_assign, nav }) => ({ car_assign, nav });
+const mapStateToProps = ({ user, car_assign, nav }) => ({ user, car_assign, nav });
 
 export default connect(mapStateToProps, { assignCars, updateActiveCar})(Steps);

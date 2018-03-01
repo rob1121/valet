@@ -14,7 +14,7 @@ import axios from 'axios';
 import Exponent, { ImagePicker, Permissions } from 'expo';
 import { connect } from 'react-redux';
 import { setActiveScreen, updateActiveCar } from '../actions';
-import { DEFAULT_IMG, IMG_API_URL, REMOVE_IMG_URL } from '../constants';
+import { DEFAULT_IMG, IMG_API_URL, REMOVE_IMG_URL, ROOT_URL } from '../constants';
 
 
 class CameraScreen extends React.Component {
@@ -131,7 +131,6 @@ class CameraScreen extends React.Component {
   _imgRemove() {
     axios.post(REMOVE_IMG_URL, this.props.car_assign.active_task)
       .then(({data}) => {
-        console.log(data);
         this.props.updateActiveCar({ img_path: null })
       }).catch((error) => console.log(error));
   }

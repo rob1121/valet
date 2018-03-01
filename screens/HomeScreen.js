@@ -26,8 +26,7 @@ class HomeScreen extends Component
   }
 
   _notifListener() {
-    const params = { driver: this.props.user.name };
-    axios.post(CAR_ASSIGN_URL, params).then(({ data }) => {
+    axios.post(CAR_ASSIGN_URL, this.props.user).then(({ data }) => {
       this.props.assignCars(data);
     }).catch((error) => { console.error(error); });
   }
@@ -37,8 +36,7 @@ class HomeScreen extends Component
   }
 
   _fetchCarsAssign() {
-    const params = { driver: this.props.user.name };
-    axios.post(CAR_ASSIGN_URL, params).then(({data}) => {
+    axios.post(CAR_ASSIGN_URL, this.props.user).then(({data}) => {
         this.props.assignCars(data);
     }).catch((error) => { console.error(error); });
   }

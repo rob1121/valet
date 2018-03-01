@@ -7,10 +7,7 @@ import store from './store/index';
 import {MAIN_COLOR, RAMP_ADD_CAR_NAV} from './constants';
 import HomeScreen from './screens/HomeScreen';
 import LoginScreen from './screens/LoginScreen';
-import RampScreen from './screens/RampScreen';
 import RampAddCarScreen from './screens/RampAddCarScreen';
-import BarCodeScreen from './screens/BarCodeScreen';
-import ViewPhotoScreen from './screens/ViewPhotoScreen';
 
 export default class App extends Component {
 
@@ -35,26 +32,10 @@ export default class App extends Component {
         screen: HomeScreen,
         navigationOptions: { ...navOption, headerLeft: null}
       },
-      Ramp: { 
-        screen: RampScreen,
-        navigationOptions: ({navigation}) => ({
-          ...navOptionWithHeader('RAMP'), 
-          headerLeft: null,
-          headerRight: <Icon name='add' color='#fff' iconStyle={{marginRight: 15}} onPress={() => navigation.navigate(RAMP_ADD_CAR_NAV)}/>
-        }),
-      },
       RampAddCar: {
         screen: RampAddCarScreen,
-        navigationOptions: navOptionWithHeader('VALET INSERT'),
+        navigationOptions: { ...navOption, headerLeft: null}
       },
-      BarCode: {
-        screen: BarCodeScreen,
-        navigationOptions: navOptionWithHeader('BAR CODE SCANNER'),
-      },
-      ViewPhoto: {
-        screen: ViewPhotoScreen,
-        navigationOptions: navOptionWithHeader('VIEW'),
-      }
     });
   
     return (

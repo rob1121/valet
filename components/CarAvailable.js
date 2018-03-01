@@ -28,9 +28,8 @@ class CarAvailable extends Component
   }
 
   _fetchCarsAssign() {
-    const params = { driver: this.props.user.name };
     this.setState({ refreshing: true});
-    axios.post(CAR_ASSIGN_URL, params).then(({ data }) => {
+    axios.post(CAR_ASSIGN_URL, this.props.user).then(({ data }) => {
       this.props.assignCars(data);
       this.setState({ refreshing: false });
     }).catch((error) => { console.error(error); });

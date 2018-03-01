@@ -11,7 +11,6 @@ export const ROOT_URL = 'http://99.122.157.77/beach_front_parking';
 export const REGISTER_TOKEN_URL = `${ROOT_URL}/api/register_token.php`;
 export const LOGIN_URL = `${ROOT_URL}/api/login.php`;
 export const CAR_ASSIGN_URL = `${ROOT_URL}/api/car_assignment.php`;
-export const CAR_ASSIGN_FILTER_URL = `${ROOT_URL}/api/car_assignment_filter.php`;
 export const PARKING_STATUS_UPDATE_URL = `${ROOT_URL}/api/parking_status_update.php`;
 export const LOCATION_FILTER_URL = `${ROOT_URL}/api/location_filter.php`;
 export const ADD_CAR_URL = `${ROOT_URL}/api/ramp_add_car.php`;
@@ -24,13 +23,9 @@ export const ACTIVE_SCREEN_COLOR = '#222';
 export const NOT_ACTIVE_SCREEN_COLOR = '#757575';
 export const DISABLE_SCREEN_COLOR = '#cccccc';
 
-export const RAMP_NAV = 'Ramp';
 export const HOME_NAV = 'Home';
 export const LOGIN_NAV = 'Login';
 export const RAMP_ADD_CAR_NAV = 'RampAddCar';
-export const BAR_CODE_NAV = 'BarCode';
-export const CAMERA_NAV = 'Camera';
-export const VIEW_PHOTO_NAV = 'ViewPhoto';
 
 
 export const VALET_ON_THE_WAY = 2;

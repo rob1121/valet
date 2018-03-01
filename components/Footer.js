@@ -9,7 +9,7 @@ import {
   DISABLE_SCREEN_COLOR,
   HOME_NAV,
   LOGIN_NAV,
-  RAMP_NAV,
+  RAMP_ADD_CAR_NAV,
 } from '../constants';
 
 class Footer extends Component {
@@ -51,13 +51,12 @@ class Footer extends Component {
           color={this._screenMenuColor(HOME_NAV)}
           onPress={this._screenMenuOnPress(HOME_NAV)}
         />
-
-        <Icon 
+        {this.props.user.type === 'ramp' && <Icon 
           name='map-marker-radius' 
           type='material-community' 
-          color={this.props.user.type === 'ramp' ? this._screenMenuColor(RAMP_NAV) : DISABLE_SCREEN_COLOR}
-          onPress={this.props.user.type === 'ramp' ? this._screenMenuOnPress(RAMP_NAV) : null}
-        />
+          color={this._screenMenuColor(RAMP_ADD_CAR_NAV)}
+          onPress={this._screenMenuOnPress(RAMP_ADD_CAR_NAV)}
+        />}
 
         <Icon 
           name='sign-out' 

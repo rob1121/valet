@@ -1,41 +1,19 @@
 import React, {Component} from 'react';
-import { Alert, Picker, View, ScrollView, TextInput, Keyboard, BackHandler, Image, TouchableOpacity} from 'react-native';
-import KeyboardSpacer from 'react-native-keyboard-spacer';
-import {Button, FormLabel, FormInput, Icon, Divider}  from 'react-native-elements';
+import { Alert, Picker, View, ScrollView, TextInput, BackHandler} from 'react-native';
+import {Header, Button, FormLabel, FormInput, Icon, Divider}  from 'react-native-elements';
 import {connect} from 'react-redux';
 import axios from 'axios';
-import { MAIN_COLOR, CAMERA_NAV, VIEW_PHOTO_NAV, DEFAULT_IMG, RAMP_ADD_CAR_NAV, BAR_CODE_NAV, WIN_WIDTH, RAMP_NAV, ADD_CAR_URL} from '../constants';
+import { MAIN_COLOR, WIN_WIDTH, RAMP_ADD_CAR_NAV, ADD_CAR_URL, HOME_NAV} from '../constants';
 import {setActiveScreen, setCarInfo} from '../actions';
-import RampLocation from '../components/RampLocation';
+import Hotel from '../components/Hotel';
+import Transient from '../components/Transient';
+import Monthly from '../components/Monthly';
+import Footer from '../components/Footer';
 
 class RampAddCar extends Component {
   state = {
-    loading: false
+    loading: false,
   }
-
-  static navigationOptions = ({ navigation }) => {
-    let retVal = {
-      title: 'VALET INSERT',
-      headerTintColor: 'white',
-      headerStyle: {backgroundColor: MAIN_COLOR}
-    };
-
-    if(navigation.state.params != undefined) {
-      if(navigation.state.params.isKeyboardActive) {
-        retVal = {
-          header: null
-        };
-      } else {
-        retVal = {
-          title: 'VALET INSERT',
-          headerTintColor: 'white',
-          headerStyle: { backgroundColor: MAIN_COLOR }
-        };
-      }
-    
-      return retVal;
-    }
-};
 
   componentDidMount() {
     this.props.setCarInfo({
@@ -45,23 +23,24 @@ class RampAddCar extends Component {
   }
 
   componentWillMount () {
-    this.props.navigation.setParams({isKeyboardActive: false});
-    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => this._keyboardDidShow());
-    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => this._keyboardDidHide());
     this.backHandlerListener = BackHandler.addEventListener(
       'hardwareBackPress', 
       () => {
-        this.props.setActiveScreen(RAMP_NAV);
-        this.props.nav.navigate(RAMP_NAV);
+        if(this.props.nav.active_screen != HOME_NAV) {
+          this.props.setActiveScreen(HOME_NAV);
+          this.props.nav.navigate(HOME_NAV);
 
-        return true;
+          return true;
+        }
+
+        return false;
       }
     );
+
+    this.props.setActiveScreen(RAMP_ADD_CAR_NAV);
   }
 
   componentWillUnmount () {
-    this.keyboardDidShowListener.remove();
-    this.keyboardDidHideListener.remove();
     this.backHandlerListener.remove();
   }
 
@@ -72,9 +51,10 @@ class RampAddCar extends Component {
     return (
       <View style={{flex: 1}}>
         <ScrollView>
-          <View style={{margin: 15}}>
-            <RampLocation onChange={(val) => this.props.setCarInfo({name: val})}/>
-          </View>
+          
+        <Header
+            centerComponent={{ text: 'RAMP GUY', style: { color: '#fff' } }}
+          />
 
           <FormLabel>CAR CATEGORY</FormLabel>
           <Picker
@@ -86,42 +66,13 @@ class RampAddCar extends Component {
             <Picker.Item label="MONTHLY" value="monthly" />
           </Picker>
 
-          {car.car_category === 'transient' && this._inputContactNumber()}
-          {car.car_category !== 'monthly' && this._ticketScanner()}
+          {car.car_category === 'hotel' && <Hotel />}
+          {car.car_category === 'transient' && <Transient />}
+          {car.car_category !== 'monthly' && <Monthly />}
 
           <FormLabel>NAME</FormLabel>
           {this._inputTypeBaseOnCagetory(car.car_category)}
 
-          <FormLabel>OPTION</FormLabel>
-          <Picker
-            style={{marginLeft: 10}}
-            selectedValue={car.opt}
-            onValueChange={(val) => setCarInfo({opt: val})}>
-            <Picker.Item label="DELIVERY" value="delivery" />
-            <Picker.Item label="PICKUP" value="pickup" />
-          </Picker>
-
-          <Divider />
-
-          <FormLabel>CAR PLATE NO</FormLabel>
-          <FormInput onChangeText={(val) => setCarInfo({ platno: val })} value={car.platno} />
-
-          <FormLabel>CAR MAKE</FormLabel>
-          <FormInput onChangeText={(val) => setCarInfo({ make: val })} value={car.make} />
-
-          <FormLabel>CAR MODEL</FormLabel>
-          <FormInput onChangeText={(val) => setCarInfo({ model: val })} value={car.model} />
-
-          <FormLabel>CAR MODEL</FormLabel>
-          <FormInput onChangeText={(val) => setCarInfo({ model: val })} value={car.model} />
-
-          <FormLabel>CAR MODEL</FormLabel>
-          <FormInput onChangeText={(val) => setCarInfo({ model: val })} value={car.model} />
-
-          <FormLabel>CAR MODEL</FormLabel>
-          <FormInput onChangeText={(val) => setCarInfo({ model: val })} value={car.model} />
-
-          {this._maybeRenderImage()}
           <View style={{ marginBottom: 200, marginTop: 20 }}>
             <Button
               loading={this.state.loading}
@@ -133,6 +84,7 @@ class RampAddCar extends Component {
             
           </View>
         </ScrollView>
+        <Footer />
       </View>
     );
   }
@@ -142,14 +94,6 @@ class RampAddCar extends Component {
 
     if(category === 'transient')
       this.props.setCarInfo({name: this.props.user.name});
-  }
-  
-  _keyboardDidShow () {
-    this.props.navigation.setParams({isKeyboardActive: true});
-  }
-
-  _keyboardDidHide () {
-    this.props.navigation.setParams({isKeyboardActive: false});
   }
 
   _inputTypeBaseOnCagetory(category) {
@@ -183,74 +127,12 @@ class RampAddCar extends Component {
         return;
       }
 
-      this.props.navigation.navigate(RAMP_NAV);
+      this.props.navigation.navigate(HOME_NAV);
     }).catch((error) => {
       this.setState(() => ({ loading: false }));
       console.log(error);
     });
   }
-
-  _ticketScanner() {
-    return (
-      <View>
-        <FormLabel>
-          TICKET NO.
-        </FormLabel>
-
-        <View style={{ flexDirection: 'row', width: WIN_WIDTH }}>
-          <View style={{ width: WIN_WIDTH*0.8 }}>
-            <FormInput onChangeText={(val) => this.props.setCarInfo({ticketno: val})} value={this.props.car.ticketno}/>
-          </View>
-
-          <View style={{ width: WIN_WIDTH * 0.2 }}>
-          <Icon
-            iconStyle={{marginTop: 10 }}
-            name='barcode-scan'
-            type='material-community'
-            onPress={() => this.props.nav.navigate(BAR_CODE_NAV)}
-            />
-          </View>
-        </View>
-      </View>
-    )
-  }
-
-  _inputContactNumber() {
-    return (
-      <View>
-        <FormLabel>CONTACT NUMBER</FormLabel>
-        <FormInput onChangeText={(val) => this.props.setCarInfo({ customercontactno: val })} value={this.props.car.customercontactno} />
-      </View>
-    );
-  }
-
-  _maybeRenderImage = () => {
-    let { image } = this.props.car;
-    const epoch = Math.round((new Date()).getTime() / 1000);
-    
-    if (!image) {
-      return;
-    }
-    
-    return (
-      <TouchableOpacity onPress={() => this._imgPickerOption()} style={{ margin: 15, width: 250, height: 250, borderWidth: 1, borderColor: 'rgba(0,0,0,0.2)', borderRadius: 5 }} >
-        <Image source={{ uri: `${image}?epoch=${epoch}` }} style={{ width: 250, height: 250 }}  />
-      </TouchableOpacity>
-    );
-  };
-
-  _imgPickerOption() {
-    Alert.alert(
-      'Upload Image',
-      'Pick action',
-      [
-        { text: 'Zoom', onPress: () => this.props.nav.navigate(VIEW_PHOTO_NAV) },
-        { text: 'Capture', onPress: () => this.props.nav.navigate(CAMERA_NAV) },
-        { text: 'Remove', onPress: () => console.log('Ask me later pressed') },
-      ],
-      { cancelable: false }
-    )
-  };
 }
 
 const styles = {

@@ -26,15 +26,16 @@ class LocationFilter extends Component
 
   render() {
     const { location_filter} = this.props;
-    const { selected_location, locations } = location_filter;
+    const { locations } = location_filter;
 
     return (
       <View>
           <Text h6>Location:</Text>
           <Picker 
             onValueChange={(val) => this.props.onChange(val)}
-            selectedValue={selected_location}
+            selectedValue={this.props.value}
           >
+            <Picker.Item key={idx} label='' value='' />
             {
               map(locations, (filter, idx) => {
                 return <Picker.Item key={idx} label={filter.label} value={filter.value} />

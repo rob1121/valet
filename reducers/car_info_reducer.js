@@ -3,15 +3,14 @@ import {
   UPDATE_CAR_VALUE,
 } from '../actions/types';
 
-
-import {
-  DEFAULT_IMG
-} from '../constants';
-
 const INITIAL_STATE = {
   //order
   uid: '',
   car_category: 'transient',
+  folio_number: '',
+  guess_name: '',
+  room_number:'',
+  checkout_date: '',
   name: '',
   delidate: '',
   opt: '',
@@ -19,8 +18,9 @@ const INITIAL_STATE = {
   platno: '',
   make: '',
   model: '',
+  comment: '',
   customercontactno: '',
-  image: DEFAULT_IMG,
+  image: '',
 };
 
 export default (state = INITIAL_STATE, action) => {
