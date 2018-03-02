@@ -35,7 +35,7 @@ class LocationFilter extends Component
             onValueChange={(val) => this.props.onChange(val)}
             selectedValue={this.props.value}
           >
-            <Picker.Item key={idx} label='' value='' />
+            <Picker.Item label='' value='' />
             {
               map(locations, (filter, idx) => {
                 return <Picker.Item key={idx} label={filter.label} value={filter.value} />

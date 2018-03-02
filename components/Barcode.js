@@ -1,30 +1,21 @@
 import React from 'react';
-import { Text, View } from 'react-native';
-import { BarCodeScanner, Permissions } from 'expo';
+import { Text, View, Modal, StyleSheet } from 'react-native';
+import { BarCodeScanner } from 'expo';
 import {connect} from 'react-redux';
-import {FormInput, FormLabel} from 'react-native-elements';
-import {setCarInfo, setActiveScreen} from '../actions';
-import {RAMP_ADD_CAR_NAV} from '../constants';
+import {Icon, FormInput, FormLabel} from 'react-native-elements';
+import {setCarInfo} from '../actions';
+import { WIN_WIDTH} from '../constants';
 
 class Barcode extends React.Component {
   state = {
-    hasCameraPermission: null,
     showBarcode: false,
   }
 
   render() {
-    const { hasCameraPermission } = this.state;
-
-    if (hasCameraPermission === null) {
-      return <Text style={{color:'red'}}>Requesting for camera permission</Text>;
-    } else if (hasCameraPermission === false) {
-      return <Text style={{color:'red'}}>No access to camera</Text>;
-    } else {
-      return (
-        
+    return (    
       <View>
         <FormLabel>
-          TICKET NO.
+          TICKET NO.{this.state.showBarcode}
         </FormLabel>
 
         <View style={{ flexDirection: 'row', width: WIN_WIDTH }}>
@@ -41,21 +32,29 @@ class Barcode extends React.Component {
             />
           </View>
 
-          {this.state.showBarcode && <BarCodeScanner
-            onBarCodeRead={this._handleBarCodeRead}
-          />}
+          {this.state.showBarcode && <Modal
+            animationType="slide"
+            transparent={false}
+            visible={this.state.viewImg}
+            onRequestClose={() => this.setState({...this.state, showBarcode: false})}>
+          <View style={{flex: 1}}>
+            <BarCodeScanner
+              onBarCodeRead={this._handleBarCodeRead}
+              style={StyleSheet.absoluteFill}
+            />
+          </View>
+        </Modal>}
         </View>
       </View>
       );
-    }
   }
 
   _handleBarCodeRead = ({ type, data }) => {
     this.props.setCarInfo({ticketno: data});
-    this.setState(() => ({...this.state, showBarcode: val}));
+    this.setState(() => ({...this.state, showBarcode: false}));
   }
 }
 
 const mapStateToProps = ({ car }) => ({ car });
 
-export default connect(mapStateToProps, {setActiveScreen, setCarInfo})(Barcode)
+export default connect(mapStateToProps, {setCarInfo})(Barcode)

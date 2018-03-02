@@ -1,14 +1,17 @@
 import React, {Component} from 'react';
 import { Alert, Picker, View, ScrollView, TextInput, BackHandler} from 'react-native';
-import {Header, Button, FormLabel, FormInput, Icon, Divider}  from 'react-native-elements';
+import {Header, Button, FormLabel, FormInput, Text}  from 'react-native-elements';
 import {connect} from 'react-redux';
 import axios from 'axios';
 import { MAIN_COLOR, WIN_WIDTH, RAMP_ADD_CAR_NAV, ADD_CAR_URL, HOME_NAV} from '../constants';
-import {setActiveScreen, setCarInfo} from '../actions';
+import {resetCarInfo, setActiveScreen, setCarInfo} from '../actions';
 import Hotel from '../components/Hotel';
 import Transient from '../components/Transient';
 import Monthly from '../components/Monthly';
+import Barcode from '../components/Barcode';
 import Footer from '../components/Footer';
+import RampLocation from '../components/RampLocation';
+import CarPicker from '../components/CarPicker';
 
 class RampAddCar extends Component {
   state = {
@@ -46,19 +49,22 @@ class RampAddCar extends Component {
 
   render() {
     const {setCarInfo, user, car, nav} = this.props;
-    const {MainContainer} = styles;
 
     return (
       <View style={{flex: 1}}>
         <ScrollView>
           
         <Header
-            centerComponent={{ text: 'RAMP GUY', style: { color: '#fff' } }}
-          />
+          centerComponent={{ text: 'RAMP GUY', style: { color: '#fff' } }}
+        />
+
+          <View style={{margin: 15}}>
+            <RampLocation value={this.props.car.location} onChange={(val) => this.props.setCarInfo({location: val})}/>
+          </View>
 
           <FormLabel>CAR CATEGORY</FormLabel>
           <Picker
-            style={{marginLeft: 10}}
+            style={{margin: 15}}
             selectedValue={car.car_category}
             onValueChange={(val) => this._onCarCatgoryChange(val)}>
             <Picker.Item label="TRANSIENT" value="transient" />
@@ -66,12 +72,39 @@ class RampAddCar extends Component {
             <Picker.Item label="MONTHLY" value="monthly" />
           </Picker>
 
+          <FormLabel>OPTION</FormLabel>
+          <Picker
+            style={{ margin: 15 }}
+            selectedValue={car.opt}
+            onValueChange={(val) => setCarInfo({ opt: val })}>
+            <Picker.Item label="DELIVERY" value="delivery" />
+            <Picker.Item label="PICKUP" value="pickup" />
+          </Picker>
+
           {car.car_category === 'hotel' && <Hotel />}
           {car.car_category === 'transient' && <Transient />}
-          {car.car_category !== 'monthly' && <Monthly />}
+          {car.car_category === 'monthly' && <Monthly />}
 
-          <FormLabel>NAME</FormLabel>
-          {this._inputTypeBaseOnCagetory(car.car_category)}
+          <Barcode />
+
+          <FormLabel>CAR PLATE NO</FormLabel>
+          <FormInput onChangeText={(val) => setCarInfo({ plateno: val })} value={car.plateno} />
+
+          <FormLabel>CAR MAKE&MODEL</FormLabel>
+          <View style={{margin: 15}}>
+            <CarPicker value={car.model} onValueChange={(val) => setCarInfo({model: val})} />
+          </View>
+
+          <FormLabel>COMMENT </FormLabel>
+          <TextInput
+            enablesReturnKeyAutomatically={true}
+            returnKeyType='next'
+            multiline={true}
+            numberOfLines={4}
+            underlineColorAndroid='transparent'
+            style={{ margin: 15, padding: 5, height: 100, borderColor: 'gray', borderWidth: 1 }}
+            onChangeText={(text) => setCarInfo({ comment: text })}
+            value={car.comment} />
 
           <View style={{ marginBottom: 200, marginTop: 20 }}>
             <Button
@@ -96,37 +129,16 @@ class RampAddCar extends Component {
       this.props.setCarInfo({name: this.props.user.name});
   }
 
-  _inputTypeBaseOnCagetory(category) {
-    const { car, setCarInfo } = this.props;
-    let fInputField = '';
-
-    if (car.car_category === 'monthly') {
-      fInputField = (<FormInput onChangeText={(val) => setCarInfo({ name: val })} value={car.name} />);
-    } else if (car.car_category === 'transient') {
-      fInputField = (<FormInput onChangeText={(val) => setCarInfo({ name: user.name })} value={car.name} />);
-    } else if (car.car_category === 'hotel') {
-      fInputField = (<Picker
-        style={{ marginLeft: 10 }}
-        selectedValue={car.name}
-        onValueChange={(val) => setCarInfo({ name: val })}>
-        <Picker.Item label="hotel1" value="hotel1" />
-        <Picker.Item label="hotel2" value="hotel2" />
-        <Picker.Item label="hotel3" value="hotel3" />
-      </Picker>);
-    }
-
-    return fInputField;
-  }
-
   _save() {
     this.setState(() => ({loading: true}));
     axios.post(ADD_CAR_URL, this.props.car).then(({data}) => {
       this.setState(() => ({ loading: false }));
       if(data.error) {
-        Alert.alert(data.msg);
+        Alert.alert(data.msg, JSON.stringify(data.data));
         return;
       }
 
+      this.props.resetCarInfo();
       this.props.navigation.navigate(HOME_NAV);
     }).catch((error) => {
       this.setState(() => ({ loading: false }));
@@ -135,14 +147,6 @@ class RampAddCar extends Component {
   }
 }
 
-const styles = {
-  MainContainer: {
-    justifyContent: 'center',
-    flex:1,
-    paddingTop: WIN_WIDTH / 2,
-  },
-};
-
 const mapStateToProps = ({ car, user, nav }) => ({ car, user, nav });
 
-export default connect(mapStateToProps, { setCarInfo, setActiveScreen })(RampAddCar);
+export default connect(mapStateToProps, { resetCarInfo, setCarInfo, setActiveScreen })(RampAddCar);

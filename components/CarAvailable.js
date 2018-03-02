@@ -2,18 +2,17 @@ import React, { Component } from 'react';
 import { View, ScrollView, Alert, RefreshControl } from 'react-native';
 import { Text, List, ListItem, Header } from 'react-native-elements';
 import axios from 'axios';
-import { toUpper, isEmpty, map } from 'lodash';
+import { filter, toUpper, isEmpty, map } from 'lodash';
 import {PARKING_STATUS_UPDATE_URL, CAR_ASSIGN_URL} from '../constants';
 import {assignCars} from '../actions';
 import { connect } from 'react-redux';
-
-import { 
-} from '../constants';
+import RampLocation from '../components/RampLocation';
 
 class CarAvailable extends Component 
 {
   state = {
     refreshing: false,
+    location: '',
   }
 
   _selectTask(task) {
@@ -36,7 +35,9 @@ class CarAvailable extends Component
   }
 
   _updateStatus(task) {
-    axios.post(PARKING_STATUS_UPDATE_URL, task).then(({data}) => {
+    const {user} = this.props;
+
+    axios.post(PARKING_STATUS_UPDATE_URL, {task, user}).then(({data}) => {
       this.props.assignCars(data);
     }).catch((error) => {
       console.log(error);
@@ -46,12 +47,12 @@ class CarAvailable extends Component
   _listItem(carsAssign) {
     const listItems = map(carsAssign, (task, i) => {
       return (<ListItem
-          key={i}
-          title={`#${task.ticketno}: ${task.opt}`}
-          subtitle={task.status_title}
-          leftIcon={{ name: 'directions-car' }}
-          onPress={() => this._selectTask(task)}
-        />);
+        key={i}
+        title={`#${task.ticketno}: ${task.opt}`}
+        subtitle={task.status_title}
+        leftIcon={{ name: 'directions-car' }}
+        onPress={() => this._selectTask(task)}
+      />);
     });
 
     return (<List containerStyle={styles.listContainerStyle}>
@@ -62,27 +63,38 @@ class CarAvailable extends Component
   render() {
     const { emptyTaskContainer} = styles;
     const { car_assign, nav, user} = this.props;
+    let carsAssign = car_assign.task_list;
+
+    if(this.props.user.type == 'ramp') {
+      carsAssign = filter(carsAssign, (task) => {
+        return task.location.contains(this.state.location);
+      });
+    }
 
     return (
       <View style={{flex: 1}}>
         <Header
-          centerComponent={{ text: toUpper(`Task for ${this.props.user.name}`), style: { color: '#fff' } }}
+          centerComponent={{ text: toUpper(`Task for ${user.name}`), style: { color: '#fff' } }}
         />
-          <ScrollView 
-            style={{marginTop: 20, marginBottom: 50}}
-            refreshControl={
-              <RefreshControl
-                refreshing={this.state.refreshing}
-                onRefresh={() => this._fetchCarsAssign()}
-              />
-            }
-          >
-          {
-            !isEmpty(car_assign.task_list) 
-              ? this._listItem(car_assign.task_list) 
-              : <Text style={emptyTaskContainer}>No record found!.</Text>
+        <ScrollView 
+          style={{marginTop: 20, marginBottom: 50}}
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.refreshing}
+              onRefresh={() => this._fetchCarsAssign()}
+            />
           }
-          </ScrollView>
+        >
+          {this.props.user.type == 'ramp' && <View style={{margin: 15}}>
+            <RampLocation 
+              value={this.state.location} 
+              onChange={(val) => this.props.setState({...this.state, location: val})}
+            />
+          </View>}
+          {!isEmpty(carsAssign) 
+              ? this._listItem(carsAssign) 
+              : <Text style={emptyTaskContainer}>No record found!.</Text>}
+        </ScrollView>
       </View>
     );
   }

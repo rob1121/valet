@@ -12,7 +12,7 @@ import Steps from '../components/Steps';
 class HomeScreen extends Component 
 {
   componentWillMount() {
-    this._notificationSubscription = Notifications.addListener(() => this._notifListener());
+    this._notificationSubscription = Notifications.addListener(() => this._fetchCarsAssign());
     this.backHandlerListener = BackHandler.addEventListener(
       'hardwareBackPress', 
       () => {
@@ -23,12 +23,6 @@ class HomeScreen extends Component
 
     this._fetchCarsAssign();
     this.props.setActiveScreen(HOME_NAV);
-  }
-
-  _notifListener() {
-    axios.post(CAR_ASSIGN_URL, this.props.user).then(({ data }) => {
-      this.props.assignCars(data);
-    }).catch((error) => { console.error(error); });
   }
 
   componentWillUnmount() {

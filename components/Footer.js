@@ -51,12 +51,12 @@ class Footer extends Component {
           color={this._screenMenuColor(HOME_NAV)}
           onPress={this._screenMenuOnPress(HOME_NAV)}
         />
-        {this.props.user.type === 'ramp' && <Icon 
-          name='map-marker-radius' 
+        {this.props.user.type === 'ramp' ? <Icon 
+          name='barcode-scan' 
           type='material-community' 
           color={this._screenMenuColor(RAMP_ADD_CAR_NAV)}
           onPress={this._screenMenuOnPress(RAMP_ADD_CAR_NAV)}
-        />}
+        /> : null}
 
         <Icon 
           name='sign-out' 
