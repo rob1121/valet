@@ -18,6 +18,8 @@ export const CAR_LIST_URL = `${ROOT_URL}/api/car_list.php`;
 export const DEFAULT_IMG = `upload/default.png`;
 export const IMG_API_URL = `${ROOT_URL}/api/upload.php`;
 export const REMOVE_IMG_URL = `${ROOT_URL}/api/remove_image.php`;
+export const SEARCH_TICKET_URL = `${ROOT_URL}/api/search_ticket.php`;
+export const SEARCH_MONTHLY_USER_URL = `${ROOT_URL}/api/search_monthly_user.php`;
 
 export const ACTIVE_SCREEN_COLOR = '#222';
 export const NOT_ACTIVE_SCREEN_COLOR = '#757575';

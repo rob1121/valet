@@ -6,7 +6,7 @@ import {
 const INITIAL_STATE = {
   //order
   uid: '',
-  car_category: 'hotel',
+  ticket_type: 'hotel',
   folio_number: '',
   customer: '',
   guest_name: '',
@@ -14,7 +14,7 @@ const INITIAL_STATE = {
   checkout_date: '',
   name: '',
   contact_no: '',
-  opt: '',
+  opt: 'Delivery',
   ticketno: '',
   plateno: '',
   make: '',

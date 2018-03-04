@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, ScrollView, Alert, RefreshControl } from 'react-native';
 import { Text, List, ListItem, Header } from 'react-native-elements';
 import axios from 'axios';
-import { filter, toUpper, isEmpty, map } from 'lodash';
+import { filter, isEmpty, map } from 'lodash';
 import {PARKING_STATUS_UPDATE_URL, CAR_ASSIGN_URL} from '../constants';
 import {assignCars} from '../actions';
 import { connect } from 'react-redux';
@@ -12,7 +12,6 @@ class CarAvailable extends Component
 {
   state = {
     refreshing: false,
-    location: '',
   }
 
   _selectTask(task) {
@@ -62,19 +61,22 @@ class CarAvailable extends Component
 
   render() {
     const { emptyTaskContainer} = styles;
-    const { car_assign, nav, user} = this.props;
-    let carsAssign = car_assign.task_list;
+    const { car_assign, nav, user, location_filter} = this.props;
+    let carsAssign = [];
 
     if(this.props.user.type == 'ramp') {
-      carsAssign = filter(carsAssign, (task) => {
-        return task.location.contains(this.state.location);
+      carsAssign = filter(car_assign.task_list, (task) => {
+        task.location = task.location ? task.location : '';
+        return task.location.contains(location_filter.selected_location);
       });
+    } else {
+      carsAssign = car_assign.task_list;
     }
 
     return (
       <View style={{flex: 1}}>
         <Header
-          centerComponent={{ text: toUpper(`Task for ${user.name}`), style: { color: '#fff' } }}
+          centerComponent={{ text: 'TASK LIST', style: { color: '#fff' } }}
         />
         <ScrollView 
           style={{marginTop: 20, marginBottom: 50}}
@@ -86,10 +88,7 @@ class CarAvailable extends Component
           }
         >
           {this.props.user.type == 'ramp' && <View style={{margin: 15}}>
-            <RampLocation 
-              value={this.state.location} 
-              onChange={(val) => this.props.setState({...this.state, location: val})}
-            />
+            <RampLocation />
           </View>}
           {!isEmpty(carsAssign) 
               ? this._listItem(carsAssign) 
@@ -113,6 +112,6 @@ const styles = {
   },
 };
 
-const mapStateToProps = ({ user, nav, car_assign }) => ({ user, nav, car_assign });
+const mapStateToProps = ({ user, nav, car_assign, location_filter }) => ({ user, nav, car_assign, location_filter });
 
 export default connect(mapStateToProps, {assignCars})(CarAvailable)

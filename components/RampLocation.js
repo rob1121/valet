@@ -5,7 +5,7 @@ import axios from 'axios';
 import { map, size } from 'lodash';
 import { connect } from 'react-redux';
 import { 
-  setLocations 
+  setLocations, setSelectedLocation
 } from '../actions';
 import { 
   LOCATION_FILTER_URL,
@@ -20,28 +20,30 @@ class LocationFilter extends Component
 
   _fetchLocations() {
     axios.get(LOCATION_FILTER_URL)
-      .then(({ data }) => {this.props.setLocations(data);})
+      .then(({ data }) => {
+        this.props.setLocations(data);
+        if(this.props.location_filter.selected_location == '')
+          this.props.setSelectedLocation(data[0].value);
+      })
       .catch((error)   => {console.error(error);});
   }
 
   render() {
-    const { location_filter} = this.props;
+    const {setSelectedLocation,  location_filter} = this.props;
     const { locations } = location_filter;
 
     return (
       <View>
           <Text h6>Location:</Text>
           <Picker 
-            onValueChange={(val) => this.props.onChange(val)}
-            selectedValue={this.props.value}
+            onValueChange={(val) => setSelectedLocation(val)}
+            selectedValue={location_filter.selected_location}
           >
-            <Picker.Item label='' value='' />
             {
               map(locations, (filter, idx) => {
                 return <Picker.Item key={idx} label={filter.label} value={filter.value} />
               })
             }
-            <Picker.Item key={size(locations)} label='ALL' value='' />
           </Picker>
       </View>
     );
@@ -50,4 +52,4 @@ class LocationFilter extends Component
 
 const mapStateToProps = ({ location_filter }) => ({ location_filter });
 
-export default connect(mapStateToProps, { setLocations })(LocationFilter);
+export default connect(mapStateToProps, { setLocations, setSelectedLocation })(LocationFilter);
