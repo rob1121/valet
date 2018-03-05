@@ -6,9 +6,11 @@ import {has} from 'lodash';
 import axios from 'axios';
 import {setCarInfo} from '../actions';
 import Option from './RampForm/Option';
+import Barcode from './Barcode';
 import CarDetailsInput from './RampForm/CarDetailsInput';
 import Comment from './RampForm/Comment';
 import SubmitBtn from './RampForm/SubmitBtn';
+import RampLocation from './RampLocation';
 
 class Transient extends Component {
   render() {
@@ -17,12 +19,18 @@ class Transient extends Component {
     return (
       <View>
         <Option />
-        <FormLabel>NAME</FormLabel>
-        <FormInput onChangeText={(val) => setCarInfo({ name: val })} value={car.name} />
+        <Barcode />
+        <FormLabel>HOTEL NAME</FormLabel>
+        <RampLocation value={car.name} setSelectedLocation={(val) => setCarInfo({ name: val })} />
         <FormValidationMessage>{has(error, 'name') && error.name}</FormValidationMessage>
 
         <FormLabel>CONTACT NO.</FormLabel>
-        <FormInput onChangeText={(val) => setCarInfo({ contact_no: val })} value={car.contact_no} />
+        <FormInput 
+          onChangeText={(val) => setCarInfo({ contact_no: val })} 
+          value={car.contact_no}
+          placeholder='09xxxxxxxxx'
+          dataDetectorTypes='phoneNumber'
+          keyboardType='phone-pad' />
         <FormValidationMessage>{has(error, 'contact_no') && error.contact_no}</FormValidationMessage>
 
         <CarDetailsInput />

@@ -25,9 +25,9 @@ class Steps extends Component
           <Header
             centerComponent={{ text: toUpper(active_task.status_title), style: { color: '#fff' } }}
           />
-          <Barcode value={active_task.ticketno} format="CODE128" />
+          {active_task.ticketno && <Barcode value={active_task.ticketno} format="CODE128" />}
 
-          <Text style={{ textAlign: 'center' }} h5>{active_task.ticketno}</Text>
+          {active_task.ticketno && <Text style={{ textAlign: 'center' }} h5>{active_task.ticketno}</Text>}
           <View style={{ flex: 1 }}>
             <Text style={{textAlign: 'center', marginTop: 50, marginBottom: 10 }} h5> Waiting for Dispatcher Acknowledgement. </Text>
             <Text style={{textAlign: 'center', marginTop: 10, marginBottom: 10 }}> To complete this please have your dispatcher acknowlege your arrival at the garage </Text>
@@ -45,7 +45,7 @@ class Steps extends Component
         <Header
           centerComponent={{ text: toUpper(active_task.status_title), style: { color: '#fff' } }}
         />
-        <Barcode value={active_task.ticketno} format="CODE128" />
+        {active_task.ticketno != '' && <Barcode value={active_task.ticketno} format="CODE128" />}
         <List containerStyle={{marginBottom: 20}}>
           <ListItem
             hideChevron

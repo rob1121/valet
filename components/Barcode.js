@@ -15,7 +15,7 @@ class Barcode extends React.Component {
     return (    
       <View>
         <FormLabel>
-          TICKET NO.{this.state.showBarcode}
+          TICKET NO.
         </FormLabel>
 
         <View style={{ flexDirection: 'row', width: WIN_WIDTH }}>

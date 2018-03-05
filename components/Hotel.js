@@ -71,6 +71,10 @@ class Hotel extends Component {
     return (
       <View>
         <Option />
+        <FormLabel>HOTEL NAME</FormLabel>
+        <RampLocation value={car.name} setSelectedLocation={(val) => setCarInfo({ name: val })} />
+        <FormValidationMessage>{has(error, 'name') && error.name}</FormValidationMessage>
+
         <FormValidationMessage>{has(error, 'ticketno') && error.ticketno}</FormValidationMessage>
         <FormLabel>CUSTOMER</FormLabel>
         <FormInput onChangeText={(val) => setCarInfo({ customer: val })} value={car.customer} />

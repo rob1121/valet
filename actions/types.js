@@ -7,7 +7,6 @@ export const ASSIGN_CARS = 'assign_cars';
 export const RESET_CAR_INFO = 'reset_car_info';
 
 export const SET_SELECTED_LOCATION = 'set_selected_location';
-export const SET_LOCATIONS = 'set_locations';
 
 
 export const SET_ACTIVE_SCREEN = 'set_active_screen';

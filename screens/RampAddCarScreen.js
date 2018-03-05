@@ -66,8 +66,6 @@ class RampAddCar extends Component {
   _onTicketTypeChange(category) {
     this.props.resetCarInfo();
     this.props.setCarInfo({ticket_type: category, uid: this.props.user.id});
-    if(category === 'transient')
-      this.props.setCarInfo({name: this.props.user.name});
   }
 }
 

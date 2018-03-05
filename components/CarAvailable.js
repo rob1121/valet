@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { View, ScrollView, Alert, RefreshControl } from 'react-native';
-import { Text, List, ListItem, Header } from 'react-native-elements';
+import { Text, List, ListItem, Header, FormLabel } from 'react-native-elements';
 import axios from 'axios';
 import { filter, isEmpty, map } from 'lodash';
 import {PARKING_STATUS_UPDATE_URL, CAR_ASSIGN_URL} from '../constants';
-import {assignCars} from '../actions';
+import {assignCars, setSelectedLocation} from '../actions';
 import { connect } from 'react-redux';
 import RampLocation from '../components/RampLocation';
 
@@ -61,13 +61,13 @@ class CarAvailable extends Component
 
   render() {
     const { emptyTaskContainer} = styles;
-    const { car_assign, nav, user, location_filter} = this.props;
+    const { car_assign, nav, user, selected_location} = this.props;
     let carsAssign = [];
 
     if(this.props.user.type == 'ramp') {
       carsAssign = filter(car_assign.task_list, (task) => {
         task.location = task.location ? task.location : '';
-        return task.location.contains(location_filter.selected_location);
+        return task.location.contains(selected_location);
       });
     } else {
       carsAssign = car_assign.task_list;
@@ -88,7 +88,8 @@ class CarAvailable extends Component
           }
         >
           {this.props.user.type == 'ramp' && <View style={{margin: 15}}>
-            <RampLocation />
+            <FormLabel>HOTEL NAME</FormLabel>
+            <RampLocation value={this.props.selected_location} setSelectedLocation={(val) => this.props.setSelectedLocation(val)} />
           </View>}
           {!isEmpty(carsAssign) 
               ? this._listItem(carsAssign) 
@@ -112,6 +113,6 @@ const styles = {
   },
 };
 
-const mapStateToProps = ({ user, nav, car_assign, location_filter }) => ({ user, nav, car_assign, location_filter });
+const mapStateToProps = ({ user, nav, car_assign, selected_location }) => ({ user, nav, car_assign, selected_location });
 
-export default connect(mapStateToProps, {assignCars})(CarAvailable)
+export default connect(mapStateToProps, {assignCars, setSelectedLocation})(CarAvailable)

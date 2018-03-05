@@ -3,17 +3,16 @@ import { View, Picker } from 'react-native';
 import { Text } from 'react-native-elements';
 import axios from 'axios';
 import { map, size } from 'lodash';
-import { connect } from 'react-redux';
-import { 
-  setLocations, setSelectedLocation
-} from '../actions';
 import { 
   LOCATION_FILTER_URL,
-  ALL_INDEX,
 } from '../constants';
 
 class LocationFilter extends Component 
 {
+  state = {
+    list: {},
+  }
+
   componentDidMount() {
     this._fetchLocations();
   }
@@ -21,26 +20,24 @@ class LocationFilter extends Component
   _fetchLocations() {
     axios.get(LOCATION_FILTER_URL)
       .then(({ data }) => {
-        this.props.setLocations(data);
-        if(this.props.location_filter.selected_location == '')
+        this.setState(() => ({ list: data}));
+        if(this.props.value == '')
           this.props.setSelectedLocation(data[0].value);
       })
       .catch((error)   => {console.error(error);});
   }
 
   render() {
-    const {setSelectedLocation,  location_filter} = this.props;
-    const { locations } = location_filter;
+    const { value, setSelectedLocation} = this.props;
 
     return (
-      <View>
-          <Text h6>Location:</Text>
+      <View style={{margin: 15}}>
           <Picker 
             onValueChange={(val) => setSelectedLocation(val)}
-            selectedValue={location_filter.selected_location}
+            selectedValue={value}
           >
             {
-              map(locations, (filter, idx) => {
+              map(this.state.list, (filter, idx) => {
                 return <Picker.Item key={idx} label={filter.label} value={filter.value} />
               })
             }
@@ -50,6 +47,4 @@ class LocationFilter extends Component
   }
 }
 
-const mapStateToProps = ({ location_filter }) => ({ location_filter });
-
-export default connect(mapStateToProps, { setLocations, setSelectedLocation })(LocationFilter);
+export default LocationFilter;

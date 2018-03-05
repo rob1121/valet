@@ -8,6 +8,8 @@ import {
   View,
   Alert,
   Text,
+  AsyncStorage,
+  ActivityIndicator,
 } from 'react-native';
 import {
   Avatar, 
@@ -35,6 +37,7 @@ class LoginScreen extends Component
 {
   state = {
     loading: false,
+    hasStoredData: true
   }
 
   async _login() {
@@ -52,6 +55,8 @@ class LoginScreen extends Component
         return;
       }
 
+      AsyncStorage.multiSet([['username', username], ['password', password]]);
+
       this.props.setUser(data.data);
       this.props.navigation.navigate(HOME_NAV);
     }).catch((error) => {
@@ -60,37 +65,56 @@ class LoginScreen extends Component
     });
   }
 
-  componentWillMount() {
+  async componentWillMount() {
+    AsyncStorage.multiGet(['username', 'password']).then((key) => {
+      const username = key[0][1];
+      const password = key[1][1];
+      if (username && password) {
+        this.setState(() => ({ ...this.state, hasStoredData: true }));
+        this.props.setUsername(username);
+        this.props.setPassword(password);
+        this._login();
+      } else {
+        this.setState(() => ({ ...this.state, hasStoredData: false}));
+      }
+    });
+
     this.props.setNavigation(this.props.navigation);
     this.props.setActiveScreen(LOGIN_NAV);
+  }
 
-    if(this.props.user.name) {
-      this.props.nav.navigate(HOME_NAV);
-    }
+  _loader() {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+        <ActivityIndicator size="large" color={MAIN_COLOR} />
+      </View>
+    )
   }
 
 
-  render() {
-    const { TitleStyle, LogoContainer, LogoStyle, TextStyle, TextInputStyle, MainContainer, SubMainContainer, ButtonStyle} = styles;
+  _loginPage() {
+    const { TitleStyle, LogoContainer, LogoStyle, TextStyle, TextInputStyle, MainContainer, SubMainContainer, ButtonStyle } = styles;
     const { loading } = this.state;
+    
     return (
       <ScrollView scrollEnabled={false} contentContainerStyle={MainContainer}>
         <View style={SubMainContainer}>
           <View style={LogoContainer}>
-            <View 
+            <View
               style={LogoStyle}
-              >
-            <Avatar
-              rounded
-              small
-              source={require('../assets/icon.png')}
-            />
+            >
+              <Avatar
+                rounded
+                small
+                source={require('../assets/icon.png')}
+              />
             </View>
             <Text style={[TextStyle, TitleStyle]}>Beach Front Parking Inc</Text>
           </View>
           <TextInput
             placeholder="Enter User username"
             onChangeText={username => this.props.setUsername(username)}
+            value={this.props.user.username}
             underlineColorAndroid='transparent'
             style={TextInputStyle}
           />
@@ -98,6 +122,7 @@ class LoginScreen extends Component
           <TextInput
             placeholder="Enter User Password"
             onChangeText={password => this.props.setPassword(password)}
+            value={this.props.user.password}
             underlineColorAndroid='transparent'
             style={TextInputStyle}
             secureTextEntry={true}
@@ -112,8 +137,12 @@ class LoginScreen extends Component
           />
           <KeyboardSpacer />
         </View>
-      </ScrollView>           
+      </ScrollView>
     );
+  }
+
+  render() {
+    return this.state.hasStoredData ? this._loader() : this._loginPage();
   }
 }
  

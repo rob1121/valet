@@ -10,6 +10,7 @@ import Option from './RampForm/Option';
 import CarDetailsInput from './RampForm/CarDetailsInput';
 import Comment from './RampForm/Comment';
 import SubmitBtn from './RampForm/SubmitBtn';
+import RampLocation from './RampLocation';
 
 class Monthly extends Component {
   state = {
@@ -24,7 +25,12 @@ class Monthly extends Component {
       <View>
 
         <FormLabel>CONTACT NO.</FormLabel>
-        <FormInput onChangeText={(val) => setCarInfo({ contact_no: val })} value={car.contact_no} />
+        <FormInput 
+        onChangeText={(val) => setCarInfo({ contact_no: val })} 
+        value={car.contact_no} 
+        placeholder='09xxxxxxxxx'
+        dataDetectorTypes='phoneNumber'
+        keyboardType='phone-pad' />
         <FormValidationMessage>{has(error, 'contact_no') && error.contact_no}</FormValidationMessage>
         {
           this.state.hasValidUser 
@@ -44,7 +50,7 @@ class Monthly extends Component {
     this.setState(() => ({loading: true}));
     axios.post(SEARCH_MONTHLY_USER_URL, {
       contact_no: this.props.car.contact_no, 
-      location: this.props.location_filter.selected_location,
+      location: this.props.selected_location,
     }).then(({data}) => {
       let hasValidUser = false;
       if(data.error) {
@@ -66,8 +72,8 @@ class Monthly extends Component {
     return (
       <View>
         <Option />
-        <FormLabel>NAME</FormLabel>
-        <FormInput onChangeText={(val) => setCarInfo({ name: val })} value={car.name} />
+        <FormLabel>HOTEL NAME</FormLabel>
+        <RampLocation value={car.name} setSelectedLocation={(val) => setCarInfo({ name: val })} />
         <FormValidationMessage>{has(error, 'name') && error.name}</FormValidationMessage>
 
         <CarDetailsInput />
@@ -79,6 +85,6 @@ class Monthly extends Component {
   }
 }
 
-const mapStateToProps = ({ car, error, location_filter }) => ({ car, error, location_filter });
+const mapStateToProps = ({ car, error, selected_location }) => ({ car, error, selected_location });
 
 export default connect(mapStateToProps, { setCarInfo})(Monthly);

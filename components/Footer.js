@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Alert} from 'react-native';
+import {Alert, AsyncStorage} from 'react-native';
 import {Icon, Header} from 'react-native-elements';
 import {connect} from 'react-redux';
 import {logoutUser} from '../actions';
@@ -20,12 +20,17 @@ class Footer extends Component {
       [
         { text: 'Cancel', style: 'cancel' },
         { text: 'OK', onPress: () => {
-          this.props.logoutUser();
+          this._resetUser();
           this.props.nav.navigate(LOGIN_NAV);
         }},
       ],
       { cancelable: false }
     );
+  }
+
+  _resetUser() {
+    AsyncStorage.multiRemove(['username','password']);
+    this.props.logoutUser();
   }
 
   _screenMenuColor(name)

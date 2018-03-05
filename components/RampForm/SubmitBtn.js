@@ -31,7 +31,7 @@ class SubmitBtn extends Component {
     this.setState(() => ({loading: true}));
     axios.post(ADD_CAR_URL, {
       ...this.props.car,
-      location: this.props.location_filter.selected_location
+      location: this.props.selected_location
     }).then(({data}) => {
       this.setState(() => ({ loading: false }));
       if(data.error) {
@@ -49,7 +49,7 @@ class SubmitBtn extends Component {
   }
 }
 
-const mapStateToProps =({car, nav, location_filter, user}) => ({car, nav, location_filter, user});
+const mapStateToProps =({car, nav, selected_location, user}) => ({car, nav, selected_location, user});
 
 export default connect(mapStateToProps, {setErrors, resetCarInfo, setCarInfo})(SubmitBtn);
 
