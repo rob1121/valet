@@ -39,7 +39,7 @@ class RampAddCar extends Component {
 
     return (
       <View style={{flex: 1}}>
-        <ScrollView>
+        <ScrollView keyboardShouldPersistTaps={'handled'}>
           
         <Header
           centerComponent={{ text: 'TICKETING', style: { color: '#fff' } }}

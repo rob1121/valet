@@ -97,7 +97,7 @@ class LoginScreen extends Component
     const { loading } = this.state;
     
     return (
-      <ScrollView scrollEnabled={false} contentContainerStyle={MainContainer}>
+      <ScrollView keyboardShouldPersistTaps={'handled'} contentContainerStyle={MainContainer}>
         <View style={SubMainContainer}>
           <View style={LogoContainer}>
             <View
