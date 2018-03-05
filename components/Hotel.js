@@ -11,6 +11,7 @@ import Option from './RampForm/Option';
 import CarDetailsInput from './RampForm/CarDetailsInput';
 import Comment from './RampForm/Comment';
 import SubmitBtn from './RampForm/SubmitBtn';
+import RampLocation from './RampLocation';
 
 class Hotel extends Component {
   state = {

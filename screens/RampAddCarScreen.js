@@ -27,6 +27,7 @@ class RampAddCar extends Component {
       }
     );
 
+    this.props.setCarInfo({uid: this.props.user.id});
     this.props.setActiveScreen(RAMP_ADD_CAR_NAV);
   }
 

@@ -16,7 +16,7 @@ const INITIAL_STATE = {
   contact_no: '',
   opt: 'Delivery',
   ticketno: '',
-  plateno: '',
+  car_plate_no: '',
   make: '',
   model: '',
   comment: '',

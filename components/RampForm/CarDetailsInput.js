@@ -2,22 +2,25 @@
 import React from 'react';
 import {View} from 'react-native';
 import {connect} from 'react-redux';
-import {FormLabel, FormInput} from 'react-native-elements';
+import {has} from 'lodash';
+import {FormLabel, FormInput, FormValidationMessage} from 'react-native-elements';
 import {setCarInfo} from '../../actions';
 import CarPicker from '../CarPicker';
 
 const CarDetailsInput = (props) => (
   <View>
     <FormLabel>CAR PLATE NO</FormLabel>
-    <FormInput onChangeText={(val) => props.setCarInfo({ plateno: val })} value={props.car.plateno} />
+    <FormInput onChangeText={(val) => props.setCarInfo({ car_plate_no: val })} value={props.car.car_plate_no} />
+        <FormValidationMessage>{has(props.error, 'car_plate_no') && props.error.car_plate_no}</FormValidationMessage>
 
     <FormLabel>CAR MAKE&MODEL</FormLabel>
     <View style={{margin: 15}}>
       <CarPicker value={props.car.model} onValueChange={(val) => props.setCarInfo({model: val})} />
     </View>
+        <FormValidationMessage>{has(props.error, 'model') && props.error.model}</FormValidationMessage>
   </View>
 );
 
-const mapStateToProps =({car}) => ({car});
+const mapStateToProps =({car, error}) => ({car, error});
 
 export default connect(mapStateToProps, {setCarInfo})(CarDetailsInput);
