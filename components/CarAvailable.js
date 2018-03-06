@@ -28,6 +28,7 @@ class CarAvailable extends Component
   _fetchCarsAssign() {
     this.setState({ refreshing: true});
     axios.post(CAR_ASSIGN_URL, this.props.user).then(({ data }) => {
+      console.log(data);
       this.props.assignCars(data);
       this.setState({ refreshing: false });
     }).catch((error) => { console.error(error); });
@@ -62,15 +63,12 @@ class CarAvailable extends Component
   render() {
     const { emptyTaskContainer} = styles;
     const { car_assign, nav, user, selected_location} = this.props;
-    let carsAssign = [];
-
+    let carsAssign = car_assign.task_list;
     if(this.props.user.type == 'ramp') {
       carsAssign = filter(car_assign.task_list, (task) => {
         task.location = task.location ? task.location : '';
         return task.location.contains(selected_location);
       });
-    } else {
-      carsAssign = car_assign.task_list;
     }
 
     return (

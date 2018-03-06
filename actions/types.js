@@ -5,6 +5,7 @@ export const SET_USERNAME = 'set_username';
 
 export const ASSIGN_CARS = 'assign_cars';
 export const RESET_CAR_INFO = 'reset_car_info';
+export const UPDATE_ACTIVE_CAR = 'update_active_car';
 
 export const SET_SELECTED_LOCATION = 'set_selected_location';
 

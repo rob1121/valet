@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import { Image, View, Alert, TextInput, ScrollView} from 'react-native';
+import { Image, View, Alert, ScrollView, TextInput} from 'react-native';
 import axios from 'axios';
 import {toUpper} from 'lodash';
-import { Header, Button, Icon, List, ListItem, Text} from 'react-native-elements';
+import { Header, Button, Icon, FormInput, FormLabel, List, ListItem, Text} from 'react-native-elements';
 import Barcode from 'react-native-barcode-builder';
 import { assignCars, updateActiveCar} from '../actions';
 import { DEFAULT_IMG, MAIN_COLOR, PARKING_STATUS_UPDATE_URL, WAITING_DISPATCHER, CAMERA_NAV } from '../constants';
@@ -66,34 +66,33 @@ class Steps extends Component
           />
         </List>
 
-        <View style={{ margin: 15 }}>
-          <Text>Car Make/Model. </Text>
-          <CarPicker 
-            value={active_task.car_model} 
-            onValueChange={(val) => this.props.updateActiveCar({car_model: val})} 
-          />
+          <FormLabel>CAR MAKE/MODEL. </FormLabel>
+          <View style={{ margin: 15 }}>
+            <CarPicker 
+              value={active_task.car_model} 
+              onValueChange={(val) => this.props.updateActiveCar({car_model: val})} 
+            />
+          </View>
           
-          <Text>Car Plate No. </Text>
-          <TextInput
-            enablesReturnKeyAutomatically={true}
-            returnKeyType='next'
+          <FormLabel>CAR PLATE NO. </FormLabel>
+          <FormInput
             underlineColorAndroid='#000'
             style={{padding: 5}}
-            onChangeText={(text) => this.props.updateActiveCar({ car_plate_no: toUpper(text) })}
+            onChangeText={(text) => this.props.updateActiveCar({ car_plate_no: text })}
+            onBlur={() => this.props.updateActiveCar({ car_plate_no: toUpper(active_task.car_plate_no) })}
             value={active_task.car_plate_no} />
 
-          <Text>Comment </Text>
-          <TextInput
-            enablesReturnKeyAutomatically={true}
-            returnKeyType='next'
-            multiline={true}
-            numberOfLines={4}
-            underlineColorAndroid='transparent'
-            style={{ padding: 5, height: 100, borderColor: 'gray', borderWidth: 1 }}
-            onChangeText={(text) => this.props.updateActiveCar({ comment: text })}
-            value={active_task.comment} />
+          <FormLabel>COMMENT </FormLabel>
+          <View style={{ margin: 15 }}>
+            <TextInput
+              multiline={true}
+              numberOfLines={4}
+              underlineColorAndroid='transparent'
+              style={{ padding: 5, height: 100, borderColor: 'gray', borderWidth: 1 }}
+              onChangeText={(text) => this.props.updateActiveCar({ comment: text })}
+              value={active_task.comment} />
 
-        </View>
+          </View>
         <CameraAction />
         <Button
           loading={this.state.loading}

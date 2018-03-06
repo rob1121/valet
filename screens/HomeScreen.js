@@ -35,7 +35,7 @@ class HomeScreen extends Component
 
   _fetchCarsAssign() {
     axios.post(CAR_ASSIGN_URL, this.props.user).then(({data}) => {
-        this.props.assignCars(data);
+      this.props.assignCars(data);
       this.setState(() => ({ pageLoad: true}));
     }).catch((error) => { console.error(error); });
   }
