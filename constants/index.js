@@ -1,13 +1,11 @@
 import {Dimensions} from 'react-native';
 
-
 export const MAIN_COLOR = '#3b5999';
 export const ALL_INDEX = -1;
 export const WIN_WIDTH = Dimensions.get('window').width;
 export const WIN_HEIGHT = Dimensions.get('window').height;
 
-//http://cav-dt-34057:81
-export const ROOT_URL = 'http://99.122.157.77/beach_front_parking';
+export const ROOT_URL = 'https://beachfrontparking.com';
 export const REGISTER_TOKEN_URL = `${ROOT_URL}/api/register_token.php`;
 export const LOGIN_URL = `${ROOT_URL}/api/login.php`;
 export const CAR_ASSIGN_URL = `${ROOT_URL}/api/car_assignment.php`;

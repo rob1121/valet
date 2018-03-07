@@ -51,7 +51,7 @@ class LoginScreen extends Component
     }).then(({data}) => {
       this.setState(() => ({ loading: false }));
       if(data.error) {
-        Alert.alert(data.msg);
+        alert(data.msg);
         return;
       }
 
@@ -69,7 +69,7 @@ class LoginScreen extends Component
     AsyncStorage.multiGet(['username', 'password']).then((key) => {
       const username = key[0][1];
       const password = key[1][1];
-      if (username != null && password != null) {
+      if (username && password) {
         this.setState(() => ({ ...this.state, hasStoredData: true }));
         this.props.setUsername(username);
         this.props.setPassword(password);
