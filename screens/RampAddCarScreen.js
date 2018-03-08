@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Alert, Picker, View, ScrollView, TextInput, BackHandler} from 'react-native';
+import { Alert, Picker, PickerIOS, Platform, View, ScrollView, TextInput, BackHandler} from 'react-native';
 import {Header, Button, FormLabel, FormInput, Text, FormValidationMessage}  from 'react-native-elements';
 import {connect} from 'react-redux';
 import {has} from 'lodash';
@@ -36,7 +36,7 @@ class RampAddCar extends Component {
   }
 
   render() {
-    const {setCarInfo, car} = this.props;
+    const {car} = this.props;
 
     return (
       <View style={{flex: 1}}>
@@ -46,14 +46,7 @@ class RampAddCar extends Component {
           centerComponent={{ text: 'TICKETING', style: { color: '#fff' } }}
         />
           <FormLabel>TICKET TYPE</FormLabel>
-          <Picker
-            style={{margin: 15}}
-            selectedValue={car.ticket_type}
-            onValueChange={(val) => this._onTicketTypeChange(val)}>
-            <Picker.Item label="TRANSIENT" value="transient" />
-            <Picker.Item label="HOTEL" value="hotel" />
-            <Picker.Item label="MONTHLY" value="monthly" />
-          </Picker>
+          {Platform.os === 'ios' ? this._pickerIOS() : this._pickerAndroid()}
 
           {car.ticket_type === 'hotel' && <Hotel />}
           {car.ticket_type === 'transient' && <Transient />}
@@ -61,6 +54,34 @@ class RampAddCar extends Component {
         </ScrollView>
         <Footer />
       </View>
+    );
+  }
+
+  _pickerIOS() {
+    const {car} = this.props;
+    return (
+      <PickerIOS
+        style={{margin: 15}}
+        selectedValue={car.ticket_type}
+        onValueChange={(val) => this._onTicketTypeChange(val)}>
+        <PickerIOS.Item label="TRANSIENT" value="transient" />
+        <PickerIOS.Item label="HOTEL" value="hotel" />
+        <PickerIOS.Item label="MONTHLY" value="monthly" />
+      </PickerIOS>
+    );
+  }
+
+  _pickerAndroid() {
+    const {car} = this.props;
+    return (
+      <Picker
+        style={{margin: 15}}
+        selectedValue={car.ticket_type}
+        onValueChange={(val) => this._onTicketTypeChange(val)}>
+        <Picker.Item label="TRANSIENT" value="transient" />
+        <Picker.Item label="HOTEL" value="hotel" />
+        <Picker.Item label="MONTHLY" value="monthly" />
+      </Picker>
     );
   }
 
