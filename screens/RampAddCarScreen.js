@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Alert, Picker, View, ScrollView, TextInput, BackHandler} from 'react-native';
+import { Alert, Platform, PickerIOS, Picker, View, ScrollView, TextInput, BackHandler} from 'react-native';
 import {Header, Button, FormLabel, FormInput, Text, FormValidationMessage}  from 'react-native-elements';
 import {connect} from 'react-redux';
 import {has} from 'lodash';
@@ -46,14 +46,26 @@ class RampAddCar extends Component {
           centerComponent={{ text: 'TICKETING', style: { color: '#fff' } }}
         />
           <FormLabel>TICKET TYPE</FormLabel>
-          <Picker
-            style={{margin: 15}}
-            selectedValue={car.ticket_type}
-            onValueChange={(val) => this._onTicketTypeChange(val)}>
-            <Picker.Item label="TRANSIENT" value="transient" />
-            <Picker.Item label="HOTEL" value="hotel" />
-            <Picker.Item label="MONTHLY" value="monthly" />
-          </Picker>
+          {
+            Platform.OS === 'ios' 
+            ? <PickerIOS
+                style={{ margin: 15 }}
+                selectedValue={car.ticket_type}
+                onValueChange={(val) => this._onTicketTypeChange(val)}>
+                <PickerIOS.Item label="TRANSIENT" value="transient" />
+                <PickerIOS.Item label="HOTEL" value="hotel" />
+                <PickerIOS.Item label="MONTHLY" value="monthly" />
+              </PickerIOS>
+            : <Picker
+                style={{ margin: 15 }}
+                selectedValue={car.ticket_type}
+                onValueChange={(val) => this._onTicketTypeChange(val)}>
+                <Picker.Item label="TRANSIENT" value="transient" />
+                <Picker.Item label="HOTEL" value="hotel" />
+                <Picker.Item label="MONTHLY" value="monthly" />
+              </Picker>
+          }
+          
 
           {car.ticket_type === 'hotel' && <Hotel />}
           {car.ticket_type === 'transient' && <Transient />}
@@ -66,6 +78,7 @@ class RampAddCar extends Component {
 
   _onTicketTypeChange(category) {
     this.props.resetCarInfo();
+    this.props.setErrors({});
     this.props.setCarInfo({ticket_type: category, uid: this.props.user.id});
   }
 }

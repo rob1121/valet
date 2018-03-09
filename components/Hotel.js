@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Picker, View, DatePickerAndroid, Text} from 'react-native';
+import { View, Platform, DatePickerIOS, DatePickerAndroid, Text} from 'react-native';
 import {FormLabel, FormInput, Icon, FormValidationMessage, Button}  from 'react-native-elements';
 import {connect} from 'react-redux';
 import {has} from 'lodash';
@@ -17,6 +17,7 @@ class Hotel extends Component {
   state = {
     hasValidTicket: false,
     loading: false,
+    chosenDate: new Date(),
   }
 
   render() {
@@ -25,6 +26,7 @@ class Hotel extends Component {
     return (
       <View>
         <Barcode />
+        {this.state.hasValidTicket  && <FormValidationMessage>{has(error, 'ticketno') && error.ticketno}</FormValidationMessage>}
         {
           this.state.hasValidTicket 
           ? this._hotelForm()
@@ -59,7 +61,7 @@ class Hotel extends Component {
   _datePicker = async () => {
     try {
       const {action, year, month, day} = await DatePickerAndroid.open();
-      const date = `${("0" + month).slice(-2)}/${("0" + day).slice(-2)}/${year}`;
+      const date = `${year}-${("0" + month).slice(-2)}-${("0" + day).slice(-2)}`;
       this.props.setCarInfo({ checkout_date: date });
     } catch ({code, message}) {
       console.warn('Cannot open date picker', message);
@@ -89,24 +91,46 @@ class Hotel extends Component {
           <FormValidationMessage>{has(error,'room_number') && error.room_number}</FormValidationMessage>
 
         <FormLabel>CHECKOUT DATE</FormLabel>
-
-        <View style={{ flexDirection: 'row', width: WIN_WIDTH }}>
-          <View style={{ width: WIN_WIDTH*0.8 }}>
-            <FormInput onChangeText={(val) => setCarInfo({ checkout_date: val })} value={car.checkout_date} />
-          </View>
-          <View style={{ width: WIN_WIDTH * 0.2 }}>
-            <Icon
-              name='calendar'
-              type='font-awesome'
-              onPress={this._datePicker} />
-          </View>
-        </View>
+        {Platform.OS === 'ios' ? this._iosDatePicker() : this._androidDatePicker()}
+        
         <FormValidationMessage>{has(error,'checkout_date') && error.checkout_date}</FormValidationMessage>
         <CarDetailsInput />
         <Comment />
         <SubmitBtn />
       </View>
     )
+  }
+
+  _iosDatePicker() {
+    return (<DatePickerIOS
+      date={new Date(this.props.car.checkout_date)}
+      mode="date"
+      onDateChange={this._updateCheckoutDate}
+    />);
+  }
+
+  _updateCheckoutDate(newDate) {
+
+    const date = newDate.getDate() > 9 ? newDate.getDate() : `0${newDate.getDate()}`
+
+    const month = newDate.getMonth() > 9 ? newDate.getMonth() + 1 : `0${newDate.getMonth() + 1}`
+
+    this.props.setCarInfo({ checkout_date: `${newDate.getFullYear()}-${month}-${date}` })
+    this.setState({ chosenDate: newDate});
+  }
+
+  _androidDatePicker() {
+    return (<View style={{ flexDirection: 'row', width: WIN_WIDTH }}>
+      <View style={{ width: WIN_WIDTH * 0.8 }}>
+        <FormInput onChangeText={(val) => setCarInfo({ checkout_date: val })} value={this.props.car.checkout_date} />
+      </View>
+      <View style={{ width: WIN_WIDTH * 0.2 }}>
+        <Icon
+          name='calendar'
+          type='font-awesome'
+          onPress={this._datePicker} />
+      </View>
+    </View>);
   }
 }
 

@@ -32,7 +32,7 @@ class SubmitBtn extends Component {
     axios.post(ADD_CAR_URL, {
       ...this.props.car,
       location: this.props.selected_location
-    }).then(({data}) => {
+    }).then(({ data }) => {
       this.setState(() => ({ loading: false }));
       if(data.error) {
         this.props.setErrors(data.data);

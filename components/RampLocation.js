@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Picker } from 'react-native';
+import { View, Picker, PickerIOS, Platform } from 'react-native';
 import { Text } from 'react-native-elements';
 import axios from 'axios';
 import { map, size } from 'lodash';
@@ -32,16 +32,29 @@ class LocationFilter extends Component
 
     return (
       <View style={{margin: 15}}>
-          <Picker 
-            onValueChange={(val) => setSelectedLocation(val)}
-            selectedValue={value}
-          >
-            {
-              map(this.state.list, (filter, idx) => {
-                return <Picker.Item key={idx} label={filter.label} value={filter.value} />
-              })
-            }
-          </Picker>
+        {
+          Platform.OS === 'ios' 
+            ? <PickerIOS
+              onValueChange={(val) => setSelectedLocation(val)}
+              selectedValue={value}
+            >
+              {
+                map(this.state.list, (filter, idx) => {
+                  return <PickerIOS.Item key={idx} label={filter.label} value={filter.value} />
+                })
+              }
+            </PickerIOS>
+            : <Picker
+              onValueChange={(val) => setSelectedLocation(val)}
+              selectedValue={value}
+            >
+              {
+                map(this.state.list, (filter, idx) => {
+                  return <Picker.Item key={idx} label={filter.label} value={filter.value} />
+                })
+              }
+            </Picker>
+        }
       </View>
     );
   }
