@@ -28,8 +28,31 @@ class LocationFilter extends Component
   }
 
   render() {
-    const { value, setSelectedLocation} = this.props;
 
+    return Platform.os === 'ios' ? this._pickerAndroid() : this._pickerAndroid();
+  }
+
+
+  _pickerIOS() {
+    const { value, setSelectedLocation} = this.props;
+    return (
+      <PickerIOS 
+      style={{ margin: 15 }}
+      onValueChange={(val) => setSelectedLocation(val)}
+      selectedValue={value}
+    >
+      {
+        map(this.state.list, (filter, idx) => {
+          return <PickerIOS.Item key={idx} label={filter.label} value={filter.value} />
+        })
+      }
+    </PickerIOS>
+    );
+  }
+
+
+  _pickerAndroid() {
+    const { value, setSelectedLocation} = this.props;
     return (
       <View style={{margin: 15}}>
         {

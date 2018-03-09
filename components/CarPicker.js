@@ -17,23 +17,10 @@ export default class CarPicker extends Component {
   }
 
   render() {
-    return Platform.OS === 'ios' ? this._iosPicker() : this._androidPicker();
+    return Platform.os === 'ios' ? this._pickerIOS() : this._pickerAndroid();
   }
 
-  _iosPicker() {
-    return (
-      <PickerIOS
-        selectedValue={this.props.value}
-        onValueChange={(itemValue) => this.props.onValueChange(itemValue)}>
-        <PickerIOS.Item label='N/A' value='' />
-        {map(this.state.cars, (item, index) => {
-          return <PickerIOS.Item key={index} label={toUpper(`${item.make}|${item.model}`)} value={item.model} />
-        })}
-      </PickerIOS>
-    );
-  }
-
-  _androidPicker() {
+  _pickerAndroid() {
     return (
       <Picker
         selectedValue={this.props.value}
@@ -43,6 +30,19 @@ export default class CarPicker extends Component {
           return <Picker.Item key={index} label={toUpper(`${item.make}|${item.model}`)} value={item.model} />
         })}
       </Picker>
+    );
+  }
+
+  _pickerIOS() {
+    return (
+      <PickerIOS
+        selectedValue={this.props.value}
+        onValueChange={(itemValue) => this.props.onValueChange(itemValue)}>
+        <PickerIOS.Item label='N/A' value='' />
+        {map(this.state.cars, (item, index) => {
+          return <PickerIOS.Item key={index} label={toUpper(`${item.make}|${item.model}`)} value={item.model} />
+        })}
+      </PickerIOS>
     );
   }
 }
