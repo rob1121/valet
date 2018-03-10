@@ -3,6 +3,7 @@ import { View, Picker, PickerIOS, Platform } from 'react-native';
 import { Text } from 'react-native-elements';
 import axios from 'axios';
 import { map, size } from 'lodash';
+import { connect } from 'react-redux';
 import { 
   LOCATION_FILTER_URL,
 } from '../constants';
@@ -18,7 +19,11 @@ class LocationFilter extends Component
   }
 
   _fetchLocations() {
-    axios.get(LOCATION_FILTER_URL)
+    const params = {
+      base: this.props.user.base,
+    };
+
+    axios.get(LOCATION_FILTER_URL, {params})
       .then(({ data }) => {
         this.setState(() => ({ list: data}));
         if(this.props.value == '')
@@ -54,33 +59,20 @@ class LocationFilter extends Component
   _pickerAndroid() {
     const { value, setSelectedLocation} = this.props;
     return (
-      <View style={{margin: 15}}>
+      <Picker
+        onValueChange={(val) => setSelectedLocation(val)}
+        selectedValue={value}
+      >
         {
-          Platform.OS === 'ios' 
-            ? <PickerIOS
-              onValueChange={(val) => setSelectedLocation(val)}
-              selectedValue={value}
-            >
-              {
-                map(this.state.list, (filter, idx) => {
-                  return <PickerIOS.Item key={idx} label={filter.label} value={filter.value} />
-                })
-              }
-            </PickerIOS>
-            : <Picker
-              onValueChange={(val) => setSelectedLocation(val)}
-              selectedValue={value}
-            >
-              {
-                map(this.state.list, (filter, idx) => {
-                  return <Picker.Item key={idx} label={filter.label} value={filter.value} />
-                })
-              }
-            </Picker>
+          map(this.state.list, (filter, idx) => {
+            return <Picker.Item key={idx} label={filter.label} value={filter.value} />
+          })
         }
-      </View>
+      </Picker>
     );
   }
 }
 
-export default LocationFilter;
+const mapStateToProps = ({user}) => ({user});
+
+export default connect(mapStateToProps)(LocationFilter);

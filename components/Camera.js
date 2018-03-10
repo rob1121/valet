@@ -95,19 +95,19 @@ class CameraScreen extends React.Component {
           </View>}
         </ImageBackground>
         </TouchableOpacity>
-        <Button
+        {(active_task.status_id == 2 || active_task.status_id == 4) && <Button
           loading={uploading}
           title={uploading ? '' : 'PICK AN IMAGE FROM CAMERA ROLL'}
           buttonStyle={{backgroundColor: '#000'}}
           onPress={this._pickImage}
-        />
+        />}
 
-        <Button
+        {(active_task.status_id == 2 || active_task.status_id == 4) &&<Button
           loading={uploading}
           title={uploading ? '' : 'TAKE A PHOTO'}
           buttonStyle={{backgroundColor: '#000'}}
           onPress={this._takePhoto}
-        />
+        />}
       </View>
     );
   }

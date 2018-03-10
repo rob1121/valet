@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { View, ScrollView, Alert, RefreshControl } from 'react-native';
+import {  View, ScrollView, Alert, RefreshControl } from 'react-native';
 import { Text, List, ListItem, Header, FormLabel } from 'react-native-elements';
 import axios from 'axios';
-import { filter, isEmpty, map } from 'lodash';
+import { toUpper, toLower, filter, isEmpty, map } from 'lodash';
 import {PARKING_STATUS_UPDATE_URL, CAR_ASSIGN_URL} from '../constants';
 import {assignCars, setSelectedLocation} from '../actions';
 import { connect } from 'react-redux';
@@ -26,18 +26,17 @@ class CarAvailable extends Component
   }
 
   _fetchCarsAssign() {
-    this.setState({ refreshing: true});
+    this.setState({ ...this.state, refreshing: true});
     axios.post(CAR_ASSIGN_URL, this.props.user).then(({ data }) => {
       this.props.assignCars(data);
-      this.setState({ refreshing: false });
+      this.setState({ ...this.state, refreshing: false});
     }).catch((error) => { console.error(error); });
   }
 
   _updateStatus(task) {
     const {user} = this.props;
-
     axios.post(PARKING_STATUS_UPDATE_URL, {task, user}).then(({data}) => {
-      this.props.assignCars(data);
+      this.props.assignCars(data.data);
     }).catch((error) => {
       console.log(error);
     });
@@ -45,11 +44,13 @@ class CarAvailable extends Component
 
   _listItem(carsAssign) {
     const listItems = map(carsAssign, (task, i) => {
+
+      const iconStyle = task.is_late_checkout ? {style: {color: 'red'}} : {};
       return (<ListItem
         key={i}
-        title={`#${task.ticketno}: ${task.opt}`}
-        subtitle={task.status_title}
-        leftIcon={{ name: 'directions-car' }}
+        title={`${toUpper(task.requestor)}: ${task.opt}`}
+        subtitle={`#${task.ticketno} ${task.status_title}`}
+        leftIcon={{ name: 'directions-car', ...iconStyle }}
         onPress={() => this._selectTask(task)}
       />);
     });
@@ -65,16 +66,16 @@ class CarAvailable extends Component
     let carsAssign = car_assign.task_list;
     if(this.props.user.type == 'ramp') {
       carsAssign = filter(car_assign.task_list, (task) => {
-        task.location = task.location ? task.location : '';
-        return task.location.contains(selected_location);
+        task.requestor = toLower(task.requestor || '');
+        return task.requestor.contains(toLower(selected_location));
       });
     }
-
     return (
       <View style={{flex: 1}}>
         <Header
           centerComponent={{ text: 'TASK LIST', style: { color: '#fff' } }}
         />
+        <Text>{JSON.stringify(this.props.car_assign.active_tasl)}</Text>
         <ScrollView 
           style={{marginTop: 20, marginBottom: 50}}
           refreshControl={

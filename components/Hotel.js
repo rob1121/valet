@@ -49,7 +49,7 @@ class Hotel extends Component {
         alert(data.msg);
       } else {
         hasValidTicket = true;
-        this.props.setCarInfo(data.data);
+        data.data && this.props.setCarInfo(data.data);
       }
       this.setState(() => ({ ...this.state, loading: false, hasValidTicket }));
     }).catch((error) => {
@@ -75,7 +75,9 @@ class Hotel extends Component {
       <View>
         <Option />
         <FormLabel>HOTEL NAME</FormLabel>
-        <RampLocation value={car.name} setSelectedLocation={(val) => setCarInfo({ name: val })} />
+        <View style={{margin:15}}>
+          <RampLocation value={car.name} setSelectedLocation={(val) => setCarInfo({ name: val })} />
+        </View>
         <FormValidationMessage>{has(error, 'name') && error.name}</FormValidationMessage>
         
         <FormLabel>GUEST NAME</FormLabel>
@@ -90,7 +92,7 @@ class Hotel extends Component {
         <FormInput onChangeText={(val) => setCarInfo({ room_number: val })} value={car.room_number} />
           <FormValidationMessage>{has(error,'room_number') && error.room_number}</FormValidationMessage>
 
-        <FormLabel>CHECKOUT DATE</FormLabel>
+        <FormLabel>CHECKOUT DATE{this.props.car.checkout_date}</FormLabel>
         {Platform.OS === 'ios' ? this._iosDatePicker() : this._androidDatePicker()}
         
         <FormValidationMessage>{has(error,'checkout_date') && error.checkout_date}</FormValidationMessage>

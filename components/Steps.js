@@ -67,32 +67,34 @@ class Steps extends Component
         </List>
 
           <FormLabel>CAR MAKE/MODEL. </FormLabel>
-          <View style={{ margin: 15 }}>
+          {(active_task.status_id == 2 || active_task.status_id == 4) ? <View style={{ margin: 15 }}>
             <CarPicker 
               value={active_task.car_model} 
               onValueChange={(val) => this.props.updateActiveCar({car_model: val})} 
             />
           </View>
+          : <FormLabel>{active_task.car_model ? (`${active_task.car_make} | ${active_task.car_model}`) : '-'}</FormLabel>}
           
           <FormLabel>CAR PLATE NO. </FormLabel>
-          <FormInput
+          {(active_task.status_id == 2 || active_task.status_id == 4) ?<FormInput
             underlineColorAndroid='#000'
             style={{padding: 5}}
             onChangeText={(text) => this.props.updateActiveCar({ car_plate_no: text })}
             onBlur={() => this.props.updateActiveCar({ car_plate_no: toUpper(active_task.car_plate_no) })}
             value={active_task.car_plate_no} />
+          : <FormLabel>{toUpper(active_task.car_plate_no) || '-'}</FormLabel>}
 
           <FormLabel>COMMENT </FormLabel>
-          <View style={{ margin: 15 }}>
-            <TextInput
+          {(active_task.status_id == 2 || active_task.status_id == 4) ?<View style={{ margin: 15 }}>
+             <TextInput
               multiline={true}
               numberOfLines={4}
               underlineColorAndroid='transparent'
               style={{ padding: 5, height: 100, borderColor: 'gray', borderWidth: 1 }}
               onChangeText={(text) => this.props.updateActiveCar({ comment: text })}
               value={active_task.comment} />
-
           </View>
+          : <FormLabel>{active_task.comment || '-'}</FormLabel>}
         <CameraAction />
         <Button
           loading={this.state.loading}
@@ -124,8 +126,13 @@ class Steps extends Component
      user: this.props.user,
     })
     .then(({data}) => {
+      console.log(data);
       this.setState(() => ({loading: false}));
-      this.props.assignCars(data);
+      if(data.error) {
+        alert(data.msg);
+      } else {
+        this.props.assignCars(data.data);
+      }
     }).catch((error) => {
       console.log(error);
       this.setState(() => ({loading: false}));

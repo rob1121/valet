@@ -1,9 +1,5 @@
 import React, {Component} from 'react';
-<<<<<<< HEAD
 import { Alert, Platform, PickerIOS, Picker, View, ScrollView, TextInput, BackHandler} from 'react-native';
-=======
-import { Alert, Picker, PickerIOS, Platform, View, ScrollView, TextInput, BackHandler} from 'react-native';
->>>>>>> 2ae122dc0b248e091dbd1e9f9ac7d8ffcfd812fc
 import {Header, Button, FormLabel, FormInput, Text, FormValidationMessage}  from 'react-native-elements';
 import {connect} from 'react-redux';
 import {has} from 'lodash';
