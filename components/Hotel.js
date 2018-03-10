@@ -58,16 +58,6 @@ class Hotel extends Component {
     });
   }
 
-  _datePicker = async () => {
-    try {
-      const {action, year, month, day} = await DatePickerAndroid.open();
-      const date = `${year}-${("0" + month).slice(-2)}-${("0" + day).slice(-2)}`;
-      this.props.setCarInfo({ checkout_date: date });
-    } catch ({code, message}) {
-      console.warn('Cannot open date picker', message);
-    }
-  }
-
   _hotelForm() {
     const {setCarInfo, car, error} = this.props;
     
@@ -133,6 +123,16 @@ class Hotel extends Component {
           onPress={this._datePicker} />
       </View>
     </View>);
+  }
+
+  _datePicker = async () => {
+    try {
+      const {action, year, month, day} = await DatePickerAndroid.open();
+      const date = `${year}-${("0" + (month+1)).slice(-2)}-${("0" + day).slice(-2)}`;
+      this.props.setCarInfo({ checkout_date: date });
+    } catch ({code, message}) {
+      console.warn('Cannot open date picker', message);
+    }
   }
 }
 

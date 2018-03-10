@@ -126,7 +126,6 @@ class Steps extends Component
      user: this.props.user,
     })
     .then(({data}) => {
-      console.log(data);
       this.setState(() => ({loading: false}));
       if(data.error) {
         alert(data.msg);
