@@ -67,7 +67,7 @@ class CarAvailable extends Component
     if(this.props.user.type == 'ramp') {
       carsAssign = filter(car_assign.task_list, (task) => {
         task.requestor = toLower(task.requestor || '');
-        return task.requestor.contains(toLower(selected_location));
+        return task.requestor.includes(toLower(selected_location));
       });
     }
     return (
