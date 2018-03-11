@@ -15,7 +15,7 @@ const CarDetailsInput = (props) => (
 
     <FormLabel>CAR MAKE&MODEL</FormLabel>
     <View style={{margin: 15}}>
-      <CarPicker value={props.car.car_model} onValueChange={(val) => props.setCarInfo({model: val})} />
+      <CarPicker value={props.car.car_model} onValueChange={(val) => props.setCarInfo({car_model: val})} />
     </View>
         <FormValidationMessage>{has(props.error, 'model') && props.error.car_model}</FormValidationMessage>
   </View>

@@ -23,7 +23,9 @@ class Transient extends Component {
         <FormValidationMessage>{has(error, 'ticketno') && error.ticketno}</FormValidationMessage>
         
         <FormLabel>HOTEL NAME</FormLabel>
-        <RampLocation value={car.name} setSelectedLocation={(val) => setCarInfo({ name: val })} />
+        <View style={{margin: 15}}>
+          <RampLocation value={car.name} setSelectedLocation={(val) => setCarInfo({ name: val })} />
+        </View>
         <FormValidationMessage>{has(error, 'name') && error.name}</FormValidationMessage>
 
         <FormLabel>CONTACT NO.</FormLabel>

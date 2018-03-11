@@ -45,56 +45,65 @@ class Steps extends Component
         <Header
           centerComponent={{ text: toUpper(active_task.status_title), style: { color: '#fff' } }}
         />
+
         {active_task.ticketno != '' && <Barcode value={active_task.ticketno} format="CODE128" />}
         <List containerStyle={{marginBottom: 20}}>
           <ListItem
             hideChevron
             title={active_task.ticketno || '-'}
-            subtitle='Ticket No.'
+            subtitle='TICKET NO.'
           />
           
           <ListItem
             hideChevron
             title={active_task.requestor || '-'}
-            subtitle='Requestor'
+            subtitle='REQUESTOR'
           />
           
           <ListItem
             hideChevron
             title={active_task.driver}
-            subtitle='Driver'
+            subtitle='DRIVER'
+          />
+          
+          <ListItem
+            hideChevron
+            title={(active_task.status_id == 2 || active_task.status_id == 4) 
+              ? <CarPicker 
+                  value={active_task.car_model} 
+                  onValueChange={(val) => this.props.updateActiveCar({car_model: val})} 
+                />
+              : (active_task.car_model ? (`${active_task.car_make} | ${active_task.car_model}`) : '-')}
+            subtitle='CAR MAKE/MODEL.'
+          />
+          
+          <ListItem
+            hideChevron
+            title={(active_task.status_id == 2 || active_task.status_id == 4) 
+              ? <TextInput
+                underlineColorAndroid='#000'
+                style={{padding: 5, marginTop: 10}}
+                onChangeText={(text) => this.props.updateActiveCar({ car_plate_no: text })}
+                value={toUpper(active_task.car_plate_no)} />
+              : (toUpper(active_task.car_plate_no) || '-')}
+            subtitle='CAR PLATE NO'
+          />
+          
+          <ListItem
+            hideChevron
+            title={(active_task.status_id == 2 || active_task.status_id == 4) 
+              ? <TextInput
+                multiline={true}
+                numberOfLines={4}
+                underlineColorAndroid='transparent'
+                style={{ padding: 5, height: 100, borderColor: 'gray', borderWidth: 1 }}
+                onChangeText={(text) => this.props.updateActiveCar({ comment: text })}
+                value={active_task.comment} />
+              : (active_task.comment || '-')}
+            subtitle='COMMENT'
           />
         </List>
-
-          <FormLabel>CAR MAKE/MODEL. </FormLabel>
-          {(active_task.status_id == 2 || active_task.status_id == 4) ? <View style={{ margin: 15 }}>
-            <CarPicker 
-              value={active_task.car_model} 
-              onValueChange={(val) => this.props.updateActiveCar({car_model: val})} 
-            />
-          </View>
-          : <FormLabel>{active_task.car_model ? (`${active_task.car_make} | ${active_task.car_model}`) : '-'}</FormLabel>}
           
-          <FormLabel>CAR PLATE NO. </FormLabel>
-          {(active_task.status_id == 2 || active_task.status_id == 4) ?<FormInput
-            underlineColorAndroid='#000'
-            style={{padding: 5}}
-            onChangeText={(text) => this.props.updateActiveCar({ car_plate_no: text })}
-            onBlur={() => this.props.updateActiveCar({ car_plate_no: toUpper(active_task.car_plate_no) })}
-            value={active_task.car_plate_no} />
-          : <FormLabel>{toUpper(active_task.car_plate_no) || '-'}</FormLabel>}
-
-          <FormLabel>COMMENT </FormLabel>
-          {(active_task.status_id == 2 || active_task.status_id == 4) ?<View style={{ margin: 15 }}>
-             <TextInput
-              multiline={true}
-              numberOfLines={4}
-              underlineColorAndroid='transparent'
-              style={{ padding: 5, height: 100, borderColor: 'gray', borderWidth: 1 }}
-              onChangeText={(text) => this.props.updateActiveCar({ comment: text })}
-              value={active_task.comment} />
-          </View>
-          : <FormLabel>{active_task.comment || '-'}</FormLabel>}
         <CameraAction />
         <Button
           loading={this.state.loading}
@@ -127,6 +136,7 @@ class Steps extends Component
     })
     .then(({data}) => {
       this.setState(() => ({loading: false}));
+      
       if(data.error) {
         alert(data.msg);
       } else {
