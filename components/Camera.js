@@ -137,7 +137,7 @@ class CameraScreen extends React.Component {
 
   _takePhoto = async () => {
     let pickerResult = await ImagePicker.launchCameraAsync({
-      allowsEditing: true,
+      allowsEditing: false,
       aspect: [4, 3],
     });
 
@@ -146,7 +146,7 @@ class CameraScreen extends React.Component {
 
   _pickImage = async () => {
     let pickerResult = await ImagePicker.launchImageLibraryAsync({
-      allowsEditing: true,
+      allowsEditing: false,
       aspect: [4, 3],
     });
 

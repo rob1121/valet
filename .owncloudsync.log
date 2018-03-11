@@ -10210,3 +10210,26 @@ SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry 'files/ddf
 ||node_modules|INST_IGNORE|Up|1520264041||327680||6|Ignored because of the "choose what to sync" blacklist|0|0|0||||
 #=#=#=# Syncrun finished 2018-03-11T17:28:09Z (last step: 298 msec, total: 13332 msec)
 #=#=#=# Syncrun started 2018-03-11T17:28:48Z
+#=#=#=#=# Propagation starts 2018-03-11T17:28:59Z (last step: 11238 msec, total: 11238 msec)
+||node_modules|INST_IGNORE|Up|1520264041||327680||6|Ignored because of the "choose what to sync" blacklist|0|0|0||||
+17:29:00||components/Steps.js|INST_SYNC|Up|1520789326|2cfa26584110e008f6e21c223355ed0a|5383|00724062ocg0oijmmfm5|4||204|5383|1520789253||||
+#=#=#=# Syncrun finished 2018-03-11T17:29:00Z (last step: 1419 msec, total: 12658 msec)
+#=#=#=# Syncrun started 2018-03-11T17:29:56Z
+#=#=#=# Syncrun finished 2018-03-11T17:30:04Z (last step: 8233 msec, total: 8233 msec)
+#=#=#=# Syncrun started 2018-03-11T17:30:16Z
+#=#=#=#=# Propagation starts 2018-03-11T17:30:26Z (last step: 10023 msec, total: 10023 msec)
+||node_modules|INST_IGNORE|Up|1520264041||327680||6|Ignored because of the "choose what to sync" blacklist|0|0|0||||
+#=#=#=# Syncrun finished 2018-03-11T17:30:27Z (last step: 260 msec, total: 10283 msec)
+#=#=#=# Syncrun started 2018-03-11T17:30:32Z
+#=#=#=#=# Propagation starts 2018-03-11T17:30:42Z (last step: 10034 msec, total: 10034 msec)
+||node_modules|INST_IGNORE|Up|1520264041||327680||6|Ignored because of the "choose what to sync" blacklist|0|0|0||||
+#=#=#=# Syncrun finished 2018-03-11T17:30:42Z (last step: 259 msec, total: 10293 msec)
+#=#=#=# Syncrun started 2018-03-11T17:41:49Z
+#=#=#=#=# Propagation starts 2018-03-11T17:42:23Z (last step: 34340 msec, total: 34340 msec)
+||node_modules|INST_IGNORE|Up|1520264041||327680||6|Ignored because of the "choose what to sync" blacklist|0|0|0||||
+#=#=#=# Syncrun finished 2018-03-11T17:42:23Z (last step: 264 msec, total: 34605 msec)
+#=#=#=# Syncrun started 2018-03-11T17:51:54Z
+#=#=#=#=# Propagation starts 2018-03-11T17:52:07Z (last step: 12895 msec, total: 12895 msec)
+||node_modules|INST_IGNORE|Up|1520264041||327680||6|Ignored because of the "choose what to sync" blacklist|0|0|0||||
+#=#=#=# Syncrun finished 2018-03-11T17:52:07Z (last step: 264 msec, total: 13160 msec)
+#=#=#=# Syncrun started 2018-03-11T17:53:22Z
