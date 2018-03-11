@@ -84,7 +84,7 @@ class Steps extends Component
                 underlineColorAndroid='#000'
                 style={{padding: 5, marginTop: 10}}
                 onChangeText={(text) => this.props.updateActiveCar({ car_plate_no: text })}
-                value={toUpper(active_task.car_plate_no)} />
+                value={active_task.car_plate_no} />
               : (toUpper(active_task.car_plate_no) || '-')}
             subtitle='CAR PLATE NO'
           />
