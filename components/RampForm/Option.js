@@ -1,26 +1,53 @@
 import React, {Component} from 'react';
-import {View, Picker, PickerIOS, Platform} from 'react-native';
+import {Modal, View, Picker, PickerIOS, Platform} from 'react-native';
 import {connect} from 'react-redux';
-import {FormLabel} from 'react-native-elements';
+import {FormLabel, Button} from 'react-native-elements';
 import {setCarInfo} from '../../actions';
+import {MAIN_COLOR} from '../../constants';
 
 class  Option extends Component {
+  state = {
+    showModal: false,
+  }
+
   render() {
-    return Platform.os === 'ios' ? this._pickerIOS() : this._pickerAndroid();
+    return (
+      <View>
+        <FormLabel>OPTION</FormLabel>
+        {Platform.os === 'ios' 
+          ? <FormInput value={this.props.car.opt} onFocus={() => this.setState(() => ({...this.state, showModal: true}))} />
+          : this._pickerAndroid()}
+        {Platform.os === 'ios' && this._pickerIOS()}
+      </View>
+    )
   }
 
   _pickerIOS() {
     return (
-      <View>
-        <FormLabel>OPTION</FormLabel>
-        <PickerIOS
-          style={{ margin: 15 }}
-          selectedValue={this.props.car.opt}
-          onValueChange={(val) => this.props.setCarInfo({ opt: val })}>
-          <PickerIOS.Item label="DELIVERY" value="Delivery" />
-          <PickerIOS.Item label="PICKUP" value="Pickup" />
-        </PickerIOS>
-      </View>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={this.state.showModal}
+        onRequestClose={() => {
+          this.setState(() => ({ ...this.state, showModal: flase }))
+        }}>
+        <View style={{ flex: 3, backgroundColor: 'rgba(0,0,0,0.2)' }} />
+        <View style={{ flex: 1, padding: 15 }}>
+          <PickerIOS
+            style={{ margin: 15 }}
+            selectedValue={this.props.car.opt}
+            onValueChange={(val) => this.props.setCarInfo({ opt: val })}>
+            <PickerIOS.Item label="DELIVERY" value="Delivery" />
+            <PickerIOS.Item label="PICKUP" value="Pickup" />
+          </PickerIOS>
+
+          <Button
+            backgroundColor={MAIN_COLOR}
+            title='DONE'
+            onPress={() => this.setState(() => ({ ...this.state, showModal: flase }))}
+          />
+        </View>
+      </Modal>
     );
   }
 

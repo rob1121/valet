@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
-import { Alert, Platform, PickerIOS, Picker, View, ScrollView, TextInput, BackHandler} from 'react-native';
+import { Modal, Alert, Platform, PickerIOS, Picker, View, ScrollView, TextInput, BackHandler} from 'react-native';
 import {Header, Button, FormLabel, FormInput, Text, FormValidationMessage}  from 'react-native-elements';
 import {connect} from 'react-redux';
 import {has} from 'lodash';
-import { WIN_WIDTH, RAMP_ADD_CAR_NAV, HOME_NAV} from '../constants';
+import { WIN_WIDTH, RAMP_ADD_CAR_NAV, HOME_NAV, MAIN_COLOR} from '../constants';
 import {setErrors, resetCarInfo, setActiveScreen, setCarInfo} from '../actions';
 import Hotel from '../components/Hotel';
 import Transient from '../components/Transient';
@@ -11,6 +11,9 @@ import Monthly from '../components/Monthly';
 import Footer from '../components/Footer';
 
 class RampAddCar extends Component {
+  state = {
+    showModal: false, 
+  }
 
   componentWillMount () {
     this.backHandlerListener = BackHandler.addEventListener(
@@ -46,13 +49,16 @@ class RampAddCar extends Component {
           centerComponent={{ text: 'TICKETING', style: { color: '#fff' } }}
         />
           <FormLabel>TICKET TYPE</FormLabel>
-          {Platform.os === 'ios' ? this._pickerIOS() : this._pickerAndroid()}
+          {Platform.os === 'ios' 
+            ? <FormInput value={car.ticket_type} onFocus={() => this.setState(() => ({...this.state, showModal: true}))} /> 
+            : this._pickerAndroid()}
 
           {car.ticket_type === 'hotel' && <Hotel />}
           {car.ticket_type === 'transient' && <Transient />}
           {car.ticket_type === 'monthly' && <Monthly />}
         </ScrollView>
         <Footer />
+        {Platform.os === 'ios' && this._pickerIOS()}
       </View>
     );
   }
@@ -60,14 +66,31 @@ class RampAddCar extends Component {
   _pickerIOS() {
     const {car} = this.props;
     return (
-      <PickerIOS
-        style={{margin: 15}}
-        selectedValue={car.ticket_type}
-        onValueChange={(val) => this._onTicketTypeChange(val)}>
-        <PickerIOS.Item label="TRANSIENT" value="transient" />
-        <PickerIOS.Item label="HOTEL" value="hotel" />
-        <PickerIOS.Item label="MONTHLY" value="monthly" />
-      </PickerIOS>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={this.state.showModal}
+        onRequestClose={() => {
+          this.setState(() => ({ ...this.state, showModal: flase }))
+        }}>
+        <View style={{ flex: 3, backgroundColor: 'rgba(0,0,0,0.2)' }} />
+        <View style={{ flex: 1, padding: 15 }}>
+          <PickerIOS
+            style={{ margin: 15 }}
+            selectedValue={car.ticket_type}
+            onValueChange={(val) => this._onTicketTypeChange(val)}>
+            <PickerIOS.Item label="TRANSIENT" value="transient" />
+            <PickerIOS.Item label="HOTEL" value="hotel" />
+            <PickerIOS.Item label="MONTHLY" value="monthly" />
+          </PickerIOS>
+
+          <Button
+            backgroundColor={MAIN_COLOR}
+            title='DONE' 
+            onPress={() => this.setState(() => ({ ...this.state, showModal: flase }))}
+          />
+        </View>
+      </Modal>
     );
   }
 
@@ -75,7 +98,7 @@ class RampAddCar extends Component {
     const {car} = this.props;
     return (
       <Picker
-        style={{margin: 15}}
+        style={{ margin: 15 }}
         selectedValue={car.ticket_type}
         onValueChange={(val) => this._onTicketTypeChange(val)}>
         <Picker.Item label="TRANSIENT" value="transient" />

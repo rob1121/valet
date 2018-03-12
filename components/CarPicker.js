@@ -1,12 +1,14 @@
 import React, {Component} from 'react';
-import {Picker, PickerIOS, Platform} from 'react-native';
+import {Picker, Modal, PickerIOS, View, Platform} from 'react-native';
+import {Button, FormInput} from 'react-native-elements';
 import axios from 'axios';
 import {map, toUpper} from 'lodash';
-import {CAR_LIST_URL} from '../constants';
+import {CAR_LIST_URL, MAIN_COLOR} from '../constants';
 
 export default class CarPicker extends Component {
   state = {
-    cars: {}
+    cars: {},
+    showModal: false,
   }
 
   componentDidMount() {
@@ -17,7 +19,14 @@ export default class CarPicker extends Component {
   }
 
   render() {
-    return Platform.os === 'ios' ? this._pickerIOS() : this._pickerAndroid();
+    return (
+      <View>
+        {Platform.os === 'ios' 
+          ? <FormInput value={this.props.value} onFocus={() => this.setState(() => ({...this.state, showModal: true}))} /> 
+          : this._pickerAndroid()}
+        {Platform.os === 'ios' && this._pickerIOS()}
+      </View>
+    );
   }
 
   _pickerAndroid() {
@@ -35,14 +44,31 @@ export default class CarPicker extends Component {
 
   _pickerIOS() {
     return (
-      <PickerIOS
-        selectedValue={this.props.value}
-        onValueChange={(itemValue) => this.props.onValueChange(itemValue)}>
-        <PickerIOS.Item label='N/A' value='' />
-        {map(this.state.cars, (item, index) => {
-          return <PickerIOS.Item key={index} label={toUpper(`${item.make}|${item.model}`)} value={item.model} />
-        })}
-      </PickerIOS>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={this.state.showModal}
+        onRequestClose={() => {
+          this.setState(() => ({ ...this.state, showModal: flase }))
+        }}>
+        <View style={{ flex: 3, backgroundColor: 'rgba(0,0,0,0.2)' }} />
+        <View style={{ flex: 1, padding: 15 }}>
+          <PickerIOS
+            selectedValue={this.props.value}
+            onValueChange={(itemValue) => this.props.onValueChange(itemValue)}>
+            <PickerIOS.Item label='N/A' value='' />
+            {map(this.state.cars, (item, index) => {
+              return <PickerIOS.Item key={index} label={toUpper(`${item.make}|${item.model}`)} value={item.model} />
+            })}
+          </PickerIOS>
+
+          <Button
+            backgroundColor={MAIN_COLOR}
+            title='DONE'
+            onPress={() => this.setState(() => ({ ...this.state, showModal: flase }))}
+          />
+        </View>
+      </Modal>
     );
   }
 }

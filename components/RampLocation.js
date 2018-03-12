@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { View, Picker, PickerIOS, Platform } from 'react-native';
-import { Text } from 'react-native-elements';
+import { Modal, View, Picker, PickerIOS, Platform } from 'react-native';
+import { Text, Button } from 'react-native-elements';
+import {MAIN_COLOR} from '../constants';
 import axios from 'axios';
 import { map, size } from 'lodash';
 import { connect } from 'react-redux';
@@ -12,6 +13,7 @@ class LocationFilter extends Component
 {
   state = {
     list: {},
+    showModal: false,
   }
 
   componentDidMount() {
@@ -34,24 +36,48 @@ class LocationFilter extends Component
 
   render() {
 
-    return Platform.os === 'ios' ? this._pickerAndroid() : this._pickerAndroid();
+    return (
+      <View>
+        {Platform.os === 'ios' 
+        ? <FormInput value={this.props.value} onFocus={() => this.setState(() => ({...this.state, showModal: true}))} />
+        : this._pickerAndroid()}
+        {Platform.os === 'ios' && this._pickerIOS()}
+      </View>
+    );
   }
 
 
   _pickerIOS() {
     const { value, setSelectedLocation} = this.props;
     return (
-      <PickerIOS 
-      style={{ margin: 15 }}
-      onValueChange={(val) => setSelectedLocation(val)}
-      selectedValue={value}
-    >
-      {
-        map(this.state.list, (filter, idx) => {
-          return <PickerIOS.Item key={idx} label={filter.label} value={filter.value} />
-        })
-      }
-    </PickerIOS>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={this.state.showModal}
+        onRequestClose={() => {
+          this.setState(() => ({ ...this.state, showModal: flase }))
+        }}>
+        <View style={{ flex: 3, backgroundColor: 'rgba(0,0,0,0.2)' }} />
+        <View style={{ flex: 1, padding: 15 }}>
+          <PickerIOS 
+            style={{ margin: 15 }}
+            onValueChange={(val) => setSelectedLocation(val)}
+            selectedValue={value}
+          >
+            {
+              map(this.state.list, (filter, idx) => {
+                return <PickerIOS.Item key={idx} label={filter.label} value={filter.value} />
+              })
+            }
+          </PickerIOS>
+
+          <Button
+            backgroundColor={MAIN_COLOR}
+            title='DONE'
+            onPress={() => this.setState(() => ({ ...this.state, showModal: flase }))}
+          />
+        </View>
+      </Modal>
     );
   }
 
