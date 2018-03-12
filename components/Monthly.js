@@ -23,7 +23,7 @@ class Monthly extends Component {
 
   render() {
     const {setCarInfo, car, error} = this.props;
-
+    const {hasValidUser, loading} = this.state;
     return (
       <View>
 
@@ -36,10 +36,10 @@ class Monthly extends Component {
         keyboardType='phone-pad' />
         <FormValidationMessage>{has(error, 'contact_no') && error.contact_no}</FormValidationMessage>
         {
-          this.state.hasValidUser 
+          (hasValidUser == true && loading == false)
             ? this._monthlyForm()
             : <Button 
-            loading={this.state.loading} 
+            loading={loading} 
             backgroundColor={MAIN_COLOR} 
             icon={{name: 'search'}} 
             title='SEARCH'  

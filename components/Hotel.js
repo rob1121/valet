@@ -107,7 +107,7 @@ class Hotel extends Component {
 
   _updateCheckoutDate(newDate) {
 
-    const date = newDate.getDate() > 9 ? newDate.getDate() : `0${newDate.getDate()}`
+    const date = newDate.getDate() > 9 ? newDate.getDate() + 1 : `0${newDate.getDate()+1}`
 
     const month = newDate.getMonth() > 9 ? newDate.getMonth() + 1 : `0${newDate.getMonth() + 1}`
 
