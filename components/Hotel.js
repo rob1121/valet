@@ -97,7 +97,7 @@ class Hotel extends Component {
     return (<DatePickerIOS
       date={new Date(this.props.car.checkout_date)}
       mode="date"
-      onDateChange={this._updateCheckoutDate}
+      onDateChange={(newDate) => this._updateCheckoutDate(newDate)}
     />);
   }
 
