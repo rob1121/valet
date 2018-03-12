@@ -13,6 +13,9 @@ import SubmitBtn from './RampForm/SubmitBtn';
 import RampLocation from './RampLocation';
 
 class Transient extends Component {
+  componentWillMount() {
+    this.props.setCarInfo({ name: this.props.selected_location });
+  }
   render() {
     const {setCarInfo, car, error} = this.props;
 
@@ -24,7 +27,7 @@ class Transient extends Component {
         
         <FormLabel>HOTEL NAME</FormLabel>
         <View style={{margin: 15}}>
-          <RampLocation value={car.name} setSelectedLocation={(val) => setCarInfo({ name: val })} />
+          <Text>{car.name}</Text>
         </View>
         <FormValidationMessage>{has(error, 'name') && error.name}</FormValidationMessage>
 
@@ -45,6 +48,6 @@ class Transient extends Component {
   }
 }
 
-const mapStateToProps = ({ car, error }) => ({ car, error });
+const mapStateToProps = ({ car, error, selected_location }) => ({ car, error, selected_location });
 
 export default connect(mapStateToProps, { setCarInfo})(Transient);
