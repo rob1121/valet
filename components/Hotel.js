@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { View, Platform, DatePickerIOS, DatePickerAndroid, Text} from 'react-native';
+import { View, Platform, DatePickerIOS, DatePickerAndroid} from 'react-native';
 import {Text, FormLabel, FormInput, Icon, FormValidationMessage, Button}  from 'react-native-elements';
 import {connect} from 'react-redux';
 import {has} from 'lodash';
