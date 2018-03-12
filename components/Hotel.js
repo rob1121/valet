@@ -114,7 +114,7 @@ class Hotel extends Component {
   _androidDatePicker() {
     return (<View style={{ flexDirection: 'row', width: WIN_WIDTH }}>
       <View style={{ width: WIN_WIDTH * 0.8 }}>
-        <FormInput onChangeText={(val) => setCarInfo({ checkout_date: val })} value={this.props.car.checkout_date} />
+        <FormInput onChangeText={(val) => this.props.setCarInfo({ checkout_date: val })} value={this.props.car.checkout_date} />
       </View>
       <View style={{ width: WIN_WIDTH * 0.2 }}>
         <Icon
