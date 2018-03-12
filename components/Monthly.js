@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {View} from 'react-native';
-import {FormValidationMessage, FormLabel, FormInput, Button}  from 'react-native-elements';
+import {Text, FormValidationMessage, FormLabel, FormInput, Button}  from 'react-native-elements';
 import {connect} from 'react-redux';
 import {has} from 'lodash';
 import axios from 'axios';
@@ -10,12 +10,15 @@ import Option from './RampForm/Option';
 import CarDetailsInput from './RampForm/CarDetailsInput';
 import Comment from './RampForm/Comment';
 import SubmitBtn from './RampForm/SubmitBtn';
-import RampLocation from './RampLocation';
 
 class Monthly extends Component {
   state = {
     hasValidUser: false,
     loading: false,
+  }
+
+  componentWillMount() {
+    this.props.setCarInfo({ name: this.props.selected_location });
   }
 
   render() {
@@ -72,9 +75,11 @@ class Monthly extends Component {
     return (
       <View>
         <Option />
+        
         <FormLabel>HOTEL NAME</FormLabel>
-        <RampLocation value={car.name} setSelectedLocation={(val) => setCarInfo({ name: val })} />
-        <FormValidationMessage>{has(error, 'name') && error.name}</FormValidationMessage>
+        <View style={{ margin: 15 }}>
+          <Text>{car.name}</Text>
+        </View>
 
         <CarDetailsInput />
         <Comment />

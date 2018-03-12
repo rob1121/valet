@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { View, Platform, DatePickerIOS, DatePickerAndroid, Text} from 'react-native';
-import {FormLabel, FormInput, Icon, FormValidationMessage, Button}  from 'react-native-elements';
+import {Text, FormLabel, FormInput, Icon, FormValidationMessage, Button}  from 'react-native-elements';
 import {connect} from 'react-redux';
 import {has} from 'lodash';
 import axios from 'axios';
@@ -11,13 +11,16 @@ import Option from './RampForm/Option';
 import CarDetailsInput from './RampForm/CarDetailsInput';
 import Comment from './RampForm/Comment';
 import SubmitBtn from './RampForm/SubmitBtn';
-import RampLocation from './RampLocation';
 
 class Hotel extends Component {
   state = {
     hasValidTicket: false,
     loading: false,
     chosenDate: new Date(),
+  }
+
+  componentWillMount() {
+    this.props.setCarInfo({ name: this.props.selected_location });
   }
 
   render() {
@@ -64,9 +67,10 @@ class Hotel extends Component {
     return (
       <View>
         <Option />
+
         <FormLabel>HOTEL NAME</FormLabel>
-        <View style={{margin:15}}>
-          <RampLocation value={car.name} setSelectedLocation={(val) => setCarInfo({ name: val })} />
+        <View style={{ margin: 15 }}>
+          <Text>{car.name}</Text>
         </View>
         <FormValidationMessage>{has(error, 'name') && error.name}</FormValidationMessage>
         
@@ -136,6 +140,6 @@ class Hotel extends Component {
   }
 }
 
-const mapStateToProps = ({ car, error }) => ({ car, error });
+const mapStateToProps = ({ car, error, selected_location }) => ({ car, error, selected_location });
 
 export default connect(mapStateToProps, { setCarInfo})(Hotel);

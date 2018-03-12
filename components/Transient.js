@@ -10,7 +10,6 @@ import Barcode from './Barcode';
 import CarDetailsInput from './RampForm/CarDetailsInput';
 import Comment from './RampForm/Comment';
 import SubmitBtn from './RampForm/SubmitBtn';
-import RampLocation from './RampLocation';
 
 class Transient extends Component {
   componentWillMount() {
