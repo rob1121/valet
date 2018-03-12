@@ -56,7 +56,7 @@ class RampAddCar extends Component {
         ? <TouchableHighlight 
         onPress={() => this.setState({...this.state, showModal: true})}>
         <Text
-        textStyle={{size: 24}}>{toUpper(this.props.car.opt)}(click to edit)</Text>
+        textStyle={{size: 24}}>{toUpper(car.ticket_type)}(click to edit)</Text>
            </TouchableHighlight>
         : this._pickerAndroid()}
 
@@ -75,13 +75,12 @@ class RampAddCar extends Component {
     return (
       <Modal
         animationType="fade"
-        transparent={true}
+        transparent={false}
         visible={this.state.showModal}
         onRequestClose={() => {
           this.setState(() => ({ ...this.state, showModal: false }))
         }}>
-        <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.2)' }} />
-        <View style={{ flex: 1, backgroundColor: '#fff'}}>
+        <View style={{ flex: 1}}>
           <PickerIOS
             style={{ margin: 15 }}
             selectedValue={car.ticket_type}
@@ -97,7 +96,6 @@ class RampAddCar extends Component {
             onPress={() => this.setState(() => ({ ...this.state, showModal: false }))}
           />
         </View>
-        <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.2)' }} />
       </Modal>
     );
   }

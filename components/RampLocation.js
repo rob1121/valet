@@ -56,14 +56,13 @@ class LocationFilter extends Component
     return (
       <Modal
         animationType="fade"
-        transparent={true}
+        transparent={false}
         visible={this.state.showModal}
         onRequestClose={() => {
           this.setState(() => ({ ...this.state, showModal: false }))
         }}>
-        <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.2)' }} />
-        <View style={{ flex: 1, backgroundColor: '#fff'}}>
-          <PickerIOS 
+        <View style={{ flex: 1}}>
+		<PickerIOS 
             style={{ margin: 15 }}
             onValueChange={(val) => setSelectedLocation(val)}
             selectedValue={value}
@@ -74,14 +73,12 @@ class LocationFilter extends Component
               })
             }
           </PickerIOS>
-
           <Button
             backgroundColor={MAIN_COLOR}
             title='DONE'
             onPress={() => this.setState({ ...this.state, showModal: false })}
           />
         </View>
-        <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.2)' }} />
       </Modal>
     );
   }

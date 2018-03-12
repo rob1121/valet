@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {TouchableHighlight, Picker, Modal, PickerIOS, View, Platform} from 'react-native';
-import {Button, FormInput} from 'react-native-elements';
+import {Text, Button, FormInput} from 'react-native-elements';
 import axios from 'axios';
 import {map, toUpper} from 'lodash';
 import {CAR_LIST_URL, MAIN_COLOR} from '../constants';
@@ -50,13 +50,12 @@ export default class CarPicker extends Component {
     return (
       <Modal
         animationType="fade"
-        transparent={true}
+        transparent={false}
         visible={this.state.showModal}
         onRequestClose={() => {
           this.setState(() => ({ ...this.state, showModal: false }))
         }}>
-        <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.2)' }} />
-        <View style={{ flex: 1, backgroundColor: '#fff' }}>
+        <View style={{ flex: 1}}>
           <PickerIOS
             selectedValue={this.props.value}
             onValueChange={(itemValue) => this.props.onValueChange(itemValue)}>
@@ -72,7 +71,6 @@ export default class CarPicker extends Component {
             onPress={() => this.setState(() => ({ ...this.state, showModal: false }))}
           />
         </View>
-        <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.2)' }} />
       </Modal>
     );
   }

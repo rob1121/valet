@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {TouchableHighlight, Modal, View, Picker, PickerIOS, Platform} from 'react-native';
 import {connect} from 'react-redux';
 import {toUpper} from 'lodash';
-import {FormLabel, FormInput, Button} from 'react-native-elements';
+import {Text, FormLabel, FormInput, Button} from 'react-native-elements';
 import {setCarInfo} from '../../actions';
 import {MAIN_COLOR} from '../../constants';
 
@@ -33,13 +33,12 @@ class  Option extends Component {
     return (
       <Modal
         animationType="fade"
-        transparent={true}
+        transparent={false}
         visible={this.state.showModal}
         onRequestClose={() => {
           this.setState(() => ({ ...this.state, showModal: false }))
         }}>
-        <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.2)' }} />
-        <View style={{ flex: 1, backgroundColor: '#fff'}}>
+        <View style={{ flex: 1}}>
           <PickerIOS
             style={{ margin: 15 }}
             selectedValue={this.props.car.opt}
@@ -54,7 +53,6 @@ class  Option extends Component {
             onPress={() => this.setState(() => ({ ...this.state, showModal: false }))}
           />
         </View>
-        <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.2)' }} />
       </Modal>
     );
   }

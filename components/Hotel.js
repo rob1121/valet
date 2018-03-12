@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
-import { View, Platform, DatePickerIOS, DatePickerAndroid} from 'react-native';
+import { Modal, TouchableHighlight, View, Platform, DatePickerIOS, DatePickerAndroid} from 'react-native';
 import {Text, FormLabel, FormInput, Icon, FormValidationMessage, Button}  from 'react-native-elements';
 import {connect} from 'react-redux';
-import {has} from 'lodash';
+import {has, toUpper} from 'lodash';
 import axios from 'axios';
 import {WIN_WIDTH, MAIN_COLOR, SEARCH_TICKET_URL} from '../constants';
 import {setCarInfo} from '../actions';
@@ -16,6 +16,7 @@ class Hotel extends Component {
   state = {
     hasValidTicket: false,
     loading: false,
+    showDatePicker: false,
     chosenDate: new Date(),
   }
 
@@ -87,22 +88,46 @@ class Hotel extends Component {
           <FormValidationMessage>{has(error,'room_number') && error.room_number}</FormValidationMessage>
 
         <FormLabel>CHECKOUT DATE</FormLabel>
-        {Platform.OS === 'ios' ? this._iosDatePicker() : this._androidDatePicker()}
+        {Platform.OS === 'ios' ? <TouchableHighlight 
+        onPress={() => this.setState({...this.state, showDatePicker: true})}>
+        <Text
+        textStyle={{size: 24}}>{toUpper(this.props.car.checkout_date)}(click to edit)</Text>
+      </TouchableHighlight> : this._androidDatePicker()}
         
         <FormValidationMessage>{has(error,'checkout_date') && error.checkout_date}</FormValidationMessage>
         <CarDetailsInput />
         <Comment />
         <SubmitBtn />
+
+        {Platform.OS === 'ios' && this._iosDatePicker()}
       </View>
     )
   }
 
   _iosDatePicker() {
-    return (<DatePickerIOS
+    return (
+      
+      <Modal
+        animationType="fade"
+        transparent={false}
+        visible={this.state.showDatePicker}
+        onRequestClose={() => {
+          this.setState(() => ({ ...this.state, showDatePicker: false }))
+        }}>
+        <View style={{ flex: 1}}>
+    <DatePickerIOS
       date={new Date(this.props.car.checkout_date)}
       mode="date"
       onDateChange={(newDate) => this._updateCheckoutDate(newDate)}
-    />);
+    />
+
+    <Button
+      backgroundColor={MAIN_COLOR}
+      title='DONE'
+      onPress={() => this.setState(() => ({ ...this.state, showDatePicker: false }))}
+    />
+  </View>
+</Modal>);
   }
 
   _updateCheckoutDate(newDate) {
