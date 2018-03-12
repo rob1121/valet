@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Picker, Modal, PickerIOS, View, Platform} from 'react-native';
+import {TouchableHighlight, Picker, Modal, PickerIOS, View, Platform} from 'react-native';
 import {Button, FormInput} from 'react-native-elements';
 import axios from 'axios';
 import {map, toUpper} from 'lodash';
@@ -22,8 +22,12 @@ export default class CarPicker extends Component {
     return (
       <View>
         {Platform.OS === 'ios' 
-          ? <FormInput value={this.props.value} onFocus={() => this.setState(() => ({...this.state, showModal: true}))} /> 
-          : this._pickerAndroid()}
+        ? <TouchableHighlight 
+        onPress={() => this.setState({...this.state, showModal: true})}>
+        <Text
+        textStyle={{size: 24}}>{toUpper(this.props.value)}(click to edit)</Text>
+           </TouchableHighlight>
+        : this._pickerAndroid()}
         {Platform.OS === 'ios' && this._pickerIOS()}
       </View>
     );
@@ -45,14 +49,14 @@ export default class CarPicker extends Component {
   _pickerIOS() {
     return (
       <Modal
-        animationType="slide"
+        animationType="fade"
         transparent={true}
         visible={this.state.showModal}
         onRequestClose={() => {
-          this.setState(() => ({ ...this.state, showModal: flase }))
+          this.setState(() => ({ ...this.state, showModal: false }))
         }}>
-        <View style={{ flex: 3, backgroundColor: 'rgba(0,0,0,0.2)' }} />
-        <View style={{ flex: 1, padding: 15 }}>
+        <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.2)' }} />
+        <View style={{ flex: 1, backgroundColor: '#fff' }}>
           <PickerIOS
             selectedValue={this.props.value}
             onValueChange={(itemValue) => this.props.onValueChange(itemValue)}>
@@ -65,9 +69,10 @@ export default class CarPicker extends Component {
           <Button
             backgroundColor={MAIN_COLOR}
             title='DONE'
-            onPress={() => this.setState(() => ({ ...this.state, showModal: flase }))}
+            onPress={() => this.setState(() => ({ ...this.state, showModal: false }))}
           />
         </View>
+        <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.2)' }} />
       </Modal>
     );
   }

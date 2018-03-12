@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { Modal, View, Picker, PickerIOS, Platform } from 'react-native';
-import { Text, Button } from 'react-native-elements';
+import { TouchableHighlight, Modal, View, Picker, PickerIOS, Platform } from 'react-native';
+import { Text, Button, FormInput } from 'react-native-elements';
 import {MAIN_COLOR} from '../constants';
 import axios from 'axios';
-import { map, size } from 'lodash';
+import { map, size, toUpper } from 'lodash';
 import { connect } from 'react-redux';
 import { 
   LOCATION_FILTER_URL,
@@ -39,7 +39,11 @@ class LocationFilter extends Component
     return (
       <View>
         {Platform.OS === 'ios' 
-        ? <FormInput value={this.props.value} onFocus={() => this.setState(() => ({...this.state, showModal: true}))} />
+        ? <TouchableHighlight 
+        onPress={() => this.setState({...this.state, showModal: true})}>
+        <Text
+        textStyle={{size: 24}}>{toUpper(this.props.value)}(click to edit)</Text>
+           </TouchableHighlight>
         : this._pickerAndroid()}
         {Platform.OS === 'ios' && this._pickerIOS()}
       </View>
@@ -51,14 +55,14 @@ class LocationFilter extends Component
     const { value, setSelectedLocation} = this.props;
     return (
       <Modal
-        animationType="slide"
+        animationType="fade"
         transparent={true}
         visible={this.state.showModal}
         onRequestClose={() => {
-          this.setState(() => ({ ...this.state, showModal: flase }))
+          this.setState(() => ({ ...this.state, showModal: false }))
         }}>
-        <View style={{ flex: 3, backgroundColor: 'rgba(0,0,0,0.2)' }} />
-        <View style={{ flex: 1, padding: 15 }}>
+        <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.2)' }} />
+        <View style={{ flex: 1, backgroundColor: '#fff'}}>
           <PickerIOS 
             style={{ margin: 15 }}
             onValueChange={(val) => setSelectedLocation(val)}
@@ -74,9 +78,10 @@ class LocationFilter extends Component
           <Button
             backgroundColor={MAIN_COLOR}
             title='DONE'
-            onPress={() => this.setState(() => ({ ...this.state, showModal: flase }))}
+            onPress={() => this.setState({ ...this.state, showModal: false })}
           />
         </View>
+        <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.2)' }} />
       </Modal>
     );
   }

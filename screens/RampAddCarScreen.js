@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
-import { Modal, Alert, Platform, PickerIOS, Picker, View, ScrollView, TextInput, BackHandler} from 'react-native';
+import { TouchableHighlight, Modal, Alert, Platform, PickerIOS, Picker, View, ScrollView, TextInput, BackHandler} from 'react-native';
 import {Header, Button, FormLabel, FormInput, Text, FormValidationMessage}  from 'react-native-elements';
 import {connect} from 'react-redux';
-import {has} from 'lodash';
+import {has, toUpper} from 'lodash';
 import { WIN_WIDTH, RAMP_ADD_CAR_NAV, HOME_NAV, MAIN_COLOR} from '../constants';
 import {setErrors, resetCarInfo, setActiveScreen, setCarInfo} from '../actions';
 import Hotel from '../components/Hotel';
@@ -49,9 +49,16 @@ class RampAddCar extends Component {
           centerComponent={{ text: 'TICKETING', style: { color: '#fff' } }}
         />
           <FormLabel>TICKET TYPE</FormLabel>
-          {Platform.OS === 'ios' 
-            ? <FormInput value={car.ticket_type} onFocus={() => this.setState(() => ({...this.state, showModal: true}))} /> 
-            : this._pickerAndroid()}
+
+
+
+        {Platform.OS === 'ios' 
+        ? <TouchableHighlight 
+        onPress={() => this.setState({...this.state, showModal: true})}>
+        <Text
+        textStyle={{size: 24}}>{toUpper(this.props.car.opt)}(click to edit)</Text>
+           </TouchableHighlight>
+        : this._pickerAndroid()}
 
           {car.ticket_type === 'hotel' && <Hotel />}
           {car.ticket_type === 'transient' && <Transient />}
@@ -67,14 +74,14 @@ class RampAddCar extends Component {
     const {car} = this.props;
     return (
       <Modal
-        animationType="slide"
+        animationType="fade"
         transparent={true}
         visible={this.state.showModal}
         onRequestClose={() => {
-          this.setState(() => ({ ...this.state, showModal: flase }))
+          this.setState(() => ({ ...this.state, showModal: false }))
         }}>
-        <View style={{ flex: 3, backgroundColor: 'rgba(0,0,0,0.2)' }} />
-        <View style={{ flex: 1, padding: 15 }}>
+        <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.2)' }} />
+        <View style={{ flex: 1, backgroundColor: '#fff'}}>
           <PickerIOS
             style={{ margin: 15 }}
             selectedValue={car.ticket_type}
@@ -87,9 +94,10 @@ class RampAddCar extends Component {
           <Button
             backgroundColor={MAIN_COLOR}
             title='DONE' 
-            onPress={() => this.setState(() => ({ ...this.state, showModal: flase }))}
+            onPress={() => this.setState(() => ({ ...this.state, showModal: false }))}
           />
         </View>
+        <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.2)' }} />
       </Modal>
     );
   }
