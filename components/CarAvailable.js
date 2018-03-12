@@ -85,8 +85,8 @@ class CarAvailable extends Component
             />
           }
         >
-          {this.props.user.type == 'ramp' && <FormLabel>HOTEL NAME</FormLabel>}
-          {this.props.user.type == 'ramp' && <View style={{ margin: 15 }}>
+          {this.props.user.type == 'ramp' && <View style={{margin: 15}}>
+            <FormLabel>HOTEL NAME</FormLabel>
             <RampLocation value={this.props.selected_location} setSelectedLocation={(val) => this.props.setSelectedLocation(val)} />
           </View>}
           {!isEmpty(carsAssign) 

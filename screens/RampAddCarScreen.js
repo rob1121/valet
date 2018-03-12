@@ -49,7 +49,7 @@ class RampAddCar extends Component {
           centerComponent={{ text: 'TICKETING', style: { color: '#fff' } }}
         />
           <FormLabel>TICKET TYPE</FormLabel>
-          {Platform.os === 'ios' 
+          {Platform.OS === 'ios' 
             ? <FormInput value={car.ticket_type} onFocus={() => this.setState(() => ({...this.state, showModal: true}))} /> 
             : this._pickerAndroid()}
 
@@ -58,7 +58,7 @@ class RampAddCar extends Component {
           {car.ticket_type === 'monthly' && <Monthly />}
         </ScrollView>
         <Footer />
-        {Platform.os === 'ios' && this._pickerIOS()}
+        {Platform.OS === 'ios' && this._pickerIOS()}
       </View>
     );
   }
@@ -71,7 +71,7 @@ class RampAddCar extends Component {
         transparent={true}
         visible={this.state.showModal}
         onRequestClose={() => {
-          this.setState(() => ({ ...this.state, showModal: false }))
+          this.setState(() => ({ ...this.state, showModal: flase }))
         }}>
         <View style={{ flex: 3, backgroundColor: 'rgba(0,0,0,0.2)' }} />
         <View style={{ flex: 1, padding: 15 }}>
@@ -87,7 +87,7 @@ class RampAddCar extends Component {
           <Button
             backgroundColor={MAIN_COLOR}
             title='DONE' 
-            onPress={() => this.setState(() => ({ ...this.state, showModal: false }))}
+            onPress={() => this.setState(() => ({ ...this.state, showModal: flase }))}
           />
         </View>
       </Modal>

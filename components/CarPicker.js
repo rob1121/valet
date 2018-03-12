@@ -21,10 +21,10 @@ export default class CarPicker extends Component {
   render() {
     return (
       <View>
-        {Platform.os === 'ios' 
+        {Platform.OS === 'ios' 
           ? <FormInput value={this.props.value} onFocus={() => this.setState(() => ({...this.state, showModal: true}))} /> 
           : this._pickerAndroid()}
-        {Platform.os === 'ios' && this._pickerIOS()}
+        {Platform.OS === 'ios' && this._pickerIOS()}
       </View>
     );
   }
@@ -49,7 +49,7 @@ export default class CarPicker extends Component {
         transparent={true}
         visible={this.state.showModal}
         onRequestClose={() => {
-          this.setState(() => ({ ...this.state, showModal: false }))
+          this.setState(() => ({ ...this.state, showModal: flase }))
         }}>
         <View style={{ flex: 3, backgroundColor: 'rgba(0,0,0,0.2)' }} />
         <View style={{ flex: 1, padding: 15 }}>
@@ -65,7 +65,7 @@ export default class CarPicker extends Component {
           <Button
             backgroundColor={MAIN_COLOR}
             title='DONE'
-            onPress={() => this.setState(() => ({ ...this.state, showModal: false }))}
+            onPress={() => this.setState(() => ({ ...this.state, showModal: flase }))}
           />
         </View>
       </Modal>

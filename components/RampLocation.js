@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Modal, View, Picker, PickerIOS, Platform } from 'react-native';
-import { Text, Icon, Button } from 'react-native-elements';
-import { MAIN_COLOR, WIN_WIDTH} from '../constants';
+import { Text, Button } from 'react-native-elements';
+import {MAIN_COLOR} from '../constants';
 import axios from 'axios';
-import { map, size, toUpper } from 'lodash';
+import { map, size } from 'lodash';
 import { connect } from 'react-redux';
 import { 
   LOCATION_FILTER_URL,
@@ -37,32 +37,11 @@ class LocationFilter extends Component
   render() {
 
     return (
-      <View style={{flexDirection: 'row'}}>
-        <Text style={{ textAlign: 'center'}}>{toUpper(this.props.value)}</Text>
-            <Icon
-          iconStyle={{ marginLeft: 15, textAlign: 'center'}}
-              name='edit'
-              onPress={() => this.setState(() => ({ ...this.state, showModal: true }))}
-            />
-
-        <Modal
-          animationType="fade"
-          transparent={true}
-          visible={this.state.showModal}
-          onRequestClose={() => {
-            this.setState(() => ({ ...this.state, showModal: false }))
-          }}>
-          <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)' }} />
-          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            {Platform.os === 'ios' ? this._pickerIOS() : this._pickerAndroid()}
-            <Button
-              backgroundColor={MAIN_COLOR}
-              title='DONE'
-              onPress={() => this.setState(() => ({ ...this.state, showModal: false }))}
-            />
-          </View>
-          <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)' }} />
-        </Modal>
+      <View>
+        {Platform.OS === 'ios' 
+        ? <FormInput value={this.props.value} onFocus={() => this.setState(() => ({...this.state, showModal: true}))} />
+        : this._pickerAndroid()}
+        {Platform.OS === 'ios' && this._pickerIOS()}
       </View>
     );
   }
@@ -71,6 +50,15 @@ class LocationFilter extends Component
   _pickerIOS() {
     const { value, setSelectedLocation} = this.props;
     return (
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={this.state.showModal}
+        onRequestClose={() => {
+          this.setState(() => ({ ...this.state, showModal: flase }))
+        }}>
+        <View style={{ flex: 3, backgroundColor: 'rgba(0,0,0,0.2)' }} />
+        <View style={{ flex: 1, padding: 15 }}>
           <PickerIOS 
             style={{ margin: 15 }}
             onValueChange={(val) => setSelectedLocation(val)}
@@ -82,6 +70,14 @@ class LocationFilter extends Component
               })
             }
           </PickerIOS>
+
+          <Button
+            backgroundColor={MAIN_COLOR}
+            title='DONE'
+            onPress={() => this.setState(() => ({ ...this.state, showModal: flase }))}
+          />
+        </View>
+      </Modal>
     );
   }
 
