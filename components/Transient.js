@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {View} from 'react-native';
-import {FormValidationMessage, FormLabel, FormInput}  from 'react-native-elements';
+import {Text, FormValidationMessage, FormLabel, FormInput}  from 'react-native-elements';
 import {connect} from 'react-redux';
 import {has} from 'lodash';
 import axios from 'axios';
