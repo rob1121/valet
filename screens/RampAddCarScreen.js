@@ -49,9 +49,9 @@ class RampAddCar extends Component {
           centerComponent={{ text: 'TICKETING', style: { color: '#fff' } }}
         />
           <FormLabel>TICKET TYPE</FormLabel>
-          {Platform.os === 'ios' 
-            ? <FormInput value={car.ticket_type} onFocus={() => this.setState(() => ({...this.state, showModal: true}))} /> 
-            : this._pickerAndroid()}
+          {/* {Platform.os === 'ios'  */}
+            <FormInput value={car.ticket_type} onFocus={() => this.setState(() => ({...this.state, showModal: true}))} /> 
+            {/* this._pickerAndroid() */}
 
           {car.ticket_type === 'hotel' && <Hotel />}
           {car.ticket_type === 'transient' && <Transient />}
