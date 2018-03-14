@@ -38,10 +38,12 @@ class LocationFilter extends Component
 
     return (
       <View style={{flexDirection: 'row'}}>
-        <Text style={{ textAlign: 'center'}}>{toUpper(this.props.value)}</Text>
+        <Text style={{ textAlign: 'center'}}>{toUpper(this.props.value)}{Platform.OS}</Text>
             <Icon
-          iconStyle={{ marginLeft: 15, textAlign: 'center'}}
+              iconStyle={{ marginLeft: 15, textAlign: 'center'}}
               name='edit'
+              size={16}
+              type='feather'
               onPress={() => this.setState(() => ({ ...this.state, showModal: true }))}
             />
 
