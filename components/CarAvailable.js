@@ -75,7 +75,6 @@ class CarAvailable extends Component
         <Header
           centerComponent={{ text: 'TASK LIST', style: { color: '#fff' } }}
         />
-        <Text>{JSON.stringify(this.props.car_assign.active_tasl)}</Text>
         <ScrollView 
           style={{marginTop: 20, marginBottom: 50}}
           refreshControl={
@@ -85,13 +84,13 @@ class CarAvailable extends Component
             />
           }
         >
-          {this.props.user.type == 'ramp' && <View style={{margin: 15}}>
-            <FormLabel>HOTEL NAME</FormLabel>
+          {this.props.user.type == 'ramp' && <FormLabel>HOTEL NAME</FormLabel>}
+          {this.props.user.type == 'ramp' && <View style={{ margin: 20 }}>
             <RampLocation value={this.props.selected_location} setSelectedLocation={(val) => this.props.setSelectedLocation(val)} />
           </View>}
           {!isEmpty(carsAssign) 
-              ? this._listItem(carsAssign) 
-              : <Text style={emptyTaskContainer}>No record found!.</Text>}
+            ? this._listItem(carsAssign) 
+            : <Text style={emptyTaskContainer}>No record found!.</Text>}
         </ScrollView>
       </View>
     );
