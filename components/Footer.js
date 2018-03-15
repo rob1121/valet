@@ -21,10 +21,7 @@ class Footer extends Component {
       'Are you sure you want to logout?',
       [
         { text: 'Cancel', style: 'cancel' },
-        { text: 'OK', onPress: () => {
-          this._resetUser();
-          this.props.nav.navigate(LOGIN_NAV);
-        }},
+        { text: 'OK', onPress: () => this._resetUser()},
       ],
       { cancelable: false }
     );
@@ -35,7 +32,8 @@ class Footer extends Component {
     axios.post(LOGOUT_URL, token).then(() => {
       AsyncStorage.multiRemove(['username','password']);
       this.props.logoutUser();
-    });
+      this.props.nav.navigate(LOGIN_NAV);
+    }).catch((error) => console.log(error));
   }
 
   _screenMenuColor(name)
