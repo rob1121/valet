@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Alert, AsyncStorage} from 'react-native';
 import {Icon, Header} from 'react-native-elements';
 import {connect} from 'react-redux';
+import axios from 'axios';
 import {logoutUser} from '../actions';
 import {
   ACTIVE_SCREEN_COLOR,
@@ -10,6 +11,7 @@ import {
   HOME_NAV,
   LOGIN_NAV,
   RAMP_ADD_CAR_NAV,
+  LOGOUT_URL
 } from '../constants';
 
 class Footer extends Component {
@@ -29,8 +31,11 @@ class Footer extends Component {
   }
 
   _resetUser() {
-    AsyncStorage.multiRemove(['username','password']);
-    this.props.logoutUser();
+    cosnt {token} = this.props.user;
+    axios.post(LOGOUT_URL, token).then(() => {
+      AsyncStorage.multiRemove(['username','password']);
+      this.props.logoutUser();
+    });
   }
 
   _screenMenuColor(name)

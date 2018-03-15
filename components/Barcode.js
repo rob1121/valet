@@ -20,7 +20,7 @@ class Barcode extends React.Component {
 
         <View style={{ flexDirection: 'row', width: WIN_WIDTH }}>
           <View style={{ width: WIN_WIDTH*0.8 }}>
-            <FormInput onChangeText={(val) => this.props.setCarInfo({ticketno: val})} value={this.props.car.ticketno}/>
+            <FormInput onChangeText={(val) => this.props.setCarInfo({ticketno: val})} value={this.props.car.ticketno} keyboardType='numeric' />
           </View>
 
           <View style={{ width: WIN_WIDTH * 0.2 }}>
