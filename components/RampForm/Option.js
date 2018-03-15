@@ -59,16 +59,13 @@ class  Option extends Component {
 
   _pickerAndroid() {
     return (
-      <View>
-        <FormLabel>OPTION</FormLabel>
-        <Picker
-          style={{ margin: 15 }}
-          selectedValue={this.props.car.opt}
-          onValueChange={(val) => this.props.setCarInfo({ opt: val })}>
-          <Picker.Item label="DELIVERY" value="Delivery" />
-          <Picker.Item label="PICKUP" value="Pickup" />
-        </Picker>
-      </View>
+      <Picker
+        style={{ margin: 15 }}
+        selectedValue={this.props.car.opt}
+        onValueChange={(val) => this.props.setCarInfo({ opt: val })}>
+        <Picker.Item label="DELIVERY" value="Delivery" />
+        <Picker.Item label="PICKUP" value="Pickup" />
+      </Picker>
     );
   }
 } 
