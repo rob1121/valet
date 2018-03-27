@@ -52,7 +52,6 @@ class LoginScreen extends Component
       password,
     }).then(({data}) => {
       this.setState(() => ({ loading: false }));
-      console.log(data, data.error);
       if(data.error) {
         AsyncStorage.multiRemove(['username','password']);
         alert(data.msg);
