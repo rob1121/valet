@@ -6112,3 +6112,8 @@
 #=#=#=#=# Propagation starts 2018-03-28T12:53:30Z (last step: 18041 msec, total: 18041 msec)
 ||node_modules|INST_IGNORE|Up|1522240861||327680||6|Ignored because of the "choose what to sync" blacklist|0|0|0||||
 #=#=#=# Syncrun finished 2018-03-28T12:53:30Z (last step: 271 msec, total: 18313 msec)
+#=#=#=# Syncrun started 2018-03-28T13:10:45Z
+#=#=#=#=# Propagation starts 2018-03-28T13:10:55Z (last step: 10432 msec, total: 10432 msec)
+||node_modules|INST_IGNORE|Up|1522240861||327680||6|Ignored because of the "choose what to sync" blacklist|0|0|0||||
+13:11:00||screens/LoginScreen.js|INST_SYNC|Up|1522242643|94324293ac7c85163d4ae53b36127783|5252|00721395ocg0oijmmfm5|4||204|5278|1522241501||||
+#=#=#=# Syncrun finished 2018-03-28T13:10:56Z (last step: 1125 msec, total: 11557 msec)
