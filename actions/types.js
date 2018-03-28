@@ -16,3 +16,6 @@ export const SET_NAVIGATION = 'set_navigation';
 export const SET_CAR_INFO = 'set_car_info';
 
 export const SET_ERRORS = 'set_errors';
+
+export const SET_VALIDATION_ACTIVE_TASK = 'set_validation_active_task';
+export const SET_VALIDATION_LIST = 'set_validation_list';

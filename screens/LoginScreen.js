@@ -43,9 +43,7 @@ class LoginScreen extends Component
   async _login() {
     const { username, password }  = this.props.user;
     const token = await expoToken();
-
     this.setState(() => ({loading: true}));
-
     axios.post(LOGIN_URL,{
       token,
       username, 
@@ -53,12 +51,12 @@ class LoginScreen extends Component
     }).then(({data}) => {
       this.setState(() => ({ loading: false }));
       if(data.error) {
-        AsyncStorage.multiRemove(['username','password']);
         alert(data.msg);
         return;
       }
 
       AsyncStorage.multiSet([['username', username], ['password', password]]);
+
       this.props.setUser(data.data);
       this.props.navigation.navigate(HOME_NAV);
     }).catch((error) => {
