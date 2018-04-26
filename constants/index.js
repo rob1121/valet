@@ -6,7 +6,6 @@ export const WIN_WIDTH = Dimensions.get('window').width;
 export const WIN_HEIGHT = Dimensions.get('window').height;
 
 export const ROOT_URL = 'http://beachfrontparking.com';
-//export const ROOT_URL = 'http://192.168.1.6/beach_front_parking';
 
 //export const ROOT_URL = 'http://99.122.157.77/beach_front_parking';
 export const REGISTER_TOKEN_URL = `${ROOT_URL}/api/register_token.php`;
@@ -23,7 +22,10 @@ export const REMOVE_IMG_URL = `${ROOT_URL}/api/remove_image.php`;
 export const SEARCH_TICKET_URL = `${ROOT_URL}/api/search_ticket.php`;
 export const SEARCH_MONTHLY_USER_URL = `${ROOT_URL}/api/search_monthly_user.php`;
 export const VALIDATION_LIST_URL = `${ROOT_URL}/api/validation_list.php`;
+export const VALIDATION_HISTORY_LIST_URL = `${ROOT_URL}/api/validation_history_list.php`;
 export const UPDATE_VALIDATION_TASK_URL = `${ROOT_URL}/api/update_validation_task.php`;
+export const ACTIVE_TASK_LIST_URL = `${ROOT_URL}/api/active_task_list.php`;
+
 export const ACTIVE_SCREEN_COLOR = '#222';
 export const NOT_ACTIVE_SCREEN_COLOR = '#757575';
 export const DISABLE_SCREEN_COLOR = '#cccccc';
@@ -31,6 +33,8 @@ export const DISABLE_SCREEN_COLOR = '#cccccc';
 export const HOME_NAV = 'Home';
 export const LOGIN_NAV = 'Login';
 export const RAMP_ADD_CAR_NAV = 'RampAddCar';
+export const CAR_AVAILABLE_LIST_NAV = 'CarAvailable';
+export const VALIDATION_HISTORY_LIST_NAV = 'ValidationHistoryList';
 
 
 export const VALET_ON_THE_WAY = 2;

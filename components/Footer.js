@@ -11,23 +11,25 @@ import {
   HOME_NAV,
   LOGIN_NAV,
   RAMP_ADD_CAR_NAV,
+  CAR_AVAILABLE_LIST_NAV,
+  VALIDATION_HISTORY_LIST_NAV,
   LOGOUT_URL
 } from '../constants';
 
 class Footer extends Component {
-  _logout() {
+  _logout = () => {
     Alert.alert(
       'Logout Confirmation',
       'Are you sure you want to logout?',
       [
         { text: 'Cancel', style: 'cancel' },
-        { text: 'OK', onPress: () => this._resetUser()},
+        { text: 'OK', onPress: this._resetUser},
       ],
       { cancelable: false }
     );
   }
 
-  _resetUser() {
+  _resetUser = () => {
     const {token} = this.props.user;
     axios.post(LOGOUT_URL, {token}).then(() => {
       AsyncStorage.multiRemove(['username','password']);
@@ -36,18 +38,18 @@ class Footer extends Component {
     }).catch((error) => console.log(error));
   }
 
-  _screenMenuColor(name)
-  {
+  _screenMenuColor = name => {
     return this.props.nav.active_screen === name ? ACTIVE_SCREEN_COLOR : NOT_ACTIVE_SCREEN_COLOR;
   }
 
-  _screenMenuOnPress(name) {
+  _screenMenuOnPress = name => {
     return this.props.nav.active_screen !== name ? (() => this.props.nav.navigate(name)) : null;
   }
 
   render() {
     const {nav, user} = this.props;
     const {ic, oc} = styles;
+    
     return (
       <Header
         outerContainerStyles={oc}
@@ -59,18 +61,39 @@ class Footer extends Component {
           color={this._screenMenuColor(HOME_NAV)}
           onPress={this._screenMenuOnPress(HOME_NAV)}
         />
-        {this.props.user.type === 'ramp' ? <Icon 
-          name='barcode-scan' 
-          type='material-community' 
-          color={this._screenMenuColor(RAMP_ADD_CAR_NAV)}
-          onPress={this._screenMenuOnPress(RAMP_ADD_CAR_NAV)}
-        /> : null}
+
+        {this.props.user.type === 'manager'
+          ? <Icon
+            name='tasklist'
+            type='octicon'
+            color={this._screenMenuColor(VALIDATION_HISTORY_LIST_NAV)}
+            onPress={this._screenMenuOnPress(VALIDATION_HISTORY_LIST_NAV)}
+          /> : null
+        }
+
+        {this.props.user.type === 'ramp'
+          ? <Icon
+            name='tasklist'
+            type='octicon'
+            color={this._screenMenuColor(CAR_AVAILABLE_LIST_NAV)}
+            onPress={this._screenMenuOnPress(CAR_AVAILABLE_LIST_NAV)}
+          /> : null
+        }
+
+        {this.props.user.type === 'ramp'  
+          ? <Icon 
+            name='barcode-scan' 
+            type='material-community' 
+            color={this._screenMenuColor(RAMP_ADD_CAR_NAV)}
+            onPress={this._screenMenuOnPress(RAMP_ADD_CAR_NAV)}
+          /> : null
+        }
 
         <Icon 
           name='sign-out' 
           type='font-awesome' 
           color={NOT_ACTIVE_SCREEN_COLOR}
-          onPress={() => this._logout()}
+          onPress={this._logout}
         />
 
       </Header>

@@ -8,6 +8,8 @@ import {MAIN_COLOR, RAMP_ADD_CAR_NAV} from './constants';
 import HomeScreen from './screens/HomeScreen';
 import LoginScreen from './screens/LoginScreen';
 import RampAddCarScreen from './screens/RampAddCarScreen';
+import CarAvailableScreen from './screens/CarAvailableScreen';
+import ValidationHistoryListScreen from './screens/ValidationHistoryListScreen';
 
 export default class App extends Component {
 
@@ -32,9 +34,20 @@ export default class App extends Component {
         screen: HomeScreen,
         navigationOptions: { ...navOption, headerLeft: null}
       },
+
       RampAddCar: {
         screen: RampAddCarScreen,
         navigationOptions: { ...navOption, headerLeft: null}
+      },
+
+      CarAvailable: {
+        screen: CarAvailableScreen,
+        navigationOptions: { ...navOption, headerLeft: null }
+      },
+
+      ValidationHistoryList: {
+        screen: ValidationHistoryListScreen,
+        navigationOptions: { ...navOption, headerLeft: null }
       },
     });
   

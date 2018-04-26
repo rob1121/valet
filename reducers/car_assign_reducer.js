@@ -1,13 +1,14 @@
 import {
   ASSIGN_CARS,
-  UPDATE_ACTIVE_CAR
+  UPDATE_ACTIVE_CAR,
+  HAS_ACTIVE_CAR
 } from '../actions/types';
 
 
 const INITIAL_STATE = {
   has_active_task: false,
   active_task: {},
-  task_list: [],
+  task_list: undefined,
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -15,7 +16,7 @@ export default (state = INITIAL_STATE, action) => {
     case ASSIGN_CARS: {
       return {
         ...state,
-        ...action.payload,
+        task_list: action.payload,
       };
     }
 
@@ -26,6 +27,13 @@ export default (state = INITIAL_STATE, action) => {
           ...state.active_task,
           ...action.payload,
         },
+      };
+    }
+
+    case HAS_ACTIVE_CAR: {
+      return {
+        ...state,
+        has_active_task: action.payload,
       };
     }
     default:

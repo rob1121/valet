@@ -1,26 +1,42 @@
 import React, {Component} from 'react';
-import {Platform, PickerIOS, Picker, TextInput, Alert, View, ScrollView, Text} from 'react-native';
+import {TextInput, Alert, View, ScrollView, Text} from 'react-native';
 import {Button, Header, List, ListItem, Icon} from 'react-native-elements';
 import axios from 'axios';
 import {connect} from 'react-redux';
-import {toUpper} from 'lodash';
+import {toUpper, range, map} from 'lodash';
 import Barcode from 'react-native-barcode-builder';
+import Picker from './Picker'
 import {setValidationActiveTask} from '../actions';
 import {UPDATE_VALIDATION_TASK_URL, MAIN_COLOR, HOME_NAV} from '../constants';
 
 class ValidationActiveTask extends Component {
-  constructor() {
-    super();
-    this._androidPicker = this._androidPicker.bind(this);
-    this._iosPicker = this._iosPicker.bind(this);
-    this._onBackBtnPress = this._onBackBtnPress.bind(this);
-    this._onPickerChangeVal = this._onPickerChangeVal.bind(this);
-    this._onUpdateTaskConfirm = this._onUpdateTaskConfirm.bind(this);
-    this._processUpdateTaskResponse = this._processUpdateTaskResponse.bind(this);
-    this._updateTask = this._updateTask.bind(this);
-  }
   state = {
-    loading: false
+    loading: false,
+    isInitialValidationCount: false,
+    options: [
+      { key: 'validation', label: 'VALIDATION' },
+      { key: 'executive comp', label: 'EXECUTIVE COMP' }
+    ],
+    valCountsOptions: [
+      { key: 1, label: 1 }
+    ]
+  }
+
+  componentWillMount() {
+    const { active_task } = this.props.validation_list;
+    const isInitialValidationCount = active_task.validation_count == -1;
+    const MIN_COUNT = 1;
+    const MAX_COUNT = 20;
+    const counts = range(MIN_COUNT,MAX_COUNT+1);
+    const valCountsOptions = map(counts, (count) => {
+      return { key: count, label: count };
+    });
+
+    this.setState({
+      ...this.state, 
+      isInitialValidationCount,
+      valCountsOptions
+    });
   }
 
   render() {
@@ -60,25 +76,49 @@ class ValidationActiveTask extends Component {
           
           <ListItem
             hideChevron
-            title={active_task.checkin_date}
+            title={active_task.ori_checkin_date}
             subtitle='CHECKIN DATE'
           />
           
           <ListItem
             hideChevron
-            title={active_task.checkout_date || '-'}
+              title={active_task.ori_checkout_date || '-'}
             subtitle='CHECKOUT DATE'
           />
-          
+
+          <ListItem
+            hideChevron
+            title={toUpper(active_task.car_make) || '-'}
+            subtitle='CAR MAKE'
+          />
+
+          <ListItem
+            hideChevron
+            title={toUpper(active_task.car_model) || '-'}
+            subtitle='CAR MODEL'
+          />
+
           <ListItem
             hideChevron
             title={toUpper(active_task.car_plate_no) || '-'}
             subtitle='CAR PLATE NO'
           />
+
+          <ListItem
+            hideChevron
+            title={toUpper(active_task.car_color) || '-'}
+            subtitle='CAR COLOR'
+          />
+
+          <ListItem
+            hideChevron
+              title={<Picker value={active_task.validation_count} onValueChange={this._onValCountChange} options={this.state.valCountsOptions} />}
+            subtitle='VALIDATION COUNT'
+          />
           
           <ListItem
             hideChevron
-            title={Platform.OS == 'ios' ? this._iosPicker() : this._androidPicker()}
+            title={<Picker value={active_task.type} onValueChange={this._onPickerChangeVal} options={this.state.options} />}
             subtitle='TYPE'
           />
           
@@ -88,8 +128,8 @@ class ValidationActiveTask extends Component {
                 multiline={true}
                 numberOfLines={4}
                 underlineColorAndroid='transparent'
+                onChangeText={comment => this.props.setValidationActiveTask({ comment })}
                 style={{ padding: 5, height: 100, borderColor: 'gray', borderWidth: 1 }}
-                onChangeText={(text) => this.props.setValidationActiveTask({ comment: text })}
                 value={active_task.comment} />}
             subtitle='COMMENT'
           />
@@ -98,7 +138,7 @@ class ValidationActiveTask extends Component {
           loading={this.state.loading}
           buttonStyle={{backgroundColor: MAIN_COLOR}}
           title='VALIDATED'
-          onPress={() => this._updateTask()}
+          onPress={this._updateTask}
           />
         <View style={{ height: 200}}  />
         </ScrollView>
@@ -106,33 +146,11 @@ class ValidationActiveTask extends Component {
     );
   }
 
-  _iosPicker() {
-    return (
-      <PickerIOS
-        selectedValue={this.props.validation_list.active_task.type}
-        onValueChange={this._onPickerChangeVal}>
-        <PickerIOS.Item label='VALIDATION' value='validation' />
-        <PickerIOS.Item label='EXECUTIVE COMP' value='executive comp' />
-      </PickerIOS>
-    )
-  }
-
-  _androidPicker() {
-    return (
-      <Picker
-        selectedValue={this.props.validation_list.active_task.type}
-        onValueChange={this._onPickerChangeVal}>
-        <Picker.Item label='VALIDATION' value='validation' />
-        <Picker.Item label='EXECUTIVE COMP' value='executive comp' />
-      </Picker>
-    )
-  }
-
-  _onBackBtnPress() {
+  _onBackBtnPress = () => {
     this.props.setValidationActiveTask(null)
   }
 
-  _updateTask() {
+  _updateTask = () => {
     Alert.alert(
       'Task Confirmation',
       'Click ok to confirm action?',
@@ -143,28 +161,37 @@ class ValidationActiveTask extends Component {
     );
   }
 
-  _onPickerChangeVal(itemValue) {
-    this.props.setValidationActiveTask({type: itemValue})
-  }
+  _onPickerChangeVal = type => this.props.setValidationActiveTask({type})
 
-  _onUpdateTaskConfirm() {
+  _onUpdateTaskConfirm = () => {
+    let { validation_count } = this.props.validation_list.active_task;
+    validation_count = parseInt(validation_count);
+    
+    const isValidValidationCount = validation_count > -1;
+    
+    if (!isValidValidationCount) {
+      alert('Invalid validation count input. Must be numeric and non negative numbers');
+      return;
+    }
+
     this.setState({loading: true});
-    axios.post(
-      UPDATE_VALIDATION_TASK_URL, 
-      this.props.validation_list.active_task
-    )
+    axios.post(UPDATE_VALIDATION_TASK_URL, this.props.validation_list.active_task)
       .then(this._processUpdateTaskResponse)
-      .catch((error) => console.log(error))
+      .catch(this._errorHandler)
     ;
   }
 
-  _processUpdateTaskResponse({data}) {
-    console.log(data);
+  _processUpdateTaskResponse = ({data}) => {
+    const { nav, setValidationActiveTask } = this.props;
 
-    this.setState({loading: false});
-    this.props.setValidationActiveTask(null);
-    this.props.nav.navigate(HOME_NAV);
+    this.setState({ loading: false });
+    setValidationActiveTask(null);
+    nav.navigate(HOME_NAV);
   }
+
+  _onValCountChange = validation_count => this.props.setValidationActiveTask({ validation_count })
+
+  _errorHandler = error => console.log(error)
 }
 
 const stateToProps = ({validation_list, nav}) => ({validation_list, nav});

@@ -1,106 +1,53 @@
 import React, { Component } from 'react';
-import { TouchableHighlight, Modal, View, Picker, PickerIOS, Platform } from 'react-native';
-import { Text, Button, FormInput } from 'react-native-elements';
-import {MAIN_COLOR} from '../constants';
+import { View } from 'react-native';
 import axios from 'axios';
-import { map, size, toUpper } from 'lodash';
+import { map, toUpper } from 'lodash';
+import Picker from './Picker';
+import { LOCATION_FILTER_URL } from '../constants';
+import { setSelectedLocation } from '../actions';
 import { connect } from 'react-redux';
-import { 
-  LOCATION_FILTER_URL,
-} from '../constants';
 
-class LocationFilter extends Component 
-{
+class RampLocation extends Component  {
+
   state = {
-    list: {},
-    showModal: false,
+    list: [],
+    visible: false,
   }
 
   componentDidMount() {
     this._fetchLocations();
   }
 
-  _fetchLocations() {
-    const params = {
-      base: this.props.user.base,
-    };
+  _fetchLocations = () => {
+    const params = { base: this.props.user.base };
 
-    axios.get(LOCATION_FILTER_URL, {params})
-      .then(({ data }) => {
-        this.setState(() => ({ list: data}));
-        if(this.props.value == '')
-          this.props.setSelectedLocation(data[0].value);
-      })
-      .catch((error)   => {console.error(error);});
+    axios.get(LOCATION_FILTER_URL, { params })
+      .then(this._setLocationList)
+      .catch(this._errHandler)
+    ;
   }
 
-  render() {
+  _setLocationList = ({ data }) => {
+    const list = map(data, item => ({ key: item.value, label: toUpper(item.label) }));
+    this.setState(() => ({ ...this.state, list }));
+
+    if (this.props.selected_location == '') {
+      this.props.setSelectedLocation(data[0].value);
+    }
+  }
+  
+  render = () => {
+    const { visible, list } = this.state;
+    const { setSelectedLocation, selected_location} = this.props;
 
     return (
-      <View>
-        {Platform.OS === 'ios' 
-        ? <TouchableHighlight 
-        onPress={() => this.setState({...this.state, showModal: true})}>
-        <Text
-        textStyle={{size: 24}}>{toUpper(this.props.value)}(click to edit)</Text>
-           </TouchableHighlight>
-        : this._pickerAndroid()}
-        {Platform.OS === 'ios' && this._pickerIOS()}
+      <View style={{marginLeft: 10}}>
+        <Picker value={selected_location} options={list} onValueChange={picked => setSelectedLocation(picked)} />
       </View>
-    );
-  }
-
-
-  _pickerIOS() {
-    const { value, setSelectedLocation} = this.props;
-    return (
-      <Modal
-        animationType="fade"
-        transparent={false}
-        visible={this.state.showModal}
-        onRequestClose={() => {
-          this.setState(() => ({ ...this.state, showModal: false }))
-        }}>
-        <View style={{ flex: 1}}>
-		<PickerIOS 
-            style={{ margin: 15 }}
-            onValueChange={(val) => setSelectedLocation(val)}
-            selectedValue={value}
-          >
-            {
-              map(this.state.list, (filter, idx) => {
-                return <PickerIOS.Item key={idx} label={filter.label} value={filter.value} />
-              })
-            }
-          </PickerIOS>
-          <Button
-            backgroundColor={MAIN_COLOR}
-            title='DONE'
-            onPress={() => this.setState({ ...this.state, showModal: false })}
-          />
-        </View>
-      </Modal>
-    );
-  }
-
-
-  _pickerAndroid() {
-    const { value, setSelectedLocation} = this.props;
-    return (
-      <Picker
-        onValueChange={(val) => setSelectedLocation(val)}
-        selectedValue={value}
-      >
-        {
-          map(this.state.list, (filter, idx) => {
-            return <Picker.Item key={idx} label={filter.label} value={filter.value} />
-          })
-        }
-      </Picker>
     );
   }
 }
 
-const mapStateToProps = ({user}) => ({user});
+const mapStateToProps = ({user, selected_location}) => ({user, selected_location});
 
-export default connect(mapStateToProps)(LocationFilter);
+export default connect(mapStateToProps, { setSelectedLocation })(RampLocation);
