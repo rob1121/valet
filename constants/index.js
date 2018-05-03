@@ -28,7 +28,7 @@ export const ACTIVE_TASK_LIST_URL = `${ROOT_URL}/api/active_task_list.php`;
 
 export const ACTIVE_SCREEN_COLOR = '#222';
 export const NOT_ACTIVE_SCREEN_COLOR = '#757575';
-export const DISABLE_SCREEN_COLOR = '#cccccc';
+export const DISABLE_SCREEN_COLOR = '#scccccc';
 
 export const HOME_NAV = 'Home';
 export const LOGIN_NAV = 'Login';
