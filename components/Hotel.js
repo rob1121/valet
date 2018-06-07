@@ -52,20 +52,33 @@ class Hotel extends Component {
   }
 
   _searchTicket = () => {
+    const params = {
+      hotel: this.props.car.name,
+      ticketno: this.props.car.ticketno,
+      ticket_type: 'hotel'
+    };
+
     this.setState(() => ({loading: true}));
-    axios.post(SEARCH_TICKET_URL, {hotel: this.props.car.name, ticketno: this.props.car.ticketno}).then(({data}) => {
-      let hasValidTicket = false;
-      if(data.error) {
-        alert(data.msg);
-      } else {
-        hasValidTicket = true;
-        data.data && this.props.setCarInfo(data.data);
-      }
-      this.setState(() => ({ ...this.state, loading: false, hasValidTicket }));
-    }).catch((error) => {
-      this.setState(() => ({ loading: false }));
-      console.log(error);
-    });
+    axios.post(SEARCH_TICKET_URL, params)
+      .then(this._getTicketInfo)
+      .catch(this._handdleErr)
+    ;
+  }
+
+  _getTicketInfo = ({ data }) => {
+    let hasValidTicket = false;
+    if (data.error) {
+      alert(data.msg);
+    } else {
+      hasValidTicket = true;
+      data.data && this.props.setCarInfo(data.data);
+    }
+    this.setState(() => ({ ...this.state, loading: false, hasValidTicket }));
+  }
+
+  _handdleErr = (error) => {
+    this.setState(() => ({ loading: false }));
+    console.log(error);
   }
 
   _hotelForm() {
@@ -91,7 +104,9 @@ class Hotel extends Component {
           <FormValidationMessage>{has(error,'room_number') && error.room_number}</FormValidationMessage>
 
         <FormLabel>CHECKOUT DATE</FormLabel>
-        <CheckOutDate date={this.props.car.checkout_date} onDateChange={(checkout_date) => setCarInfo({ checkout_date })} />
+        <View style={{marginLeft: 15}}>
+          <CheckOutDate date={this.props.car.checkout_date} onDateChange={(checkout_date) => setCarInfo({ checkout_date })} />
+        </View>
         
         <FormValidationMessage>{has(error,'checkout_date') && error.checkout_date}</FormValidationMessage>
         <CarDetailsInput />

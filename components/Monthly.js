@@ -2,93 +2,85 @@ import React, {Component} from 'react';
 import {View} from 'react-native';
 import {Text, FormValidationMessage, FormLabel, FormInput, Button}  from 'react-native-elements';
 import {connect} from 'react-redux';
-import {has, toUpper} from 'lodash';
+import {has, toUpper, map, findIndex} from 'lodash';
 import axios from 'axios';
-import {SEARCH_MONTHLY_USER_URL, MAIN_COLOR} from '../constants';
+import {FETCH_MONTHLY_GUEST_URL, SEARCH_MONTHLY_USER_URL, MAIN_COLOR} from '../constants';
 import {setCarInfo} from '../actions';
 import Option from './RampForm/Option';
-import CarDetailsInput from './RampForm/CarDetailsInput';
 import Comment from './RampForm/Comment';
 import SubmitBtn from './RampForm/SubmitBtn';
+import Picker from '../components/Picker';
 
 class Monthly extends Component {
   state = {
-    hasValidUser: false,
-    loading: false,
+    monthly_guest: []
   }
 
   componentWillMount() {
-    this.props.setCarInfo({ name: this.props.selected_location });
+    axios.post(FETCH_MONTHLY_GUEST_URL)
+    .then(({data}) => {
+      this.setState(() => ({ ...this.state, monthly_guest: data }));
+    }).catch((error) => {
+      console.log(error);
+    });
   }
 
   render() {
     const {setCarInfo, car, error} = this.props;
-    const {hasValidUser, loading} = this.state;
+    const {monthly_guest} = this.state;
+    const monthlyGuestOption = map(monthly_guest, (guest) => ({
+      key: guest.guest_name,
+      label: guest.guest_name,
+    }));
+
     return (
       <View>
-
-        <FormLabel>CONTACT NO.</FormLabel>
-        <FormInput 
-        onChangeText={(val) => setCarInfo({ contact_no: val })} 
-        value={car.contact_no} 
-        placeholder='09xxxxxxxxx'
-        dataDetectorTypes='phoneNumber'
-        keyboardType='phone-pad' />
-        <FormValidationMessage>{has(error, 'contact_no') && error.contact_no}</FormValidationMessage>
-        {
-          (hasValidUser == true && loading == false)
-            ? this._monthlyForm()
-            : <Button 
-            loading={loading} 
-            backgroundColor={MAIN_COLOR} 
-            icon={{name: 'search'}} 
-            title='SEARCH'  
-            onPress={() => this._searchUser()} />
-        }
+        <FormLabel>GUEST NAME</FormLabel>
+        <View style={{ marginLeft: 15 }}>
+          <Picker value={car.guest_name} options={monthlyGuestOption} onValueChange={this._onGuestNameChange} />
+        </View>
+        <FormValidationMessage>{has(error,'guest_name') && error.guest_name}</FormValidationMessage>
+        
+         <FormLabel>CONTACT NO.</FormLabel>
+        <View style={{ marginLeft: 20 }}>
+          <Text>{car.contact_no || '-'}</Text>
+        </View>
+          <FormLabel>OPTION</FormLabel>
+          <Option />
+          <FormValidationMessage>{has(error,'opt') && error.opt}</FormValidationMessage>
+          
+          <FormLabel>HOTEL NAME</FormLabel>
+          <View style={{ marginLeft: 20 }}>
+            <Text>{toUpper(car.name) || '-'}</Text>
+          </View>
+          
+          <FormLabel>CAR COLOR</FormLabel>
+          <View style={{ marginLeft: 20 }}>
+            <Text>{toUpper(car.car_color) || '-'}</Text>
+          </View>
+      
+          <FormLabel>CAR PLATE NO</FormLabel>
+          <View style={{ marginLeft: 20 }}>
+            <Text>{toUpper(car.car_plate_no) || '-'}</Text>
+          </View>
+  
+          <FormLabel>CAR MAKE&MODEL</FormLabel>
+          
+          <View style={{ marginLeft: 20 }}>
+            <Text>{toUpper(car.car_model) || '-'}</Text>
+          </View>
+          <Comment />
+          <SubmitBtn />
       </View>
     );
   }
 
-  _searchUser() {
-    this.setState(() => ({loading: true}));
-    axios.post(SEARCH_MONTHLY_USER_URL, {
-      contact_no: this.props.car.contact_no, 
-      location: this.props.selected_location,
-    }).then(({data}) => {
-      let hasValidUser = false;
-      if(data.error) {
-        alert(data.msg);
-      } else {
-        hasValidUser = true;
-        this.props.setCarInfo(data.data);
-      }
-      this.setState(() => ({ ...this.state, loading: false, hasValidUser }));
-    }).catch((error) => {
-      this.setState(() => ({ loading: false }));
-      console.log(error);
-    });
+  _onGuestNameChange = guestName => {
+    const INVALID_INDEX = -1;
+    const index = findIndex(this.state.monthly_guest, {guest_name: guestName});
 
-  }
-
-  _monthlyForm() {
-    const {setCarInfo, car, error} = this.props;
-    return (
-      <View>
-        <FormLabel>OPTION</FormLabel>
-        <Option />
-        <FormValidationMessage>{has(error,'opt') && error.opt}</FormValidationMessage>
-        
-        <FormLabel>HOTEL NAME</FormLabel>
-        <View style={{ margin: 15 }}>
-          <Text>{toUpper(car.name)}</Text>
-        </View>
-
-        <CarDetailsInput />
-        <Comment />
-        <SubmitBtn />
-      </View>
-
-    )
+    if (index > INVALID_INDEX)
+      this.props.setCarInfo(this.state.monthly_guest[index]);
   }
 }
 

@@ -6,7 +6,8 @@ import {connect} from 'react-redux';
 import {toUpper, range, map} from 'lodash';
 import Barcode from 'react-native-barcode-builder';
 import Picker from './Picker'
-import {setValidationActiveTask} from '../actions';
+import { setValidationActiveTask } from '../actions';
+import { errorHandler } from '../utilities';
 import {UPDATE_VALIDATION_TASK_URL, MAIN_COLOR, HOME_NAV} from '../constants';
 
 class ValidationActiveTask extends Component {
@@ -62,6 +63,12 @@ class ValidationActiveTask extends Component {
                 {active_task.ticket_number && <Barcode value={active_task.ticket_number}  format="CODE128" />}
               </View>
             }
+          />
+          
+          <ListItem
+            hideChevron
+            title={active_task.customer || '-'}
+            subtitle='HOTEL'
           />
           
           <ListItem
@@ -183,7 +190,7 @@ class ValidationActiveTask extends Component {
     this.setState({loading: true});
     axios.post(UPDATE_VALIDATION_TASK_URL, { ...this.props.validation_list.active_task, manager: this.props.user.name})
       .then(this._processUpdateTaskResponse)
-      .catch(this._errorHandler)
+      .catch(errorHandler)
     ;
   }
 
@@ -196,8 +203,6 @@ class ValidationActiveTask extends Component {
   }
 
   _onValidationCountChange = manager_validation_counts => this.props.setValidationActiveTask({ manager_validation_counts })
-
-  _errorHandler = error => console.log(error)
 }
 
 const stateToProps = ({user, validation_list, nav}) => ({user, validation_list, nav});

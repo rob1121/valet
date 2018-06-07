@@ -8,7 +8,7 @@ import Barcode from 'react-native-barcode-builder';
 import { hasActiveCar, assignCars, updateActiveCar} from '../actions';
 import { CAR_ASSIGN_URL, HOME_NAV, DEFAULT_IMG, MAIN_COLOR, PARKING_STATUS_UPDATE_URL, WAITING_DISPATCHER, CAMERA_NAV } from '../constants';
 import CarPicker from './CarPicker';
-import CameraAction from '../components/Camera';
+import Gallery from './Gallery';
 
 class Steps extends Component {
   state = {
@@ -17,7 +17,6 @@ class Steps extends Component {
 
   render() {
     const {active_task} = this.props.car_assign;
-
     if(active_task.status_id === WAITING_DISPATCHER) {
       return (
         <View style={{ flex: 1 }}>
@@ -127,7 +126,7 @@ class Steps extends Component {
           />
         </List>
           
-        <CameraAction />
+        <Gallery />
         <Button
           loading={this.state.loading}
           buttonStyle={{backgroundColor: MAIN_COLOR}}

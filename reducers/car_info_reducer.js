@@ -18,8 +18,9 @@ const INITIAL_STATE = {
   payment_method: '',
   ticketno: '',
   car_plate_no: '',
-  make: '',
-  model: '',
+  car_make: '',
+  car_model: '',
+  car_color: '',
   comment: '',
   location: '',
 };
@@ -33,7 +34,10 @@ export default (state = INITIAL_STATE, action) => {
       };
     }
     case RESET_CAR_INFO: {
-      return INITIAL_STATE
+      return {
+        ...INITIAL_STATE,
+        ...action.payload
+      }
     }
     default:
       return state;
