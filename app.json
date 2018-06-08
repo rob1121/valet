@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "valet",
+    "name": "BFP",
     "description": "This project is really great.",
-    "slug": "valet",
+    "slug": "BFP",
     "privacy": "public",
     "sdkVersion": "25.0.0",
     "platforms": ["ios", "android"],
@@ -16,10 +16,10 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.solutionsthroughcloud.valet"
+      "bundleIdentifier": "com.solutionsthroughcloud.BFP"
     },
     "android": {
-      "package": "com.solutionsthroughcloud.valet"
+      "package": "com.solutionsthroughcloud.BFP"
     }
   }
 }
