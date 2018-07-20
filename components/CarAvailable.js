@@ -1,15 +1,19 @@
 import React, { Component } from 'react';
 import { Notifications } from 'expo';
 import {  View, ScrollView, Alert, RefreshControl } from 'react-native';
-import { Text, List, ListItem, Header, FormLabel } from 'react-native-elements';
+import { Text, List, ListItem, Header } from 'react-native-elements';
 import axios from 'axios';
-import { toUpper, toLower, filter, isEmpty, map } from 'lodash';
-import {LOCATION_FILTER_URL, PARKING_STATUS_UPDATE_URL, CAR_ASSIGN_URL} from '../constants';
+import { toUpper, toLower, isEmpty, map } from 'lodash';
+import {
+  PARKING_STATUS_UPDATE_URL,
+  CAR_ASSIGN_URL,
+} from '../constants';
 import {assignCars, updateActiveCar, hasActiveCar} from '../actions';
 import { errorHandler } from '../utilities';
 import { connect } from 'react-redux';
 import Steps from '../components/Steps';
 import Footer from '../components/Footer';
+
 
 class CarAvailable extends Component {
   state = {
@@ -73,6 +77,7 @@ class CarAvailable extends Component {
 
       const iconStyle = task.is_late_checkout ? {style: {color: 'red'}} : {};
       return (<ListItem
+        containerStyle={{backgroundColor: (toLower(task.opt) == 'pickup' ? '#FFCCCC' : '#fff') }}
         key={i}
         title={`${toUpper(task.requestor)}: ${toUpper(task.opt)}`}
         subtitle={`#${task.ticketno} ${task.status_title}`}
