@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "valman",
+    "name": "bfp",
     "description": "This project is really great.",
-    "slug": "valman",
+    "slug": "bfp",
     "privacy": "public",
     "sdkVersion": "25.0.0",
     "platforms": ["ios", "android"],
@@ -16,10 +16,10 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.solutionsthroughcloud.valet"
+      "bundleIdentifier": "com.solutionsthroughcloud.bfp"
     },
     "android": {
-      "package": "com.solutionsthroughcloud.valet"
+      "package": "com.solutionsthroughcloud.bfp"
     }
   }
 }
