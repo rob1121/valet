@@ -20,14 +20,14 @@ class SubmitBtn extends Component {
           backgroundColor={MAIN_COLOR}
           icon={{name: 'save'}}
           title='CREATE TICKET' 
-          onPress={() => this._save()}
+          onPress={this._save}
         />
         
       </View>
     );
   }
 
-  _save() {
+  _save = () => {
     this.setState(() => ({loading: true}));
     axios.post(ADD_CAR_URL, {
       ...this.props.car,
